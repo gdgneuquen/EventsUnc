@@ -1,20 +1,278 @@
-<!--The whole content below can be removed with the new code.-->
-<div style="text-align:center">
-  <h1>
-    Welcome to {{title}}!!
-  </h1>
-  <img width="300" src="data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0idXRmLTgiPz4NCjwhLS0gR2VuZXJhdG9yOiBBZG9iZSBJbGx1c3RyYXRvciAxOS4xLjAsIFNWRyBFeHBvcnQgUGx1Zy1JbiAuIFNWRyBWZXJzaW9uOiA2LjAwIEJ1aWxkIDApICAtLT4NCjxzdmcgdmVyc2lvbj0iMS4xIiBpZD0iTGF5ZXJfMSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB4bWxuczp4bGluaz0iaHR0cDovL3d3dy53My5vcmcvMTk5OS94bGluayIgeD0iMHB4IiB5PSIwcHgiDQoJIHZpZXdCb3g9IjAgMCAyNTAgMjUwIiBzdHlsZT0iZW5hYmxlLWJhY2tncm91bmQ6bmV3IDAgMCAyNTAgMjUwOyIgeG1sOnNwYWNlPSJwcmVzZXJ2ZSI+DQo8c3R5bGUgdHlwZT0idGV4dC9jc3MiPg0KCS5zdDB7ZmlsbDojREQwMDMxO30NCgkuc3Qxe2ZpbGw6I0MzMDAyRjt9DQoJLnN0MntmaWxsOiNGRkZGRkY7fQ0KPC9zdHlsZT4NCjxnPg0KCTxwb2x5Z29uIGNsYXNzPSJzdDAiIHBvaW50cz0iMTI1LDMwIDEyNSwzMCAxMjUsMzAgMzEuOSw2My4yIDQ2LjEsMTg2LjMgMTI1LDIzMCAxMjUsMjMwIDEyNSwyMzAgMjAzLjksMTg2LjMgMjE4LjEsNjMuMiAJIi8+DQoJPHBvbHlnb24gY2xhc3M9InN0MSIgcG9pbnRzPSIxMjUsMzAgMTI1LDUyLjIgMTI1LDUyLjEgMTI1LDE1My40IDEyNSwxNTMuNCAxMjUsMjMwIDEyNSwyMzAgMjAzLjksMTg2LjMgMjE4LjEsNjMuMiAxMjUsMzAgCSIvPg0KCTxwYXRoIGNsYXNzPSJzdDIiIGQ9Ik0xMjUsNTIuMUw2Ni44LDE4Mi42aDBoMjEuN2gwbDExLjctMjkuMmg0OS40bDExLjcsMjkuMmgwaDIxLjdoMEwxMjUsNTIuMUwxMjUsNTIuMUwxMjUsNTIuMUwxMjUsNTIuMQ0KCQlMMTI1LDUyLjF6IE0xNDIsMTM1LjRIMTA4bDE3LTQwLjlMMTQyLDEzNS40eiIvPg0KPC9nPg0KPC9zdmc+DQo=" />
-</div>
-<h2>Here are some links to help you start: </h2>
-<ul>
-  <li>
-    <h2><a target="_blank" href="https://angular.io/tutorial">Tour of Heroes</a></h2>
-  </li>
-  <li>
-    <h2><a target="_blank" href="https://github.com/angular/angular-cli/wiki">CLI Documentation</a></h2>
-  </li>
-  <li>
-    <h2><a target="_blank" href="http://angularjs.blogspot.ca/">Angular blog</a></h2>
-  </li>
-</ul>
+<nav class="nav-extended black">
 
+  <div class="nav-wrapper">
+    <a routerLink="" class="brand-logo">Facultad de economia - Clases</a>
+    <a routerLink="" data-activates="mobile-demo" class="button-collapse"><i class="material-icons">menu</i></a>
+<div class="right"> 15/07/2017</div>
+
+    <ul class="side-nav" id="mobile-demo">
+      <li><a routerLink=""><i class="material-icons">HoMe</i></a></li>
+    </ul>
+
+  </div>
+
+  <!-- DEFINICION DE TABS
+  La que tiene class="active" es la que muestra primero cuando carga la pagina
+-->
+  
+
+</nav>
+<!-- class="nav-extended ... "-->
+
+<!-- 
+
+  HERRAMIENTAS DE DEBUG
+
+
+ <div class="fixed-action-btn horizontal">
+    <a class="btn-floating btn-large red">
+      <i class="large material-icons">mode_edit</i>
+    </a>
+    <ul>
+      <li><a class="btn-floating red"><i class="material-icons">insert_chart</i></a></li>
+      <li><a class="btn-floating yellow darken-1"><i class="material-icons">format_quote</i></a></li>
+      <li><a class="btn-floating green"><i class="material-icons">publish</i></a></li>
+      <li><a class="btn-floating blue"><i class="material-icons">attach_file</i></a></li>
+    </ul>
+  </div>
+
+/
+  HERRAMIENTAS DE DEBUG
+  
+-->
+  <div class="container-fluid">
+    <!-- TITULOS -->
+    <div class="row">
+      <div class="col m2 center texto-titulo-tabla">
+        HORARIO
+      </div>
+      <div class="col m2 center texto-titulo-tabla">
+        ACTIVIDAD
+      </div>
+      <div class="col m2 center texto-titulo-tabla">
+        TIPO
+      </div>
+      <div class="col m2 center texto-titulo-tabla">
+        PROFESOR
+      </div>
+      <div class="col m2 center texto-titulo-tabla">
+        AULA
+      </div>
+      <div class="col m2 center texto-titulo-tabla">
+        ESTADO
+      </div>
+    </div>
+    <!-- /TITULOS -->
+
+    <!-- Una sola fila -->
+    <!-- -->
+    <div class="row fila">
+      <div class="col m2 elemento-tabla center">
+        08:00hs. - 10:00hs.
+      </div>
+      <div class="col m2 elemento-tabla center">
+        CURSO VENDEDORES <!-- Cuando la materia tiene nombre largo, usar marquesina  -->
+      </div>
+      <div class="col m2 elemento-tabla green center">CLASE DE GRADO</div>
+      <div class="col m2 elemento-tabla">Juan Perez</div>
+      <div class="col m2 elemento-tabla center">40</div>
+      <!-- ngIf estado==normal class=green-->
+      <!-- ngIf estado==suspendida class=red-->
+      <!-- ngIf estado==normal class=green-->
+      <div class="col m2 center elemento-tabla green">
+        
+        NORMAL
+        
+      </div>
+
+    </div>
+    <!-- / Una sola fila -->
+
+    <div class="row fila">
+      <div class="col m2 elemento-tabla center">
+        10:00hs. - 12:30hs.
+      </div>
+      <div class="col m2 elemento-tabla center">
+       <marquee behavior="alternate" scrolldelay="1000" direction=""> Matemática I - Módulo II</marquee>
+      </div>
+      <div class="col m2 elemento-tabla blue center">CLASE POSGRADO</div>
+      <div class="col m2 elemento-tabla">Carlos Gimenez</div>
+      <div class="col m2 elemento-tabla center">41</div>
+      <div class="col m2 center elemento-tabla red">
+        
+        SUSPENDIDA
+        
+      </div>
+
+    </div>
+    <div class="row fila">
+      <div class="col m2 elemento-tabla center">
+        08:00hs. - 10:00hs.
+      </div>
+      <div class="col m2 elemento-tabla center">
+        Matemática II
+      </div>
+      <div class="col m2 elemento-tabla green center">CLASE DE GRADO</div>
+      <div class="col m2 elemento-tabla">Juan Perez</div>
+      <div class="col m2 elemento-tabla center">40</div>
+      <div class="col m2 center elemento-tabla green">
+        
+        NORMAL
+        
+      </div>
+
+    </div>
+    <div class="row fila">
+      <div class="col m2 elemento-tabla center">
+        10:00hs. - 12:30hs.
+      </div>
+      <div class="col m2 elemento-tabla center">
+        Elementos de Algebra
+      </div>
+      <div class="col m2 elemento-tabla blue center">CLASE POSGRADO</div>
+      <div class="col m2 elemento-tabla">Carlos Gimenez</div>
+      <div class="col m2 elemento-tabla center">41</div>
+      <div class="col m2 center elemento-tabla red">
+        
+        SUSPENDIDA
+        
+      </div>
+
+    </div>
+    <div class="row fila">
+      <div class="col m2 elemento-tabla center">
+        08:00hs. - 10:00hs.
+      </div>
+      <div class="col m2 elemento-tabla center">
+        CURSO VENDEDORES
+      </div>
+      <div class="col m2 elemento-tabla green center black-text yellow darken-1">ACT. EXTENSIÓN</div>
+      <div class="col m2 elemento-tabla">Profesor 21</div>
+      <div class="col m2 elemento-tabla center">40</div>
+      <div class="col m2 center elemento-tabla black-text yellow darken-1">
+        
+        CAMBIO 
+        
+      </div>
+
+    </div>
+    <div class="row fila">
+      <div class="col m2 elemento-tabla center">
+        10:00hs. - 12:30hs.
+      </div>
+      <div class="col m2 elemento-tabla center">
+        MATEMÁTICA 1 
+      </div>
+      <div class="col m2 elemento-tabla blue center">CLASE POSGRADO</div>
+      <div class="col m2 elemento-tabla">Carlos Gimenez</div>
+      <div class="col m2 elemento-tabla center">41</div>
+      <div class="col m2 center elemento-tabla red">
+        
+        SUSPENDIDA
+        
+      </div>
+
+    </div>
+    <div class="row fila">
+      <div class="col m2 elemento-tabla center">
+        08:00hs. - 10:00hs.
+      </div>
+      <div class="col m2 elemento-tabla center">
+        CURSO VENDEDORES
+      </div>
+      <div class="col m2 elemento-tabla green center">CLASE DE GRADO</div>
+      <div class="col m2 elemento-tabla">Juan Perez</div>
+      <div class="col m2 elemento-tabla center">40</div>
+      <div class="col m2 center elemento-tabla green">
+        
+        NORMAL
+        
+      </div>
+
+    </div>
+    <div class="row fila">
+      <div class="col m2 elemento-tabla center">
+        10:00hs. - 12:30hs.
+      </div>
+      <div class="col m2 elemento-tabla center">
+        MATEMÁTICA 1 
+      </div>
+      <div class="col m2 elemento-tabla blue center">CLASE POSGRADO</div>
+      <div class="col m2 elemento-tabla">Carlos Gimenez</div>
+      <div class="col m2 elemento-tabla center">41</div>
+      <div class="col m2 center elemento-tabla red">
+        
+        SUSPENDIDA
+        
+      </div>
+
+    </div>
+    <div class="row fila">
+      <div class="col m2 elemento-tabla center">
+        08:00hs. - 10:00hs.
+      </div>
+      <div class="col m2 elemento-tabla center">
+        CURSO VENDEDORES
+      </div>
+      <div class="col m2 elemento-tabla green center">CLASE DE GRADO</div>
+      <div class="col m2 elemento-tabla">Juan Perez</div>
+      <div class="col m2 elemento-tabla center">40</div>
+      <div class="col m2 center elemento-tabla green">
+        
+        NORMAL
+        
+      </div>
+
+    </div>
+    <div class="row fila">
+      <div class="col m2 elemento-tabla center">
+        10:00hs. - 12:30hs.
+      </div>
+      <div class="col m2 elemento-tabla center">
+        MATEMÁTICA 1 
+      </div>
+      <div class="col m2 elemento-tabla blue center">CLASE POSGRADO</div>
+      <div class="col m2 elemento-tabla">Carlos Gimenez</div>
+      <div class="col m2 elemento-tabla center">41</div>
+      <div class="col m2 center elemento-tabla red">
+        
+        SUSPENDIDA
+        
+      </div>
+
+    </div>
+    <div class="row fila">
+      <div class="col m2 elemento-tabla center">
+        08:00hs. - 10:00hs.
+      </div>
+      <div class="col m2 elemento-tabla center">
+        CURSO VENDEDORES
+      </div>
+      <div class="col m2 elemento-tabla green center">CLASE DE GRADO</div>
+      <div class="col m2 elemento-tabla">Juan Perez</div>
+      <div class="col m2 elemento-tabla center">40</div>
+      <div class="col m2 center elemento-tabla green">
+        
+        NORMAL
+        
+      </div>
+
+    </div>
+    <div class="row fila">
+      <div class="col m2 elemento-tabla center">
+        10:00hs. - 12:30hs.
+      </div>
+      <div class="col m2 elemento-tabla center">
+        MATEMÁTICA 1 
+      </div>
+      <div class="col m2 elemento-tabla blue center">CLASE POSGRADO</div>
+      <div class="col m2 elemento-tabla">Carlos Gimenez</div>
+      <div class="col m2 elemento-tabla center">41</div>
+      <div class="col m2 center elemento-tabla red">
+        
+        SUSPENDIDA
+        
+      </div>
+
+    </div>
+  </div>

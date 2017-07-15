@@ -21,7 +21,9 @@
     "@angular/platform-browser": "^4.0.0",
     "@angular/platform-browser-dynamic": "^4.0.0",
     "@angular/router": "^4.0.0",
+    "angular2-materialize": "^15.0.4",
     "core-js": "^2.4.1",
+    "materialize-css": "^0.99.0",
     "rxjs": "^5.1.0",
     "zone.js": "^0.8.4"
   },
