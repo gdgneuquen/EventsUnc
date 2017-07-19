@@ -1,4 +1,6 @@
 import { Component } from '@angular/core';
+import * as moment from 'moment';
+
 
 @Component({
   selector: 'app-root',
@@ -7,4 +9,6 @@ import { Component } from '@angular/core';
 })
 export class AppComponent {
   title = 'app';
+  hoy=moment().locale('es').format('LLLL');
+  
 }

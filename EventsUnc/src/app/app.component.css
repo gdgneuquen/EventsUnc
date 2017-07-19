@@ -16,4 +16,5 @@ color:#ddd;
 .elemento-tabla{
     padding-top:10px;
     padding-bottom: 10px;
+    max-height: 42px;
 }
