@@ -1,3 +1,267 @@
-<p>
-  evento works!
-</p>
+<nav class="nav-extended black">
+
+  <div class="nav-wrapper">
+    <a routerLink="" class="brand-logo">Facultad de economia - Clases</a>
+    <a routerLink="" data-activates="mobile-demo" class="button-collapse"><i class="material-icons">menu</i></a>
+    
+    <div class="right"> {{hoy}}</div>
+    <ul class="side-nav" id="mobile-demo">
+      <li><a routerLink=""><i class="material-icons">Inicio</i></a></li>
+    </ul>
+  </div>
+</nav>
+
+
+
+  <div class="container-fluid">
+    <!-- TITULOS -->
+    <div class="row">
+      <div class="col m2 center texto-titulo-tabla">
+        HORARIO
+      </div>
+      <div class="col m2 center texto-titulo-tabla">
+        ACTIVIDAD
+      </div>
+      <div class="col m2 center texto-titulo-tabla">
+        TIPO
+      </div>
+      <div class="col m2 center texto-titulo-tabla">
+        PROFESOR
+      </div>
+      <div class="col m2 center texto-titulo-tabla">
+        AULA
+      </div>
+      <div class="col m2 center texto-titulo-tabla">
+        ESTADO
+      </div>
+    </div>
+    <!-- /TITULOS -->
+
+    <!-- Una sola fila -->
+    <!-- -->
+    <div class="row fila">
+      <div class="col m2 elemento-tabla center">
+        08:00hs. - 10:00hs.
+      </div>
+      <div class="col m2 elemento-tabla center">
+        CURSO VENDEDORES <!-- Cuando la materia tiene nombre largo, usar marquesina  -->
+      </div>
+      <div class="col m2 elemento-tabla green center">CLASE DE GRADO</div>
+      <div class="col m2 elemento-tabla">Juan Perez</div>
+      <div class="col m2 elemento-tabla center">40</div>
+      <!-- 
+         el siguiente div hay que reemplazarlo por una de estas alternativas
+        ngIf estado==normal class=green
+        ngIf estado==suspendida class=red
+        ngIf estado==normal class=green
+      
+        ó
+
+        <div [ngSwitch]="estado">
+          <div *ngSwitchCase="Normal" class="...green...">...</div>
+          <div *ngSwitchCase="Cambio" class="...yellow darken-1...">...</div>
+          <div *ngSwitchCase="Suspendido" class="...red black-text...">...</div>
+        </div>
+
+      -->
+      <div class="col m2 center elemento-tabla green">
+        
+        NORMAL
+        
+      </div>
+
+    </div>
+    <!-- / Una sola fila -->
+
+    <!-- TODO: BORRAR cuando se implemente el servicio y se configure el ngFor -->
+    <div class="row fila">
+      <div class="col m2 elemento-tabla center">
+        10:00hs. - 12:30hs.
+      </div>
+      <div class="col m2 elemento-tabla center">
+       <marquee behavior="alternate" scrolldelay="1000" direction=""> Matemática I - Módulo II</marquee>
+      </div>
+      <div class="col m2 elemento-tabla blue center">CLASE POSGRADO</div>
+      <div class="col m2 elemento-tabla">Carlos Gimenez</div>
+      <div class="col m2 elemento-tabla center">41</div>
+      <div class="col m2 center elemento-tabla red">
+        
+        SUSPENDIDA
+        
+      </div>
+
+    </div>
+    <div class="row fila">
+      <div class="col m2 elemento-tabla center">
+        08:00hs. - 10:00hs.
+      </div>
+      <div class="col m2 elemento-tabla center">
+        Matemática II
+      </div>
+      <div class="col m2 elemento-tabla green center">CLASE DE GRADO</div>
+      <div class="col m2 elemento-tabla">Juan Perez</div>
+      <div class="col m2 elemento-tabla center">40</div>
+      <div class="col m2 center elemento-tabla green">
+        
+        NORMAL
+        
+      </div>
+
+    </div>
+    <div class="row fila">
+      <div class="col m2 elemento-tabla center">
+        10:00hs. - 12:30hs.
+      </div>
+      <div class="col m2 elemento-tabla center">
+        Elementos de Algebra
+      </div>
+      <div class="col m2 elemento-tabla blue center">CLASE POSGRADO</div>
+      <div class="col m2 elemento-tabla">Carlos Gimenez</div>
+      <div class="col m2 elemento-tabla center">41</div>
+      <div class="col m2 center elemento-tabla red">
+        
+        SUSPENDIDA
+        
+      </div>
+
+    </div>
+    <div class="row fila">
+      <div class="col m2 elemento-tabla center">
+        08:00hs. - 10:00hs.
+      </div>
+      <div class="col m2 elemento-tabla center">
+        CURSO VENDEDORES
+      </div>
+      <div class="col m2 elemento-tabla green center black-text yellow darken-1">ACT. EXTENSIÓN</div>
+      <div class="col m2 elemento-tabla">Profesor 21</div>
+      <div class="col m2 elemento-tabla center">40</div>
+      <div class="col m2 center elemento-tabla black-text yellow darken-1">
+        
+        CAMBIO 
+        
+      </div>
+
+    </div>
+    <div class="row fila">
+      <div class="col m2 elemento-tabla center">
+        10:00hs. - 12:30hs.
+      </div>
+      <div class="col m2 elemento-tabla center">
+        MATEMÁTICA 1 
+      </div>
+      <div class="col m2 elemento-tabla blue center">CLASE POSGRADO</div>
+      <div class="col m2 elemento-tabla">Carlos Gimenez</div>
+      <div class="col m2 elemento-tabla center">41</div>
+      <div class="col m2 center elemento-tabla red">
+        
+        SUSPENDIDA
+        
+      </div>
+
+    </div>
+    <div class="row fila">
+      <div class="col m2 elemento-tabla center">
+        08:00hs. - 10:00hs.
+      </div>
+      <div class="col m2 elemento-tabla center">
+        CURSO VENDEDORES
+      </div>
+      <div class="col m2 elemento-tabla green center">CLASE DE GRADO</div>
+      <div class="col m2 elemento-tabla">Juan Perez</div>
+      <div class="col m2 elemento-tabla center">40</div>
+      <div class="col m2 center elemento-tabla green">
+        
+        NORMAL
+        
+      </div>
+
+    </div>
+    <div class="row fila">
+      <div class="col m2 elemento-tabla center">
+        10:00hs. - 12:30hs.
+      </div>
+      <div class="col m2 elemento-tabla center">
+        MATEMÁTICA 1 
+      </div>
+      <div class="col m2 elemento-tabla blue center">CLASE POSGRADO</div>
+      <div class="col m2 elemento-tabla">Carlos Gimenez</div>
+      <div class="col m2 elemento-tabla center">41</div>
+      <div class="col m2 center elemento-tabla red">
+        
+        SUSPENDIDA
+        
+      </div>
+
+    </div>
+    <div class="row fila">
+      <div class="col m2 elemento-tabla center">
+        08:00hs. - 10:00hs.
+      </div>
+      <div class="col m2 elemento-tabla center">
+        CURSO VENDEDORES
+      </div>
+      <div class="col m2 elemento-tabla green center">CLASE DE GRADO</div>
+      <div class="col m2 elemento-tabla">Juan Perez</div>
+      <div class="col m2 elemento-tabla center">40</div>
+      <div class="col m2 center elemento-tabla green">
+        
+        NORMAL
+        
+      </div>
+
+    </div>
+    <div class="row fila">
+      <div class="col m2 elemento-tabla center">
+        10:00hs. - 12:30hs.
+      </div>
+      <div class="col m2 elemento-tabla center">
+        MATEMÁTICA 1 
+      </div>
+      <div class="col m2 elemento-tabla blue center">CLASE POSGRADO</div>
+      <div class="col m2 elemento-tabla">Carlos Gimenez</div>
+      <div class="col m2 elemento-tabla center">41</div>
+      <div class="col m2 center elemento-tabla red">
+        
+        SUSPENDIDA
+        
+      </div>
+
+    </div>
+    <div class="row fila">
+      <div class="col m2 elemento-tabla center">
+        08:00hs. - 10:00hs.
+      </div>
+      <div class="col m2 elemento-tabla center">
+        CURSO VENDEDORES
+      </div>
+      <div class="col m2 elemento-tabla green center">CLASE DE GRADO</div>
+      <div class="col m2 elemento-tabla">Juan Perez</div>
+      <div class="col m2 elemento-tabla center">40</div>
+      <div class="col m2 center elemento-tabla green">
+        
+        NORMAL
+        
+      </div>
+
+    </div>
+    <div class="row fila">
+      <div class="col m2 elemento-tabla center">
+        10:00hs. - 12:30hs.
+      </div>
+      <div class="col m2 elemento-tabla center">
+        MATEMÁTICA 1 
+      </div>
+      <div class="col m2 elemento-tabla blue center">CLASE POSGRADO</div>
+      <div class="col m2 elemento-tabla">Carlos Gimenez</div>
+      <div class="col m2 elemento-tabla center">41</div>
+      <div class="col m2 center elemento-tabla red">
+        
+        SUSPENDIDA
+        
+      </div>
+
+    </div>
+    <!-- TODO: /Borrar hasta aca cuando se implemente el servicio y el ngFor -->
+  </div>
+
+

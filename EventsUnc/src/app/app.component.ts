@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import * as moment from 'moment';
+
 
 
 @Component({
@@ -9,6 +9,6 @@ import * as moment from 'moment';
 })
 export class AppComponent {
   title = 'app';
-  hoy=moment().locale('es').format('LLLL');
+
   
 }
