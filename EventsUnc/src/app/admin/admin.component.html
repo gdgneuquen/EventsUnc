@@ -1,3 +1,13 @@
-<p>
-  admin works!
-</p>
+<button (click)="login()" *ngIf="!(user | async)?.uid">Anonymous Login</button>
+<button (click)="logout()" *ngIf="(user | async)?.uid">Logout</button> 
+
+
+  <input type="text" id="descripcion" *ngIf="(user | async)?.uid" placeholder="Descripcion"  [(ngModel)]="descripcion" />
+  <input type="text" id="horaFin" *ngIf="(user | async)?.uid" placeholder="Hora Fin"  [(ngModel)]="horaFin" />
+  <input type="text" id="horaInicio" *ngIf="(user | async)?.uid" placeholder="Hora Inicio"  [(ngModel)]="horaInicio" />
+  <input type="text" id="nombre" *ngIf="(user | async)?.uid" placeholder="Nombre"  [(ngModel)]="nombre" />
+  <input type="text" id="estadoActividad" *ngIf="(user | async)?.uid" placeholder="Estado Actividad"  [(ngModel)]="estadoActividad" />
+  <input type="text" id="tipoActividad" *ngIf="(user | async)?.uid" placeholder="Tipo Actividad"  [(ngModel)]="tipoActividad" />
+  <input type="text" id="zonaAula" *ngIf="(user | async)?.uid" placeholder="Zona Aula"  [(ngModel)]="zonaAula" />
+  
+  <button (click)="Send(descripcion,horaFin, horaInicio, nombre, tipoActividad, estadoActividad, zonaAula)">send</button>
