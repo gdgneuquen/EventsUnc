@@ -37,6 +37,5 @@ export class EventoComponent  {
     //      this.actividades.push({ horario: "8:00 a 9:00"});
 
   }
-
-
 }
+ 
