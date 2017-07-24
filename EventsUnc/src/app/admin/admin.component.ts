@@ -11,7 +11,7 @@ import { AngularFireAuth } from 'angularfire2/auth';
 
 import * as firebase from 'firebase/app';
 import * as moment from 'moment';
-import { actividad, aula, estado, tipo, zona } from '../commons/events.interface';
+//import { actividad, aula, estado, tipo, zona } from '../commons/events.interface';
 
 
 @Component({
@@ -22,7 +22,6 @@ import { actividad, aula, estado, tipo, zona } from '../commons/events.interface
 export class AdminComponent implements OnInit {
 
   hoy=moment().locale('es').format('LLLL');
-
   user: Observable<firebase.User>;
   actividades:FirebaseListObservable<any[]>; //actividades es tipo any para poder recibir todo lo que le trae el servicio
   msgVal: string = ''; //mensaje de entrada del form
@@ -34,13 +33,24 @@ export class AdminComponent implements OnInit {
   estadoActividad: string = '';
   tipoActividad: string = '';
   zonaAula: string = '';
+  numberHora = [7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,0];
+  numberMinuto = [0,5,10,15,20,25,30,35,40,45,50,55];
+  tipoDeActividad = ['Grado', 'Post Grado', 'Evento'];
+ // aulas = ['Grado', 'Post Grado', 'Evento'];
+  //aulas debería traerse desde la db pero no lo logro no se que pasa
+  aulas:FirebaseListObservable<any[]>; 
 
   constructor(
     public afAuth: AngularFireAuth, 
     public af: AngularFireDatabase,
     private router: Router,){
-    this.actividades = af.list('/actividades', { query: { limitToLast: 50 } });
+      
+    this.actividades = af.list('/actividades', { query: { limitToLast: 50 } });    
+      //aulas debería traerse desde la db pero no lo logro no se que pasa
+    this.aulas = af.list('/aula', { query: { limitToLast: 50 } });
+
     this.user = this.afAuth.authState;    
+
   }
 
   onSelect(key): void {
@@ -51,41 +61,33 @@ export class AdminComponent implements OnInit {
 
   logout() { this.afAuth.auth.signOut(); }
 
-  Send( descripcion: string,     horaFin: string,
-        horaInicio: string,      nombre: string,
-        tipoActividad: string, estadoActividad: string, 
-        zonaAula: string ) {
-    this.actividades.push({ 
-      descripcion: descripcion,          horaFin: horaFin,
-      horaInicio: horaInicio,            nombre: nombre,
-      tipoActividad: tipoActividad, estadoActividad: estadoActividad,  
-      zonaAula: zonaAula});
+  Send(
+    descripcion: string,   horaFin: string,
+    minutoFin: string,     horaInicio: string,
+    minutoInicio: string,  nombre: string,
+    tipoActividad: string, estadoActividad: string,
+    zonaAula: string ) {
 
-    this.descripcion = '';
-    this.horaFin = '';
-    this.horaInicio = '';
-    this.nombre = '';
-    this.estadoActividad = '';
-    this.tipoActividad = '';
-    this.zonaAula = '';
+      if( horaInicio == null || minutoInicio == null || horaFin == null ||  minutoFin == null){
+          alert("la Fecha inicio y hora inicio tienen que estar llennas")
+      }else{
+        var horaIniS = horaInicio +':'+ minutoInicio;
+        var horaFinS = horaFin +':'+ minutoFin;
 
+        this.actividades.push({
+        descripcion: descripcion,     horaFin: horaFinS,
+        horaInicio: horaIniS,         nombre: nombre,
+        tipoActividad: tipoActividad, estadoActividad: estadoActividad,  
+        zonaAula: zonaAula});
+        this.router.navigate(['/main']);  
+      }
   }
 
   Delete(key):void {
       this.actividades.remove( key);
       this.msgVal = '';
   }
-
-  atenderActividadMongo(key):void{
-    this.actividades.update( key, {estado: 3});
-    this.msgVal = '';
-  }
-  
-  rechazarActividadMongo(key):void{     
-    this.actividades.update( key, {estado: 1});
-    this.msgVal = '';
-  }
-
+    
   verActividadMongo(_id: string): void {
 
    // this.router.navigate(['/actividadesDetail', _id]);    

@@ -3,30 +3,41 @@
 <button (click)="login()" *ngIf="!(user | async)?.uid">Anonymous Login</button>
 <button (click)="logout()" *ngIf="(user | async)?.uid">Logout</button> 
 
-<div class="container">
+<div class="container" >
   <div class="row">
-    <div class="col s2">
-        <h6>HORA INICIO</h6>
-    </div>
-      <div class="col s2">
+    <div class="col s4">
+        <h6>HORA FIN</h6>
+      </div> 
+      <div class="col s4">
         <h6>HORA FIN</h6>
       </div>
   </div>
   <div class="row">
+
     <div class="col s2 ">
-        <select type="text" id="horaInicio" *ngIf="(user | async)?.uid" placeholder="Hora Inicio"  [(ngModel)]="horaInicio" class="black-text browser-default">
-        <option value="" disabled selected>Hora Inicio</option>
-        <option value="1">08:00</option>
-        <option value="2">09:00</option>
-        <option value="3">10:00</option>
+      <select type="text" id="horaInicio" *ngIf="(user | async)?.uid" placeholder="Hora Inicio"  [(ngModel)]="horaInicio" class="black-text browser-default">
+        <option value="" disabled selected>Hora</option>
+        <option *ngFor="let number of numberHora" [value]="number">{{number}}</option>
+      </select>
+    </div>
+
+   
+    <div class="col s2 ">
+        <select type="text" id="minutoInicio" *ngIf="(user | async)?.uid" placeholder="Minuto Inicio"  [(ngModel)]="minutoInicio" class="black-text browser-default">
+          <option value="" disabled selected>Minuto</option>
+          <option *ngFor="let number of numberMinuto" [value]="number">{{number}}</option>
         </select>
     </div>
-    <div class="col s2">
+    <div class="col s2 ">
         <select type="text" id="horaFin" *ngIf="(user | async)?.uid" placeholder="Hora Fin"  [(ngModel)]="horaFin" class="black-text browser-default">
-        <option value="" disabled selected>Hora Fin</option>
-        <option value="1">09:00</option>
-        <option value="2">10:00</option>
-        <option value="3">11:00</option>
+          <option value="" disabled selected>Hora</option>
+          <option *ngFor="let number of numberHora" [value]="number">{{number}}</option>
+        </select>
+    </div>
+    <div class="col s2 ">
+        <select type="text" id="minutoFin" *ngIf="(user | async)?.uid" placeholder="Minuto Fin"  [(ngModel)]="minutoFin" class="black-text browser-default">
+          <option value="" disabled selected>Minuto</option>
+          <option *ngFor="let number of numberMinuto" [value]="number">{{number}}</option>
         </select>
     </div>
   </div>
@@ -39,9 +50,7 @@
     <div class="col s3">
         <select type="text" id="tipoActividad" *ngIf="(user | async)?.uid" placeholder="Tipo Actividad"  [(ngModel)]="tipoActividad" class="black-text browser-default">
         <option value="" disabled selected>TIPO DE ACTIVIDAD</option>
-        <option value="1">GRADO</option>
-        <option value="2">POST GRADO</option>
-        <option value="3">EXTRA</option>
+        <option *ngFor="let tiact of tipoDeActividad" [value]="tiact">{{tiact}}</option>
         </select>
     </div>
   </div>
@@ -66,14 +75,27 @@
       </div>
   </div>
   <div class="row">
+    <!-- 
+      <div class="row fila" *ngFor="let actividad of actividades | async" >
+      <div class="col m2 elemento-tabla center">
+        {{actividad.horaInicio}} : {{actividad.horaFin}}
+      </div> 
+
+<div class="row fila" *ngFor="let actividad of actividades | async" >
+      <div class="col m2 elemento-tabla center">
+        {{actividad.horaInicio}} : {{actividad.horaFin}}
+
+      </div>
+
+    -->
     <div class="col s2 ">
-        <select type="text" id="zonaAula" *ngIf="(user | async)?.uid" placeholder="Zona Aula"  [(ngModel)]="zonaAula" class="black-text browser-default">
-        <option value="" disabled selected>AULA</option>
-        <option value="01">01</option>
-        <option value="02">02</option>
-        <option value="03">03</option>
-        </select>
-    </div>
+      <select type="text" id="aulas" *ngIf="(user | async)?.uid" placeholder="Tipo Actividad"  [(ngModel)]="aulas" class="black-text browser-default">
+        <option value="" disabled selected>TIPO DE ACTIVIDAD</option>
+        <option *ngFor="let aul of aulas" [value]="aul">{{aul.nombre}}</option> 
+         <!-- <option *ngFor="let aul of aulas" [value]="aul">{{aul}}</option>-->
+     </select>
+</div>
+
     <div class="col s2">
         <select type="text" id="estadoActividad" *ngIf="(user | async)?.uid" placeholder="Estado Actividad"  [(ngModel)]="estadoActividad" class="black-text browser-default">
         <option value="" disabled selected>ESTADO</option>
@@ -108,7 +130,7 @@
   </div>
   <div class="row">
     <div class="col s2">
-      <a (click)="Send(descripcion,horaFin, horaInicio, nombre, tipoActividad, estadoActividad, zonaAula)" 
+      <a (click)="Send(descripcion, horaFin, minutoFin, horaInicio, minutoInicio , nombre, tipoActividad, estadoActividad, zonaAula)" 
           class="waves-effect waves-light indigo darken-1 btn">OK</a>
     </div>
     <div class="col s1">

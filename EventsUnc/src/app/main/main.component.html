@@ -1,25 +1,51 @@
 <app-header></app-header>
-<div class="container">
-  <div>
-    <table>
-          <thead>
-            <tr>
-                <th>HORARIO</th>
-                <th>TIPO</th>
-                <th>ACTIVIDAD</th>
-                <th>REFERENCIA</th>
-                <th>AULA</th>
-                <th>ESTADO</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td>
-                  
-              </td>
-              
-            </tr>
-          </tbody>
-    </table>
-  </div>
+
+<div class="container-fluid">
+    <!-- TITULOS -->
+    <div class="row">
+      <div class="col m2 center texto-titulo-tabla">
+        HORARIO
+      </div>
+      <div class="col m2 center texto-titulo-tabla">
+        TIPO
+      </div>
+      <div class="col m2 center texto-titulo-tabla">
+        ACTIVIDAD
+      </div>
+      <div class="col m2 center texto-titulo-tabla">
+        PROFE/REFERENTE
+      </div>
+      <div class="col m2 center texto-titulo-tabla">
+        AULA
+      </div>
+      <div class="col m1 center texto-titulo-tabla">
+        ESTADO    
+      </div>
+       <div class="col m1 center texto-titulo-tabla">
+      </div>
+    </div>
+    <!-- /TITULOS -->
+
+    <!-- Una sola fila -->
+    <div class="row fila" *ngFor="let actividad of actividades | async" >
+      <div class="col m2 elemento-tabla center">
+        {{actividad.horaInicio}} : {{actividad.horaFin}}
+      </div>
+      <div class="col m2 elemento-tabla center">        
+        {{actividad.descripcion}}<!-- Cuando la materia tiene nombre largo, usar marquesina  -->
+      </div>
+      <div class="col m2 elemento-tabla green center" >{{actividad.tipoActividad}}</div>
+      <div class="col m2 elemento-tabla">{{actividad.nombre}}</div>
+      <div class="col m2 elemento-tabla">
+           {{actividad.zonaAula}}
+      </div>      
+      <div class="col m1 center elemento-tabla green">
+        {{actividad.estadoActividad}}
+      </div>
+      <div class="col m1 elemento-tabla center">        
+        <a class="iconsch" (click)="Delete(actividad.$key)"><img src="./assets/delete.svg"  class="logogit"></a>  
+      </div>
+    </div>
 </div>
+
+

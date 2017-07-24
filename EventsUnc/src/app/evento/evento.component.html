@@ -45,9 +45,13 @@
       <div class="col m2 elemento-tabla center">
         {{actividad.descripcion}}<!-- Cuando la materia tiene nombre largo, usar marquesina  -->
       </div>
-      <div class="col m2 elemento-tabla green center">{{actividad.tipoActividad}}</div>
+      <div class="col m2 elemento-tabla green center" >{{actividad.tipoActividad}}</div>
       <div class="col m2 elemento-tabla">{{actividad.nombre}}</div>
-      <div class="col m2 elemento-tabla center">{{actividad.zonaAula}}</div>
+      <div 
+        [class.green]="actividad.estadoActividad == 'normal'"
+        [class.red]="actividad.estadoActividad == 'suspendida'"
+        [class.green]="actividad.estadoActividad == 'normal'" >
+      {{actividad.zonaAula}}</div>
       <!-- 
          el siguiente div hay que reemplazarlo por una de estas alternativas
         ngIf estado==normal class=green
