@@ -11,6 +11,7 @@ import { AngularFireAuth } from 'angularfire2/auth';
 
 import * as firebase from 'firebase/app';
 import * as moment from 'moment';
+import { AuthService} from "../providers/auth.service"
 import { actividad, aula, estado, tipo, zona } from '../commons/events.interface';
 
 
@@ -21,10 +22,10 @@ import { actividad, aula, estado, tipo, zona } from '../commons/events.interface
 })
 export class AdminComponent implements OnInit {
 
-  hoy=moment().locale('es').format('LLLL');
+  hoy = moment().locale('es').format('LLLL');
 
   user: Observable<firebase.User>;
-  actividades:FirebaseListObservable<any[]>; //actividades es tipo any para poder recibir todo lo que le trae el servicio
+  actividades: FirebaseListObservable<any[]>; //actividades es tipo any para poder recibir todo lo que le trae el servicio
   msgVal: string = ''; //mensaje de entrada del form
   selectedActividad: string = '';
   descripcion: string = '';
@@ -36,29 +37,29 @@ export class AdminComponent implements OnInit {
   zonaAula: string = '';
 
   constructor(
-    public afAuth: AngularFireAuth, 
+    public authService: AuthService,
     public af: AngularFireDatabase,
-    private router: Router,){
+    private router: Router) {
     this.actividades = af.list('/actividades', { query: { limitToLast: 50 } });
-    this.user = this.afAuth.authState;    
+    this.user = this.authService.afAuth.authState;
   }
 
   onSelect(key): void {
    this.selectedActividad = key;
   }
-  
-  login() { this.afAuth.auth.signInAnonymously(); }
 
-  logout() { this.afAuth.auth.signOut(); }
+  login() { this.authService.loginWithGoogle(); }
+
+  logout() { this.authService.logout(); }
 
   Send( descripcion: string,     horaFin: string,
         horaInicio: string,      nombre: string,
-        tipoActividad: string, estadoActividad: string, 
+        tipoActividad: string, estadoActividad: string,
         zonaAula: string ) {
-    this.actividades.push({ 
+    this.actividades.push({
       descripcion: descripcion,          horaFin: horaFin,
       horaInicio: horaInicio,            nombre: nombre,
-      tipoActividad: tipoActividad, estadoActividad: estadoActividad,  
+      tipoActividad: tipoActividad, estadoActividad: estadoActividad,
       zonaAula: zonaAula});
 
     this.descripcion = '';
@@ -71,27 +72,27 @@ export class AdminComponent implements OnInit {
 
   }
 
-  Delete(key):void {
+  Delete(key): void {
       this.actividades.remove( key);
       this.msgVal = '';
   }
 
-  atenderActividadMongo(key):void{
+  atenderActividadMongo(key): void{
     this.actividades.update( key, {estado: 3});
     this.msgVal = '';
   }
-  
-  rechazarActividadMongo(key):void{     
+
+  rechazarActividadMongo(key): void{
     this.actividades.update( key, {estado: 1});
     this.msgVal = '';
   }
 
   verActividadMongo(_id: string): void {
 
-   // this.router.navigate(['/actividadesDetail', _id]);    
+   // this.router.navigate(['/actividadesDetail', _id]);
   }
 
-  updateActividadMongo(msg: string, key):void{    
+  updateActividadMongo(msg: string, key): void {
     this.actividades.update( key, {alert: msg});
 
   }
