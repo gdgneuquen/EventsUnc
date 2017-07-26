@@ -8,11 +8,12 @@ import { AppComponent } from './app.component';
 import { EventoComponent } from './evento/evento.component';
 import { AdminComponent } from './admin/admin.component';
 import { NotificacionesComponent } from './notificaciones/notificaciones.component';
+ 
 import { routing }from'./app-router.module';
-
+import { AuthService } from './providers/auth.service';
 import { MainComponent } from './main/main.component';
 import { HeaderComponent } from './header/header.component';
-
+ 
 
 
 //Firebase
@@ -53,7 +54,7 @@ export const firebaseConfig = {
     AngularFireAuthModule, // imports firebase/auth, only needed for auth features
 
   ],
-  providers: [],
+  providers: [AuthService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

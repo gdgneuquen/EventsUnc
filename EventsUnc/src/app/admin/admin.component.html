@@ -1,7 +1,8 @@
 <app-header></app-header>
 <nav class="nav-extended indigo darken-3"> 
-  <button class="btn indigo" (click)="login()" *ngIf="!(user | async)?.uid">Anonymous Login</button>
-<button class="btn indigo" (click)="logout()" *ngIf="(user | async)?.uid">Logout</button> 
+  <button class="waves-effect blue btn" (click)="login()" *ngIf="!(user | async)?.uid">Google Account</button>
+  <button class="waves-effect indigo btn" (click)="loginAnonymous()" *ngIf="!(user | async)?.uid">Login</button>
+  <button class="waves-effect waves-light btn" (click)="logout()" *ngIf="(user | async)?.uid">Logout</button>
 </nav>
 <div>
 
@@ -152,3 +153,4 @@
   <button (click)="Send(descripcion,horaFin, horaInicio, nombre, tipoActividad, estadoActividad, zonaAula)">send</button>
 -->
 </div>
+ 

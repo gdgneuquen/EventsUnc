@@ -11,6 +11,8 @@ import { AngularFireAuth } from 'angularfire2/auth';
 
 import * as firebase from 'firebase/app';
 import * as moment from 'moment';
+ 
+import { AuthService} from "../providers/auth.service"
 //import { actividad, aula, estado, tipo, zona } from '../commons/events.interface';
 
 
@@ -20,10 +22,10 @@ import * as moment from 'moment';
   styleUrls: ['./admin.component.css']
 })
 export class AdminComponent implements OnInit {
-
   hoy=moment().locale('es').format('LLLL');
+
   user: Observable<firebase.User>;
-  actividades:FirebaseListObservable<any[]>; //actividades es tipo any para poder recibir todo lo que le trae el servicio
+  actividades: FirebaseListObservable<any[]>; //actividades es tipo any para poder recibir todo lo que le trae el servicio
   msgVal: string = ''; //mensaje de entrada del form
   selectedActividad: string = '';
   descripcion: string = '';
@@ -45,28 +47,31 @@ export class AdminComponent implements OnInit {
   estaLogueado:boolean=false;
 
   constructor(
-    public afAuth: AngularFireAuth, 
+    public authService: AuthService,
     public af: AngularFireDatabase,
-    private router: Router,){
+    private router: Router){
       
     this.actividades = af.list('/actividades', { query: { limitToLast: 50 } });    
-      //aulas debería traerse desde la db pero no lo logro no se que pasa
+    //aulas debería traerse desde la db pero no lo logro no se que pasa
     this.aulas = af.list('/aula', { query: { limitToLast: 50 } });
 
-    this.user = this.afAuth.authState;  
-    this.estaLogueado=this.user?true:false;
+    this.user = this.authService.afAuth.authState;
+    this.estaLogueado = this.user ? true : false;
 
   }
 
   onSelect(key): void {
    this.selectedActividad = key;
   }
-  
-  login() { this.afAuth.auth.signInAnonymously(); 
-  this.estaLogueado=true;}
+ 
+  login() { this.authService.loginWithGoogle();
+           this.estaLogueado=true;}
 
-  logout() { this.afAuth.auth.signOut(); 
-  this.estaLogueado=false;}
+  loginAnonymous() { this.authService.loginAnonymous(); 
+                    this.estaLogueado=true;}
+    
+  logout() { this.authService.logout(); 
+            this.estaLogueado=false;}
 
   Send(
     descripcion: string,   horaFin: string,
@@ -90,22 +95,23 @@ export class AdminComponent implements OnInit {
       }
   }
 
-  Delete(key):void {
+  Delete(key): void {
       this.actividades.remove( key);
       this.msgVal = '';
   }
-    
+ 
   verActividadMongo(_id: string): void {
 
-   // this.router.navigate(['/actividadesDetail', _id]);    
+   // this.router.navigate(['/actividadesDetail', _id]);
   }
 
-  updateActividadMongo(msg: string, key):void{    
+  updateActividadMongo(msg: string, key): void {
     this.actividades.update( key, {alert: msg});
 
   }
-
+ 
   ngOnInit(){
     
     }
 }
+ 
