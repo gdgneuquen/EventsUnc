@@ -40,6 +40,10 @@ export class AdminComponent implements OnInit {
   //aulas debería traerse desde la db pero no lo logro no se que pasa
   aulas:FirebaseListObservable<any[]>; 
 
+
+  //Comprueba si hay un usuario logueado
+  estaLogueado:boolean=false;
+
   constructor(
     public afAuth: AngularFireAuth, 
     public af: AngularFireDatabase,
@@ -49,7 +53,8 @@ export class AdminComponent implements OnInit {
       //aulas debería traerse desde la db pero no lo logro no se que pasa
     this.aulas = af.list('/aula', { query: { limitToLast: 50 } });
 
-    this.user = this.afAuth.authState;    
+    this.user = this.afAuth.authState;  
+    this.estaLogueado=this.user?true:false;
 
   }
 
@@ -57,9 +62,11 @@ export class AdminComponent implements OnInit {
    this.selectedActividad = key;
   }
   
-  login() { this.afAuth.auth.signInAnonymously(); }
+  login() { this.afAuth.auth.signInAnonymously(); 
+  this.estaLogueado=true;}
 
-  logout() { this.afAuth.auth.signOut(); }
+  logout() { this.afAuth.auth.signOut(); 
+  this.estaLogueado=false;}
 
   Send(
     descripcion: string,   horaFin: string,
@@ -98,5 +105,7 @@ export class AdminComponent implements OnInit {
 
   }
 
-  ngOnInit(){  }
+  ngOnInit(){
+    
+    }
 }
