@@ -14,6 +14,12 @@ export class AuthService {
       //TODO: consultar a esteban que pasa con las credenciales, si agrega cada vez
 
   }
+
+  loginAnonymous() {
+    return this.afAuth.auth.signInAnonymously();
+  }
+
+
   logout() {
     return this.afAuth.auth.signOut();
   }

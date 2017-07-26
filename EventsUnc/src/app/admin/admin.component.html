@@ -1,5 +1,6 @@
-<button (click)="login()" *ngIf="!(user | async)?.uid">Login</button>
-<button (click)="logout()" *ngIf="(user | async)?.uid">Logout</button>
+<button class="waves-effect blue btn" (click)="login()" *ngIf="!(user | async)?.uid">Google Account</button>
+<button class="waves-effect indigo btn" (click)="loginAnonymous()" *ngIf="!(user | async)?.uid">Login</button>
+<button class="waves-effect waves-light btn" (click)="logout()" *ngIf="(user | async)?.uid">Logout</button>
 
 <div  *ngIf="(user | async)?.uid" >
     <input type="text" id="descripcion" placeholder="Descripcion"  [(ngModel)]="descripcion" />

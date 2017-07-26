@@ -50,6 +50,8 @@ export class AdminComponent implements OnInit {
 
   login() { this.authService.loginWithGoogle(); }
 
+  loginAnonymous() { this.authService.loginAnonymous(); }
+
   logout() { this.authService.logout(); }
 
   Send( descripcion: string,     horaFin: string,
