@@ -5,6 +5,7 @@ import {AdminComponent}from'./admin/admin.component';
 import {MainComponent}from'./main/main.component';
 import {modEvento}from'./modEvento/modEvento.component';
 import {PageNotFoundComponent} from './notfound/page.not.found.component';
+import {NotificacionesComponent} from './notificaciones/notificaciones.component';
 
 export const routes: Routes = [
     { path:'',  pathMatch: 'full',  component:MainComponent  },
@@ -13,7 +14,7 @@ export const routes: Routes = [
     { path:"event", component:EventoComponent },
     { path:"modEvento/:_id", component:modEvento },
     { path: '**', component: PageNotFoundComponent },//cualquier url que no encuentre
-
+    { path:"notificaciones",   component:NotificacionesComponent   }
 ];
 
 export const routing: ModuleWithProviders = RouterModule.forRoot(routes);
