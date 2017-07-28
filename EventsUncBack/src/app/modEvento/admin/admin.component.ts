@@ -11,18 +11,15 @@ import { AngularFireAuth } from 'angularfire2/auth';
 
 import * as firebase from 'firebase/app';
 import * as moment from 'moment';
-//materialize
-import {MdDatepickerModule} from '@angular/material';
+
 
 @Component({
   selector: 'app-admin',
   templateUrl: './admin.component.html',
   styleUrls: ['./admin.component.css']
 })
-
 export class AdminComponent implements OnInit {
-  minDate = new Date(2000, 0, 1);
-  maxDate = new Date(2020, 0, 1);
+
   hoy=moment().locale('es').format('LLLL');
   user: Observable<firebase.User>;
   actividades:FirebaseListObservable<any[]>; //actividades es tipo any para poder recibir todo lo que le trae el servicio
@@ -35,12 +32,13 @@ export class AdminComponent implements OnInit {
   estadoActividad: string = '';
   tipoActividad: string = '';
   zonaAula: string = '';
-  numberHora: any[];
+  numberHora = [7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,0];
+  numberMinuto = [0,5,10,15,20,25,30,35,40,45,50,55];
   tipoDeActividad = ['Grado', 'Post Grado', 'Evento'];
  // aulas = ['Grado', 'Post Grado', 'Evento'];
   //aulas debería traerse desde la db pero no lo logro no se que pasa
   aulas:FirebaseListObservable<any[]>; 
-  
+
 
   //Comprueba si hay un usuario logueado
   estaLogueado:boolean=false;
@@ -55,8 +53,8 @@ export class AdminComponent implements OnInit {
     this.aulas = af.list('/aula', { query: { limitToLast: 50 } });
 
     this.user = this.afAuth.authState;  
-    this.estaLogueado = this.user?true:false;
-    this.numberHora = this.Horario();
+    this.estaLogueado=this.user?true:false;
+
   }
 
   onSelect(key): void {
@@ -74,7 +72,7 @@ export class AdminComponent implements OnInit {
     minutoFin: string,     horaInicio: string,
     minutoInicio: string,  nombre: string,
     tipoActividad: string, estadoActividad: string,
-    zonaAula: string, pickerDesde: string, pickerHasta: string) {
+    zonaAula: string ) {
 
       if( horaInicio == null || minutoInicio == null || horaFin == null ||  minutoFin == null){
           alert("la Fecha inicio y hora inicio tienen que estar llennas")
@@ -86,7 +84,7 @@ export class AdminComponent implements OnInit {
         descripcion: descripcion,     horaFin: horaFinS,
         horaInicio: horaIniS,         nombre: nombre,
         tipoActividad: tipoActividad, estadoActividad: estadoActividad,  
-        zonaAula: zonaAula, desde: pickerDesde, hasta: pickerHasta});
+        zonaAula: zonaAula});
         this.router.navigate(['/main']);  
       }
   }
@@ -97,7 +95,8 @@ export class AdminComponent implements OnInit {
   }
     
   verActividadMongo(_id: string): void {
-   this.router.navigate(['/actividadesDetail', _id]);    
+
+   // this.router.navigate(['/actividadesDetail', _id]);    
   }
 
   updateActividadMongo(msg: string, key):void{    
@@ -105,17 +104,7 @@ export class AdminComponent implements OnInit {
 
   }
 
-  Horario(){
-    var arr = [], i, j;
-    for(i=7; i<24; i++) {
-      for(j=0; j<4; j++) {
-        arr.push(i + ":" + (j===0 ? "00" : 15*j) );
-      }
-    }
-    return arr;
-  }
-
   ngOnInit(){
-
-  }
+    
+    }
 }

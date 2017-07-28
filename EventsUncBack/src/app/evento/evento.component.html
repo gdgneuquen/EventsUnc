@@ -1,0 +1,81 @@
+<nav class="nav-extended black">
+
+  <div class="nav-wrapper">
+    <a routerLink="" class="brand-logo">Facultad de economia - Clases</a>
+    <a routerLink="" data-activates="mobile-demo" class="button-collapse"><i class="material-icons">menu</i></a>
+    
+    <div class="right"> {{hoy}}</div>
+    <ul class="side-nav" id="mobile-demo">
+      <li><a routerLink=""><i class="material-icons">Inicio</i></a></li>
+    </ul>
+  </div>
+</nav>
+
+
+<div class="container-fluid">
+    <!-- TITULOS -->
+    <div class="row">
+      <div class="col m2 center texto-titulo-tabla">
+        HORARIO
+      </div>
+      <div class="col m2 center texto-titulo-tabla">
+        TIPO
+      </div>
+      <div class="col m2 center texto-titulo-tabla">
+        ACTIVIDAD
+      </div>
+      <div class="col m2 center texto-titulo-tabla">
+        PROFE/REFERENTE
+      </div>
+      <div class="col m2 center texto-titulo-tabla">
+        AULA
+      </div>
+      <div class="col m2 center texto-titulo-tabla">
+        ESTADO
+      </div>
+    </div>
+    <!-- /TITULOS -->
+
+    <!-- Una sola fila -->
+    <div class="row fila" *ngFor="let actividad of actividades | async" >
+      <div class="col m2 elemento-tabla center">
+        {{actividad.horaInicio}} : {{actividad.horaFin}}
+
+      </div>
+      <div class="col m2 elemento-tabla center">
+        {{actividad.descripcion}}<!-- Cuando la materia tiene nombre largo, usar marquesina  -->
+      </div>
+      <div class="col m2 elemento-tabla green center" >{{actividad.tipoActividad}}</div>
+      <div class="col m2 elemento-tabla">{{actividad.nombre}}</div>
+      <div 
+        [class.green]="actividad.estadoActividad == 'normal'"
+        [class.red]="actividad.estadoActividad == 'suspendida'"
+        [class.green]="actividad.estadoActividad == 'normal'" >
+      {{actividad.zonaAula}}</div>
+      <!-- 
+         el siguiente div hay que reemplazarlo por una de estas alternativas
+        ngIf estado==normal class=green
+        ngIf estado==suspendida class=red
+        ngIf estado==normal class=green
+      
+        ó
+
+        <div [ngSwitch]="estado">
+          <div *ngSwitchCase="Normal" class="...green...">...</div>
+          <div *ngSwitchCase="Cambio" class="...yellow darken-1...">...</div>
+          <div *ngSwitchCase="Suspendido" class="...red black-text...">...</div>
+        </div>
+
+      -->
+      <div class="col m2 center elemento-tabla green">
+        {{actividad.estadoActividad}}
+      
+      </div>
+
+    </div>
+    <!-- / Una sola fila -->
+
+
+</div>
+
+
