@@ -68,7 +68,7 @@
   <div class="row">
     <div class="input-field col s6">
           <input id="descripcion" *ngIf="(user | async)?.uid" 
-            placeholder="Nombre de la Actividad"  [(ngModel)]="descripcion">
+            placeholder="Nombre de la Actividad"  [(ngModel)]="descripcion">{{evento.nombre}}
     </div>
   </div>
   <div class="row">

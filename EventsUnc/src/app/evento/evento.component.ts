@@ -11,7 +11,6 @@ import { AngularFireAuth } from 'angularfire2/auth';
 
 import * as firebase from 'firebase/app';
 import * as moment from 'moment';
-import { actividad, aula, estado, tipo, zona } from '../commons/events.interface';
 
 
 @Component({

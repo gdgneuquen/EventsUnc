@@ -5,23 +5,26 @@ import 'rxjs/add/observable/throw';//Para trabajar con los observables desde rxj
 import 'rxjs/add/operator/catch';//para poder tomar cosas
 import 'rxjs/add/operator/toPromise';
 
-import { Router } from '@angular/router';
-import { AngularFireDatabase, FirebaseListObservable } from 'angularfire2/database';
+import { RouterModule, Router, ActivatedRoute, Params} from '@angular/router';
+import { AngularFireDatabase, FirebaseListObservable, FirebaseObjectObservable } from 'angularfire2/database';
 import { AngularFireAuth } from 'angularfire2/auth';
-import { AuthService } from '../providers/auth.service';
 
 import * as firebase from 'firebase/app';
 import * as moment from 'moment';
+
+import { AuthService } from '../providers/auth.service';
+
+
 //materialize
 import {MdDatepickerModule} from '@angular/material';
 
 @Component({
-  selector: 'app-admin',
-  templateUrl: './admin.component.html',
-  styleUrls: ['./admin.component.css']
+  selector: 'modevent-app',
+  templateUrl: './modEvento.component.html',
+  styleUrls: ['./modEvento.component.css']
 })
+export class modEvento implements OnInit {
 
-export class AdminComponent implements OnInit {
   minDate = new Date(2000, 0, 1);
   maxDate = new Date(2020, 0, 1);
   hoy=moment().locale('es').format('LLLL');
@@ -40,6 +43,7 @@ export class AdminComponent implements OnInit {
   tipoDeActividad: FirebaseListObservable<any[]>;
   estadoActividad: FirebaseListObservable<any[]>;
   aulasFire:FirebaseListObservable<any[]>; 
+  evento:FirebaseObjectObservable<any>; //alertas es tipo any para poder recibir todo lo que le trae el servicio
 
  // aulas = ['Grado', 'Post Grado', 'Evento'];
   //aulas debería traerse desde la db pero no lo logro no se que pasa
@@ -53,8 +57,12 @@ export class AdminComponent implements OnInit {
     public afAuth: AngularFireAuth, 
     public af: AngularFireDatabase,
     private router: Router,
+    private rout: ActivatedRoute,
     private authService : AuthService,){
-      
+    //this.id = this.rout.snapshot.params['_id'];
+
+    this.evento = this.af.object('/actividades/'+this.rout.snapshot.params['_id']);
+
     this.actividades = af.list('/actividades', { query: { limitToLast: 50 } });    
     //aulas debería traerse desde la db pero no lo logro no se que pasa
     this.aulas = af.list('/aula', { query: { limitToLast: 50 } });
@@ -101,10 +109,6 @@ export class AdminComponent implements OnInit {
   Delete(key): void {
       this.actividades.remove( key);
       this.msgVal = '';
-  }
- 
-  verActividadMongo(_id: string): void {
-   this.router.navigate(['actividadesDetail', _id]);    
   }
 
   updateActividadMongo(msg: string, key): void {
