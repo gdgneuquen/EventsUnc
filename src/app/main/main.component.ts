@@ -11,8 +11,6 @@ import { AngularFireAuth } from 'angularfire2/auth';
 
 import * as firebase from 'firebase/app';
 import * as moment from 'moment';
-//import { actividad, aula, estado, tipo, zona } from '../commons/events.interface';
-
 
 @Component({
   selector: 'app-main',
@@ -37,13 +35,18 @@ export class MainComponent {
     //      this.actividades.push({ horario: "8:00 a 9:00"});
 
   }
-    Delete(key):void {
+  
+  Delete(key):void {
       //alert("la Fecha inicio y hora inicio tienen que estar llennas");
       if(confirm("Esta seguro que desea borrar el evento?")) {
         this.actividades.remove( key);
         this.msgVal = '';
       }
   }
-    
+  
+  modEvento(key){
+    this.router.navigate(['/modEvento', key]);
+  }
+
 }
  

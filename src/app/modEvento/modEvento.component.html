@@ -14,17 +14,14 @@
         <h6>HORA FIN</h6>
       </div>
   </div>
-  <div class="row">
+  <div class="row" >
 
     <div class="col s2 ">
       <select type="text" id="horaInicio" *ngIf="(user | async)?.uid" placeholder="Hora Inicio"  [(ngModel)]="horaInicio" class="black-text browser-default">
         <option value="" disabled selected>Hora</option>
         <option *ngFor="let number of numberHora" [value]="number">{{number}}</option>
       </select>
-    </div>
 
-   
-    <div class="col s2 ">
         <select type="text" id="minutoInicio" *ngIf="(user | async)?.uid" placeholder="Minuto Inicio"  [(ngModel)]="minutoInicio" class="black-text browser-default">
           <option value="" disabled selected>Minuto</option>
           <option *ngFor="let number of numberMinuto" [value]="number">{{number}}</option>
@@ -35,8 +32,7 @@
           <option value="" disabled selected>Hora</option>
           <option *ngFor="let number of numberHora" [value]="number">{{number}}</option>
         </select>
-    </div>
-    <div class="col s2 ">
+
         <select type="text" id="minutoFin" *ngIf="(user | async)?.uid" placeholder="Minuto Fin"  [(ngModel)]="minutoFin" class="black-text browser-default">
           <option value="" disabled selected>Minuto</option>
           <option *ngFor="let number of numberMinuto" [value]="number">{{number}}</option>
