@@ -40,7 +40,8 @@ export class AdminComponent implements OnInit {
   tipoDeActividad: FirebaseListObservable<any[]>;
   estadoActividad: FirebaseListObservable<any[]>;
   aulasFire:FirebaseListObservable<any[]>; 
-
+  checkSemana:  string = '';
+  checkMes: string = '';
  // aulas = ['Grado', 'Post Grado', 'Evento'];
   //aulas debería traerse desde la db pero no lo logro no se que pasa
   aulas:FirebaseListObservable<any[]>; 
@@ -80,20 +81,18 @@ export class AdminComponent implements OnInit {
 
   Send(
     checkSemana: string, checkMes: string, checkCuatrimestre: string,
-    descripcion: string,   horaFin: string, minutoFin: string,     
-    horaInicio: string,  minutoInicio: string,  nombre: string,
+    descripcion: string,   horaFin: string,    
+    horaInicio: string,   nombre: string,
     tipoActividad: string, estadoActividad: string,
     zonaAula: string, pickerDesde: string, pickerHasta: string) {
 
+      console.log("checkCuatrimestre"+checkCuatrimestre   );
       if( horaInicio == null || horaFin == null ){
           alert("la Fecha inicio y hora inicio tienen que estar llennas")
       }else{
-   
-        this.actividades.push({checkSemana: checkSemana, checkMes: checkMes, checkCuatrimestre: checkCuatrimestre,
-        descripcion: descripcion,     horaFin: horaFin,
-        horaInicio: horaInicio,         nombre: nombre,
-        tipoActividad: tipoActividad, estadoActividad: estadoActividad,  
-        zonaAula: zonaAula, desde: pickerDesde, hasta: pickerHasta});
+
+        this.actividades.push({
+        checkSemana: checkSemana});
         this.router.navigate(['/main']);  
       }
   }

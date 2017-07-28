@@ -9,7 +9,7 @@
 <div class="container" [hidden]="!estaLogueado">
   <div class="row">
     <div class="col s4">
-        <h6>HORA INICIO</h6>
+        <h6>HORA INICIO</h6>{{evento | async | json}}
     </div> 
     <div class="col s4">
         <h6>HORA FIN</h6>
@@ -68,7 +68,7 @@
   <div class="row">
     <div class="input-field col s6">
           <input id="descripcion" *ngIf="(user | async)?.uid" 
-            placeholder="Nombre de la Actividad"  [(ngModel)]="descripcion">{{evento.nombre}}
+            placeholder="Nombre de la Actividad"  [(ngModel)]="descripcion">
     </div>
   </div>
   <div class="row">

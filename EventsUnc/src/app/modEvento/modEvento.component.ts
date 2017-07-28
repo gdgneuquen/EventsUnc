@@ -14,7 +14,6 @@ import * as moment from 'moment';
 
 import { AuthService } from '../providers/auth.service';
 
-
 //materialize
 import {MdDatepickerModule} from '@angular/material';
 
@@ -43,8 +42,8 @@ export class modEvento implements OnInit {
   tipoDeActividad: FirebaseListObservable<any[]>;
   estadoActividad: FirebaseListObservable<any[]>;
   aulasFire:FirebaseListObservable<any[]>; 
-  evento:FirebaseObjectObservable<any>; //alertas es tipo any para poder recibir todo lo que le trae el servicio
-
+  evento: FirebaseObjectObservable<any>;
+  id: any; //id recibido
  // aulas = ['Grado', 'Post Grado', 'Evento'];
   //aulas debería traerse desde la db pero no lo logro no se que pasa
   aulas:FirebaseListObservable<any[]>; 
@@ -59,11 +58,13 @@ export class modEvento implements OnInit {
     private router: Router,
     private rout: ActivatedRoute,
     private authService : AuthService,){
-    //this.id = this.rout.snapshot.params['_id'];
-
-    this.evento = this.af.object('/actividades/'+this.rout.snapshot.params['_id']);
-
-    this.actividades = af.list('/actividades', { query: { limitToLast: 50 } });    
+    this.id = this.rout.snapshot.params['_id'];//tomo el id que viene por parámetro
+    //busco el evento puntual en base al id
+    
+    this.evento = af.object('/actividades/'+this.id)
+    ;
+    console.log( "evento"+this.evento);
+    this.actividades = af.list('/actividades');    
     //aulas debería traerse desde la db pero no lo logro no se que pasa
     this.aulas = af.list('/aula', { query: { limitToLast: 50 } });
     this.estadoActividad = af.list('/estado');

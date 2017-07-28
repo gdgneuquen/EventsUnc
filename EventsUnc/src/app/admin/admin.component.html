@@ -60,7 +60,7 @@
         <select type="text" id="tipoDeActividad" *ngIf="(user | async)?.uid" placeholder="Tipo Actividad"  
           [(ngModel)]="tipoDeActividad" class="black-text browser-default">
           <option value="" disabled selected>TIPO DE ACTIVIDAD</option>
-          <option *ngFor="let t of tipoDeActividad | async" [value]="t.nombre" 
+          <option *ngFor="let t of tipoDeActividad " [value]="t.nombre" 
           [class.green]="t.estado == '1'" [class.yellow]="t.estado == '2'" [class.red]="t.estado == '3'">{{t.nombre}}</option>
         </select>
     </div>
@@ -130,7 +130,7 @@
   </div>
   <div class="row">
     <div class="col s2">
-      <a (click)="Send(checkSemana, checkMes, checkCuatrimestre, descripcion, horaFin, minutoFin, horaInicio, minutoInicio , nombre, tipoActividad, estadoActividad, zonaAula, pickerDesde, pickerHasta)" 
+      <a (click)="Send(checkSemana, checkMes, checkCuatrimestre, descripcion, horaFin, horaInicio, nombre, tipoActividad, estadoActividad, zonaAula, pickerDesde, pickerHasta)" 
           class="waves-effect waves-light indigo darken-1 btn">OK</a>
     </div>
     <div class="col s1">
