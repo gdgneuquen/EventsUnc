@@ -41,7 +41,7 @@ export class AdminComponent implements OnInit {
   tipoAct: string = '';
   estadoAct: string = '';
   aulasFire:FirebaseListObservable<any[]>; 
-  checkCuatrimestre:  boolean;
+  pediodo:  string = '';
 
 
  // aulas = ['Grado', 'Post Grado', 'Evento'];
@@ -83,23 +83,24 @@ export class AdminComponent implements OnInit {
 /**checkSemana, checkMes, checkCuatrimestre, descripcion, 
       horaFin, horaInicio, nombre, tipoAct, estadoAct, zonaAula,  pickerDesde, pickerHasta */
   Send(
-    checkCuatrimestre:boolean, descripcion: string,  
+    pediodo:string, descripcion: string,  
     horaFin: string,  horaInicio: string,   nombre: string,  tipoAct: string, estadoAct: string,
     zonaAula: string, pickerDesde: MdDatepickerModule, pickerHasta: MdDatepickerModule) {
-      if(checkCuatrimestre==undefined){
-        this.checkCuatrimestre=false;
+      
+      if (pickerDesde == undefined) {
+         pickerDesde = false;
+      }
+      if (pickerHasta == undefined) {
+         pickerHasta = false;
       }
       if( horaInicio == null || horaFin == null ){
           alert("la Fecha inicio y hora inicio tienen que estar llennas")
-      }else{
-
-          checkCuatrimestre = checkCuatrimestre.valueOf();
-
-          console.log("checkCuatrimestre:   "+checkCuatrimestre);          
-          console.log("pickerDesde:     "+pickerDesde);
+      } else {       
+     
+   
 
         this.actividades.push({         
-          checkCuatrimestre: checkCuatrimestre, descripcion: descripcion, horaFin: horaFin,    
+          pediodo: pediodo, descripcion: descripcion, horaFin: horaFin,    
           horaInicio: horaInicio,   nombre: nombre,
           tipoActividad: tipoAct,   estadoActividad: estadoAct,
           zonaAula: zonaAula,       
