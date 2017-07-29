@@ -36,7 +36,12 @@
         </select>        
     </div>    
     <div class="col s2 ">
-            <material-datepicker [(date)]="pickerDesde"></material-datepicker>
+          <md-input-container>
+            <input mdInput [mdDatepicker]="pickerDesde">
+            <button mdSuffix [mdDatepickerToggle]="pickerDesde"></button>
+          </md-input-container>
+          <md-datepicker #pickerDesde></md-datepicker>
+
    </div>    
     <div class="col s2 ">
       <material-datepicker [(date)]="pickerHasta"></material-datepicker>
@@ -105,15 +110,14 @@
   </div>
   <div class="row">
     <div class="col s6">
-     <p>   <input type="checkbox" id="checkCuatrimestre"  [(ngModel)]="checkCuatrimestre" />
+        <input type="checkbox" id="checkCuatrimestre"  [(ngModel)]="checkCuatrimestre" />
           <label for="checkCuatrimestre">Cuatrimestre</label>
-        </p>      
     </div>
   </div>
   <div class="row">
     <div class="col s2">
-      <a (click)="Send( checkCuatrimestre, descripcion, 
-      horaFin, horaInicio, nombre, tipoAct, estadoAct, zonaAula,  pickerDesde, pickerHasta)" 
+      <a (click)="Send( checkCuatrimestre, descripcion, horaFin, horaInicio,
+       nombre, tipoAct, estadoAct, zonaAula,  pickerDesde, pickerHasta)" 
           class="waves-effect waves-light indigo darken-1 btn">OK</a>
     </div>
     <div class="col s1">

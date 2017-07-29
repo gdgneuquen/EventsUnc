@@ -3,7 +3,7 @@ import { NgModule } from '@angular/core';
 import { HttpModule } from '@angular/http';
 import { routing }from'./app-router.module';
 //FORMS
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule,  } from '@angular/forms';
 
 import { AppComponent } from './app.component';
 import { EventoComponent } from './evento/evento.component';
@@ -21,7 +21,7 @@ import { AngularFireDatabaseModule } from 'angularfire2/database';
 import { AngularFireAuthModule } from 'angularfire2/auth';
 
 //materialize
-import {MdDatepickerModule, MdNativeDateModule} from '@angular/material';
+import {MdDatepickerModule, MdNativeDateModule, MdCheckboxModule} from '@angular/material';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {MdButtonModule} from '@angular/material';
 import {MdInputModule} from '@angular/material';
@@ -56,8 +56,8 @@ export const firebaseConfig = {
     AngularFireModule.initializeApp(firebaseConfig), // imports firebase/app needed for everything
     AngularFireDatabaseModule, // imports firebase/database, only needed for database features
     AngularFireAuthModule, // imports firebase/auth, only needed for auth features
-    BrowserAnimationsModule, MdDatepickerModule, DatepickerModule,
-     MdButtonModule, MdNativeDateModule, MdInputModule,
+    BrowserAnimationsModule, MdDatepickerModule, DatepickerModule, 
+     MdButtonModule, MdNativeDateModule, MdInputModule,MdCheckboxModule
   ],
   providers: [AuthService],
   bootstrap: [AppComponent]

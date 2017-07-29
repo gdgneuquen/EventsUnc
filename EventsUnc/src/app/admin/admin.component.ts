@@ -41,8 +41,8 @@ export class AdminComponent implements OnInit {
   tipoAct: string = '';
   estadoAct: string = '';
   aulasFire:FirebaseListObservable<any[]>; 
-  checkSemana:  string = '';
-  checkMes: string = '';
+  checkCuatrimestre:  boolean;
+
 
  // aulas = ['Grado', 'Post Grado', 'Evento'];
   //aulas debería traerse desde la db pero no lo logro no se que pasa
@@ -83,26 +83,37 @@ export class AdminComponent implements OnInit {
 /**checkSemana, checkMes, checkCuatrimestre, descripcion, 
       horaFin, horaInicio, nombre, tipoAct, estadoAct, zonaAula,  pickerDesde, pickerHasta */
   Send(
-    checkCuatrimestre:string, descripcion: string,  
+    checkCuatrimestre:boolean, descripcion: string,  
     horaFin: string,  horaInicio: string,   nombre: string,  tipoAct: string, estadoAct: string,
-    zonaAula: string, pickerDesde: string, pickerHasta: string) {
-
+    zonaAula: string, pickerDesde: MdDatepickerModule, pickerHasta: MdDatepickerModule) {
+      if(checkCuatrimestre==undefined){
+        this.checkCuatrimestre=false;
+      }
       if( horaInicio == null || horaFin == null ){
           alert("la Fecha inicio y hora inicio tienen que estar llennas")
       }else{
-          console.log("checkCuatrimestre"+checkCuatrimestre);
+
+          checkCuatrimestre = checkCuatrimestre.valueOf();
+
+          console.log("checkCuatrimestre:   "+checkCuatrimestre);          
+          console.log("pickerDesde:     "+pickerDesde);
+
         this.actividades.push({         
           checkCuatrimestre: checkCuatrimestre, descripcion: descripcion, horaFin: horaFin,    
           horaInicio: horaInicio,   nombre: nombre,
           tipoActividad: tipoAct,   estadoActividad: estadoAct,
           zonaAula: zonaAula,       
-          Desde: pickerDesde,      Hasta: pickerHasta
+          pickerDesde: pickerDesde,      pickerHasta: pickerHasta
       
       });
         this.router.navigate(['/main']);  
       }
   }
-
+ myFilter = (d: Date): boolean => {
+    const day = d.getDay();
+    // Prevent Saturday and Sunday from being selected.
+    return day !== 0 && day !== 6;
+  }
   Delete(key): void {
       this.actividades.remove( key);
       this.msgVal = '';
