@@ -36,18 +36,11 @@
         </select>        
     </div>    
     <div class="col s2 ">
-      <md-input-container >
-        <input mdInput  [mdDatepicker]="pickerDesde" placeholder="Desde">
-        <button mdSuffix [mdDatepickerToggle]="pickerDesde"></button>
-      </md-input-container>
-      <md-datepicker #pickerDesde></md-datepicker>
+            <material-datepicker [(date)]="pickerDesde"></material-datepicker>
    </div>    
     <div class="col s2 ">
-       <md-input-container >
-        <input mdInput [mdDatepicker]="pickerHasta" placeholder="Hasta">
-        <button mdSuffix [mdDatepickerToggle]="pickerHasta"></button>
-      </md-input-container>
-      <md-datepicker #pickerHasta></md-datepicker>
+      <material-datepicker [(date)]="pickerHasta"></material-datepicker>
+
     </div>
   </div>
   <div class="row">
@@ -88,7 +81,7 @@
   <div class="row">
     <div class="col s2" *ngIf="(user | async)?.uid">
 
-      <select  [(ngModel)]="selectedAula" *ngIf="(user | async)?.uid"  class="black-text browser-default" >
+      <select  [(ngModel)]="zonaAula" *ngIf="(user | async)?.uid"  class="black-text browser-default" >
          <option value="AULA" disabled selected>AULA</option>
         <option *ngFor="let a of aulas | async" [value]="a.nombre">{{a.nombre}}</option> 
      </select>

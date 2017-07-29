@@ -34,7 +34,6 @@ export class AdminComponent implements OnInit {
   horaFin: string = '';
   horaInicio: string = '';
   nombre: string = '';
-  tipoActividad: string = '';
   zonaAula: string = '';
   numberHora: any[];
   tipoDeActividad: FirebaseListObservable<any[]>;
@@ -91,13 +90,13 @@ export class AdminComponent implements OnInit {
       if( horaInicio == null || horaFin == null ){
           alert("la Fecha inicio y hora inicio tienen que estar llennas")
       }else{
-
+          console.log("checkCuatrimestre"+checkCuatrimestre);
         this.actividades.push({         
           checkCuatrimestre: checkCuatrimestre, descripcion: descripcion, horaFin: horaFin,    
           horaInicio: horaInicio,   nombre: nombre,
-          tipoAct: tipoAct,         estadoAct: estadoAct,
-          zonaAula: zonaAula,       pickerDesde: pickerDesde,
-          pickerHasta: pickerHasta
+          tipoActividad: tipoAct,   estadoActividad: estadoAct,
+          zonaAula: zonaAula,       
+          Desde: pickerDesde,      Hasta: pickerHasta
       
       });
         this.router.navigate(['/main']);  

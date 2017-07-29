@@ -25,6 +25,7 @@ import {MdDatepickerModule, MdNativeDateModule} from '@angular/material';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {MdButtonModule} from '@angular/material';
 import {MdInputModule} from '@angular/material';
+import { DatepickerModule } from 'angular2-material-datepicker'
 
 export const firebaseConfig = {
      apiKey: "AIzaSyATyRktSqq_zEPiX4Yj8B8wZuWEh2I3cfs",
@@ -55,7 +56,7 @@ export const firebaseConfig = {
     AngularFireModule.initializeApp(firebaseConfig), // imports firebase/app needed for everything
     AngularFireDatabaseModule, // imports firebase/database, only needed for database features
     AngularFireAuthModule, // imports firebase/auth, only needed for auth features
-    BrowserAnimationsModule, MdDatepickerModule,
+    BrowserAnimationsModule, MdDatepickerModule, DatepickerModule,
      MdButtonModule, MdNativeDateModule, MdInputModule,
   ],
   providers: [AuthService],
