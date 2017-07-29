@@ -39,9 +39,12 @@ export class AdminComponent implements OnInit {
   numberHora: any[];
   tipoDeActividad: FirebaseListObservable<any[]>;
   estadoActividad: FirebaseListObservable<any[]>;
+  tipoAct: string = '';
+  estadoAct: string = '';
   aulasFire:FirebaseListObservable<any[]>; 
   checkSemana:  string = '';
   checkMes: string = '';
+
  // aulas = ['Grado', 'Post Grado', 'Evento'];
   //aulas debería traerse desde la db pero no lo logro no se que pasa
   aulas:FirebaseListObservable<any[]>; 
@@ -78,21 +81,25 @@ export class AdminComponent implements OnInit {
     
   logout() { this.authService.logout(); 
             this.estaLogueado=false;}
-
+/**checkSemana, checkMes, checkCuatrimestre, descripcion, 
+      horaFin, horaInicio, nombre, tipoAct, estadoAct, zonaAula,  pickerDesde, pickerHasta */
   Send(
-    checkSemana: string, checkMes: string, checkCuatrimestre: string,
-    descripcion: string,   horaFin: string,    
-    horaInicio: string,   nombre: string,
-    tipoActividad: string, estadoActividad: string,
+    checkCuatrimestre:string, descripcion: string,  
+    horaFin: string,  horaInicio: string,   nombre: string,  tipoAct: string, estadoAct: string,
     zonaAula: string, pickerDesde: string, pickerHasta: string) {
 
-      console.log("checkCuatrimestre"+checkCuatrimestre   );
       if( horaInicio == null || horaFin == null ){
           alert("la Fecha inicio y hora inicio tienen que estar llennas")
       }else{
 
-        this.actividades.push({
-        checkSemana: checkSemana});
+        this.actividades.push({         
+          checkCuatrimestre: checkCuatrimestre, descripcion: descripcion, horaFin: horaFin,    
+          horaInicio: horaInicio,   nombre: nombre,
+          tipoAct: tipoAct,         estadoAct: estadoAct,
+          zonaAula: zonaAula,       pickerDesde: pickerDesde,
+          pickerHasta: pickerHasta
+      
+      });
         this.router.navigate(['/main']);  
       }
   }

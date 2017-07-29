@@ -37,14 +37,14 @@
     </div>    
     <div class="col s2 ">
       <md-input-container >
-        <input mdInput [min]="minDate" [max]="maxDate" [mdDatepicker]="pickerDesde" placeholder="Desde">
+        <input mdInput  [mdDatepicker]="pickerDesde" placeholder="Desde">
         <button mdSuffix [mdDatepickerToggle]="pickerDesde"></button>
       </md-input-container>
       <md-datepicker #pickerDesde></md-datepicker>
    </div>    
     <div class="col s2 ">
        <md-input-container >
-        <input mdInput [min]="minDate" [max]="maxDate" [mdDatepicker]="pickerHasta" placeholder="Hasta">
+        <input mdInput [mdDatepicker]="pickerHasta" placeholder="Hasta">
         <button mdSuffix [mdDatepickerToggle]="pickerHasta"></button>
       </md-input-container>
       <md-datepicker #pickerHasta></md-datepicker>
@@ -58,9 +58,9 @@
   <div class="row">
     <div class="col s3">
         <select type="text" id="tipoDeActividad" *ngIf="(user | async)?.uid" placeholder="Tipo Actividad"  
-          [(ngModel)]="tipoDeActividad" class="black-text browser-default">
+          [(ngModel)]="tipoAct" class="black-text browser-default">
           <option value="" disabled selected>TIPO DE ACTIVIDAD</option>
-          <option *ngFor="let t of tipoDeActividad " [value]="t.nombre" 
+          <option *ngFor="let t of tipoDeActividad | async " [value]="t.nombre" 
           [class.green]="t.estado == '1'" [class.yellow]="t.estado == '2'" [class.red]="t.estado == '3'">{{t.nombre}}</option>
         </select>
     </div>
@@ -68,7 +68,7 @@
   <div class="row">
     <div class="input-field col s6">
           <input id="descripcion" *ngIf="(user | async)?.uid" 
-            placeholder="Nombre de la Actividad"  [(ngModel)]="descripcion">
+           placeholder="Nombre de la Actividad"  [(ngModel)]="descripcion">
     </div>
   </div>
   <div class="row">
@@ -94,7 +94,7 @@
      </select>
     </div>
     <div class="col s2" *ngIf="(user | async)?.uid">
-      <select  [(ngModel)]="selectedEstado" *ngIf="(user | async)?.uid"  class="black-text browser-default" >
+      <select  [(ngModel)]="estadoAct" *ngIf="(user | async)?.uid"  class="black-text browser-default" >
         <option value="ESTADO" disabled selected>ESTADO</option>
         <option *ngFor="let a of estadoActividad | async" [value]="a.nombre" 
           [class.green]="a.estado == '1'" [class.yellow]="a.estado == '2'" [class.red]="a.estado == '3'">
@@ -112,25 +112,15 @@
   </div>
   <div class="row">
     <div class="col s6">
-      <form action="#" id="form_check">
-        <p>
-          <input type="checkbox" id="checkSemana" />
-          <label for="checkSemana">Semana</label>
-        </p>
-        <p>
-          <input type="checkbox" id="checkMes" />
-          <label for="checkMes">Mes</label>
-        </p>
-        <p>
-          <input type="checkbox" id="checkCuatrimestre" />
+     <p>   <input type="checkbox" id="checkCuatrimestre"  [(ngModel)]="checkCuatrimestre" />
           <label for="checkCuatrimestre">Cuatrimestre</label>
-        </p>
-      </form>
+        </p>      
     </div>
   </div>
   <div class="row">
     <div class="col s2">
-      <a (click)="Send(checkSemana, checkMes, checkCuatrimestre, descripcion, horaFin, horaInicio, nombre, tipoActividad, estadoActividad, zonaAula, pickerDesde, pickerHasta)" 
+      <a (click)="Send( checkCuatrimestre, descripcion, 
+      horaFin, horaInicio, nombre, tipoAct, estadoAct, zonaAula,  pickerDesde, pickerHasta)" 
           class="waves-effect waves-light indigo darken-1 btn">OK</a>
     </div>
     <div class="col s1">
