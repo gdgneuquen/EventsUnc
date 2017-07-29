@@ -18,3 +18,20 @@ color:#ddd;
     padding-bottom: 10px;
     max-height: 42px;
 }
+td{
+    max-width: 300px;
+}
+.encurso{
+      background-color: orange;
+}
+/* Safari 4.0 - 8.0 */
+@-webkit-keyframes parpadeo {
+    from {background-color: black;}
+    to {background-color: orange;}
+}
+
+/* Standard syntax */
+@keyframes parpadeo {
+    from {background-color: black;}
+    to {background-color: orange;}
+}
