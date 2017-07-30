@@ -36,16 +36,17 @@ export class modEvento implements OnInit {
   horaFin: string = '';
   horaInicio: string = '';
   nombre: string = '';
-  tipoActividad: string = '';
+  tipoAct: string = '';
   zonaAula: string = '';
   numberHora: any[];
-  tipoDeActividad: FirebaseListObservable<any[]>;
+  tiposDeActividad: FirebaseListObservable<any[]>;
   estadoActividad: FirebaseListObservable<any[]>;
   aulasFire:FirebaseListObservable<any[]>; 
   evento: FirebaseObjectObservable<any>;
   id: any; //id recibido
- // aulas = ['Grado', 'Post Grado', 'Evento'];
-  //aulas debería traerse desde la db pero no lo logro no se que pasa
+  periodos = ['Evento Único', 'Primer cuatrimestre', 'Segundo cuatrimestre'];
+  periodo:  string = '';
+ //aulas debería traerse desde la db pero no lo logro no se que pasa
   aulas:FirebaseListObservable<any[]>; 
   
 
@@ -61,14 +62,14 @@ export class modEvento implements OnInit {
     this.id = this.rout.snapshot.params['_id'];//tomo el id que viene por parámetro
     //busco el evento puntual en base al id
     
-    this.evento = af.object('/actividades/'+this.id)
-    ;
-    console.log( "evento"+this.evento);
+    this.evento = af.object('/actividades/'+this.id);
+
+
     this.actividades = af.list('/actividades');    
     //aulas debería traerse desde la db pero no lo logro no se que pasa
     this.aulas = af.list('/aula', { query: { limitToLast: 50 } });
     this.estadoActividad = af.list('/estado');
-    this.tipoDeActividad = af.list('/tipo');
+    this.tiposDeActividad = af.list('/tipo');
     this.user = this.afAuth.authState;  
     this.estaLogueado = this.user?true:false;
     this.numberHora = this.Horario();
@@ -91,7 +92,7 @@ export class modEvento implements OnInit {
     checkSemana: string, checkMes: string, checkCuatrimestre: string,
     descripcion: string,   horaFin: string, minutoFin: string,     
     horaInicio: string,  minutoInicio: string,  nombre: string,
-    tipoActividad: string, estadoActividad: string,
+    tipoAct: string, estadoActividad: string,
     zonaAula: string, pickerDesde: string, pickerHasta: string) {
 
       if( horaInicio == null || horaFin == null ){
@@ -99,10 +100,10 @@ export class modEvento implements OnInit {
       }else{
    
         this.actividades.push({checkSemana: checkSemana, checkMes: checkMes, checkCuatrimestre: checkCuatrimestre,
-        descripcion: descripcion,     horaFin: horaFin,
-        horaInicio: horaInicio,         nombre: nombre,
-        tipoActividad: tipoActividad, estadoActividad: estadoActividad,  
-        zonaAula: zonaAula, desde: pickerDesde, hasta: pickerHasta});
+        descripcion: descripcion,  horaFin: horaFin,
+        horaInicio: horaInicio,    nombre: nombre,
+        tipoActividad:tipoAct ,    estadoActividad: estadoActividad,  
+        zonaAula: zonaAula,        desde: pickerDesde, hasta: pickerHasta});
         this.router.navigate(['/main']);  
       }
   }

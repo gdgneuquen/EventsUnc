@@ -41,9 +41,8 @@ export class AdminComponent implements OnInit {
   tipoAct: string = '';
   estadoAct: string = '';
   aulasFire:FirebaseListObservable<any[]>; 
-  pediodo:  string = '';
-
-
+  periodos = ['Evento Único', 'Primer cuatrimestre', 'Segundo cuatrimestre'];
+  periodo:  string = '';
  // aulas = ['Grado', 'Post Grado', 'Evento'];
   //aulas debería traerse desde la db pero no lo logro no se que pasa
   aulas:FirebaseListObservable<any[]>; 
@@ -83,7 +82,7 @@ export class AdminComponent implements OnInit {
 /**checkSemana, checkMes, checkCuatrimestre, descripcion, 
       horaFin, horaInicio, nombre, tipoAct, estadoAct, zonaAula,  pickerDesde, pickerHasta */
   Send(
-    pediodo:string, descripcion: string,  
+    periodo:string, descripcion: string,  
     horaFin: string,  horaInicio: string,   nombre: string,  tipoAct: string, estadoAct: string,
     zonaAula: string, pickerDesde: MdDatepickerModule, pickerHasta: MdDatepickerModule) {
       
@@ -100,7 +99,7 @@ export class AdminComponent implements OnInit {
    
 
         this.actividades.push({         
-          pediodo: pediodo, descripcion: descripcion, horaFin: horaFin,    
+          periodo: periodo, descripcion: descripcion, horaFin: horaFin,    
           horaInicio: horaInicio,   nombre: nombre,
           tipoActividad: tipoAct,   estadoActividad: estadoAct,
           zonaAula: zonaAula,       
