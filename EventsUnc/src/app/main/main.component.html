@@ -19,7 +19,7 @@
         AULA
       </div>
       <div class="col m1 center texto-titulo-tabla">
-        ESTADO    
+        ESTADO
       </div>
        <div class="col m1 center texto-titulo-tabla">
       </div>
@@ -27,23 +27,33 @@
     <!-- /TITULOS -->
 
     <!-- Una sola fila -->
-    <div class="row fila" *ngFor="let actividad of actividades | async" >
-      <div class="col m2 elemento-tabla center">
+    <div class="row fila" *ngFor="let actividad of actividades | async" (click)="modEvento(actividad.$key)">
+      <div class="col m2 elemento-tabla center" >
         {{actividad.horaInicio}} : {{actividad.horaFin}}
       </div>
-      <div class="col m2 elemento-tabla center">        
+      <div class="col m2 elemento-tabla center">
         {{actividad.descripcion}}<!-- Cuando la materia tiene nombre largo, usar marquesina  -->
       </div>
-      <div class="col m2 elemento-tabla green center" >{{actividad.tipoActividad}}</div>
-      <div class="col m2 elemento-tabla">{{actividad.nombre}}</div>
+      <div class="col m2 elemento-tabla green center">
+        {{actividad.tipoActividad}}
+      </div>
+      <div class="col m2 elemento-tabla">
+        {{actividad.nombre}}
+      </div>
       <div class="col m2 elemento-tabla">
            {{actividad.zonaAula}}
-      </div>      
+      </div>
       <div class="col m1 center elemento-tabla green">
         {{actividad.estadoActividad}}
       </div>
-      <div class="col m1 elemento-tabla center">        
-        <a class="iconsch" (click)="Delete(actividad.$key)"><img src="./assets/delete.svg"  class="logogit"></a>  
+      <div class="col m1 center elemento-tabla green">
+        {{actividad.Desde}}
+      </div>
+      <div class="col m1 center elemento-tabla green">
+        {{actividad.Hasta}}
+      </div>
+      <div class="col m1 elemento-tabla center" *ngIf="isUserLoggedIn()" >
+        <a class="iconsch" (click)="Delete(actividad.$key)"><img src="./assets/delete.svg" ></a>
       </div>
     </div>
 </div>

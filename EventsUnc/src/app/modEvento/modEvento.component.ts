@@ -5,22 +5,25 @@ import 'rxjs/add/observable/throw';//Para trabajar con los observables desde rxj
 import 'rxjs/add/operator/catch';//para poder tomar cosas
 import 'rxjs/add/operator/toPromise';
 
-import { Router } from '@angular/router';
-import { AngularFireDatabase, FirebaseListObservable } from 'angularfire2/database';
-import { AuthService } from '../providers/auth.service';
+import { RouterModule, Router, ActivatedRoute, Params} from '@angular/router';
+import { AngularFireDatabase, FirebaseListObservable, FirebaseObjectObservable } from 'angularfire2/database';
+import { AngularFireAuth } from 'angularfire2/auth';
 
 import * as firebase from 'firebase/app';
 import * as moment from 'moment';
+
+import { AuthService } from '../providers/auth.service';
+
 //materialize
 import {MdDatepickerModule} from '@angular/material';
 
 @Component({
-  selector: 'app-admin',
-  templateUrl: './admin.component.html',
-  styleUrls: ['./admin.component.css']
+  selector: 'modevent-app',
+  templateUrl: './modEvento.component.html',
+  styleUrls: ['./modEvento.component.css']
 })
+export class modEvento implements OnInit {
 
-export class AdminComponent implements OnInit {
   minDate = new Date(2000, 0, 1);
   maxDate = new Date(2020, 0, 1);
   hoy=moment().locale('es').format('LLLL');
@@ -32,79 +35,76 @@ export class AdminComponent implements OnInit {
   horaFin: string = '';
   horaInicio: string = '';
   nombre: string = '';
+  tipoAct: string = '';
   zonaAula: string = '';
   numberHora: any[];
-  tipoDeActividad: FirebaseListObservable<any[]>;
+  tiposDeActividad: FirebaseListObservable<any[]>;
   estadoActividad: FirebaseListObservable<any[]>;
-  tipoAct: string = '';
-  estadoAct: string = '';
   aulasFire:FirebaseListObservable<any[]>;
+  evento: FirebaseObjectObservable<any>;
+  id: any; //id recibido
   periodos = ['Evento Único', 'Primer cuatrimestre', 'Segundo cuatrimestre'];
   periodo:  string = '';
- // aulas = ['Grado', 'Post Grado', 'Evento'];
-  //aulas debería traerse desde la db pero no lo logro no se que pasa
+ //aulas debería traerse desde la db pero no lo logro no se que pasa
   aulas:FirebaseListObservable<any[]>;
+
+
+  //Comprueba si hay un usuario logueado
+  estaLogueado:boolean=false;
 
   constructor(
     private authService: AuthService,
     public af: AngularFireDatabase,
-    private router: Router){
+    private router: Router,
+    private rout: ActivatedRoute){
+    this.id = this.rout.snapshot.params['_id'];//tomo el id que viene por parámetro
+    //busco el evento puntual en base al id
 
-    this.actividades = af.list('/actividades', { query: { limitToLast: 50 } });
+    this.evento = af.object('/actividades/'+this.id);
+
+
+    this.actividades = af.list('/actividades');
     //aulas debería traerse desde la db pero no lo logro no se que pasa
     this.aulas = af.list('/aula', { query: { limitToLast: 50 } });
     this.estadoActividad = af.list('/estado');
-    this.tipoDeActividad = af.list('/tipo');
+    this.tiposDeActividad = af.list('/tipo');
     this.numberHora = this.Horario();
+  }
+
+  isUserLoggedIn(){
+     return this.authService.loggedIn;
   }
 
   onSelect(key): void {
    this.selectedActividad = key;
   }
+ 
+  login() { this.authService.loginWithGoogle();
+           this.estaLogueado=true;}
 
- isUserLoggedIn(){
-   return this.authService.loggedIn;
-}
-
-/**checkSemana, checkMes, checkCuatrimestre, descripcion,
-      horaFin, horaInicio, nombre, tipoAct, estadoAct, zonaAula,  pickerDesde, pickerHasta */
-  Send(
-    periodo:string, descripcion: string,
+  loginAnonymous() { this.authService.loginAnonymous(); 
+                    this.estaLogueado=true;}
+    
+  logout() { this.authService.logout(); 
+            this.estaLogueado=false;}
+//Send(id, pediodo, descripcion, horaFin, horaInicio, nombre, tipoAct, estadoAct, zonaAula,  pickerDesde, pickerHasta
+  Send(key,
+     periodo:string, descripcion: string,  
     horaFin: string,  horaInicio: string,   nombre: string,  tipoAct: string, estadoAct: string,
     zonaAula: string, pickerDesde: MdDatepickerModule, pickerHasta: MdDatepickerModule) {
-
-      if (pickerDesde == undefined) {
-         pickerDesde = false;
-      }
-      if (pickerHasta == undefined) {
-         pickerHasta = false;
-      }
-      if( horaInicio == null || horaFin == null ){
-          alert("la Fecha inicio y hora inicio tienen que estar llennas")
-      } else {
-        this.actividades.push({
-          periodo: periodo, descripcion: descripcion, horaFin: horaFin,
-          horaInicio: horaInicio,   nombre: nombre,
-          tipoActividad: tipoAct,   estadoActividad: estadoAct,
-          zonaAula: zonaAula,
-          pickerDesde: pickerDesde,      pickerHasta: pickerHasta
-
-      });
-        this.router.navigate(['/main']);
-      }
+      
+   
+        this.actividades.update(this.id , 
+          {descripcion: descripcion, estadoActividad: estadoAct, horaFin: horaFin,    
+          horaInicio: horaInicio,   nombre: nombre,periodo: periodo,
+          pickerDesde: pickerDesde, pickerHasta: pickerHasta, tipoActividad: tipoAct,   
+          zonaAula: zonaAula});
+        this.router.navigate(['/main']);  
   }
- myFilter = (d: Date): boolean => {
-    const day = d.getDay();
-    // Prevent Saturday and Sunday from being selected.
-    return day !== 0 && day !== 6;
-  }
+
   Delete(key): void {
       this.actividades.remove( key);
       this.msgVal = '';
-  }
-
-  verActividadMongo(_id: string): void {
-   this.router.navigate(['actividadesDetail', _id]);
   }
 
   updateActividadMongo(msg: string, key): void {

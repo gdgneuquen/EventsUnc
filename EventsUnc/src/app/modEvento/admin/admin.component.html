@@ -1,0 +1,150 @@
+<app-header></app-header>
+<nav class="nav-extended indigo darken-3"> 
+  <button class="btn indigo" (click)="login()" *ngIf="!(user | async)?.uid">Anonymous Login</button>
+<button class="btn indigo" (click)="logout()" *ngIf="(user | async)?.uid">Logout</button> 
+</nav>
+<div>
+
+<div class="container" [hidden]="!estaLogueado">
+  <div class="row">
+    <div class="col s4">
+        <h6>HORA FIN</h6>
+      </div> 
+      <div class="col s4">
+        <h6>HORA FIN</h6>
+      </div>
+  </div>
+  <div class="row" >
+
+    <div class="col s2 ">
+      <select type="text" id="horaInicio" *ngIf="(user | async)?.uid" placeholder="Hora Inicio"  [(ngModel)]="horaInicio" class="black-text browser-default">
+        <option value="" disabled selected>Hora</option>
+        <option *ngFor="let number of numberHora" [value]="number">{{number}}</option>
+      </select>
+
+        <select type="text" id="minutoInicio" *ngIf="(user | async)?.uid" placeholder="Minuto Inicio"  [(ngModel)]="minutoInicio" class="black-text browser-default">
+          <option value="" disabled selected>Minuto</option>
+          <option *ngFor="let number of numberMinuto" [value]="number">{{number}}</option>
+        </select>
+    </div>
+    <div class="col s2 ">
+        <select type="text" id="horaFin" *ngIf="(user | async)?.uid" placeholder="Hora Fin"  [(ngModel)]="horaFin" class="black-text browser-default">
+          <option value="" disabled selected>Hora</option>
+          <option *ngFor="let number of numberHora" [value]="number">{{number}}</option>
+        </select>
+
+        <select type="text" id="minutoFin" *ngIf="(user | async)?.uid" placeholder="Minuto Fin"  [(ngModel)]="minutoFin" class="black-text browser-default">
+          <option value="" disabled selected>Minuto</option>
+          <option *ngFor="let number of numberMinuto" [value]="number">{{number}}</option>
+        </select>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col s3">
+        <h6>TIPO DE ACTIVIDAD</h6>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col s3">
+        <select type="text" id="tipoActividad" *ngIf="(user | async)?.uid" placeholder="Tipo Actividad"  [(ngModel)]="tipoActividad" class="black-text browser-default">
+        <option value="" disabled selected>TIPO DE ACTIVIDAD</option>
+        <option *ngFor="let tiact of tipoDeActividad" [value]="tiact">{{tiact}}</option>
+        </select>
+    </div>
+  </div>
+  <div class="row">
+    <div class="input-field col s6">
+          <input id="descripcion" *ngIf="(user | async)?.uid" 
+            placeholder="Nombre de la Actividad"  [(ngModel)]="descripcion">
+    </div>
+  </div>
+  <div class="row">
+    <div class="input-field col s6">
+          <input type="text" id="nombre" *ngIf="(user | async)?.uid" 
+            placeholder="Referencia/Catedra"  [(ngModel)]="nombre">
+    </div>
+  </div>
+  <div class="row">
+    <div class="col s2">
+        <h6>Aula</h6>
+    </div>
+      <div class="col s2">
+        <h6>Estado</h6>
+      </div>
+  </div>
+  <div class="row">
+    <!-- 
+      <div class="row fila" *ngFor="let actividad of actividades | async" >
+      <div class="col m2 elemento-tabla center">
+        {{actividad.horaInicio}} : {{actividad.horaFin}}
+      </div> 
+
+<div class="row fila" *ngFor="let actividad of actividades | async" >
+      <div class="col m2 elemento-tabla center">
+        {{actividad.horaInicio}} : {{actividad.horaFin}}
+
+      </div>
+
+    -->
+    <div class="col s2 ">
+      <select type="text" id="aulas" *ngIf="(user | async)?.uid" placeholder="Tipo Actividad"  [(ngModel)]="aulas" class="black-text browser-default">
+        <option value="" disabled selected>TIPO DE ACTIVIDAD</option>
+        <option *ngFor="let aul of aulas" [value]="aul">{{aul.nombre}}</option> 
+         <!-- <option *ngFor="let aul of aulas" [value]="aul">{{aul}}</option>-->
+     </select>
+</div>
+
+    <div class="col s2">
+        <select type="text" id="estadoActividad" *ngIf="(user | async)?.uid" placeholder="Estado Actividad"  [(ngModel)]="estadoActividad" class="black-text browser-default">
+        <option value="" disabled selected>ESTADO</option>
+        <option class="green-text browser-default" value="Normal">Normal</option>
+        <option class="yellow-text browser-default" value="Cambio">Cambio</option>
+        <option class="red-text browser-default" value="Suspendida">Suspendida</option>
+        </select>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col s2">
+        <h6>REPITE</h6>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col s6">
+      <form action="#" id="form_check">
+        <p>
+          <input type="checkbox" id="checkSemana" />
+          <label for="checkSemana">Semana</label>
+        </p>
+        <p>
+          <input type="checkbox" id="checkMes" />
+          <label for="checkMes">Mes</label>
+        </p>
+        <p>
+          <input type="checkbox" id="checkCuatrimestre" />
+          <label for="checkCuatrimestre">Cuatrimestre</label>
+        </p>
+      </form>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col s2">
+      <a (click)="Send(descripcion, horaFin, minutoFin, horaInicio, minutoInicio , nombre, tipoActividad, estadoActividad, zonaAula)" 
+          class="waves-effect waves-light indigo darken-1 btn">OK</a>
+    </div>
+    <div class="col s1">
+      <a class="waves-effect waves-light indigo darken-1 btn">CANCEL</a>
+    </div>
+  </div>
+</div>
+<!-- CODIGO ANTERIOR 
+  <input type="text" id="descripcion" *ngIf="(user | async)?.uid" placeholder="Descripcion"  [(ngModel)]="descripcion" />
+  <input type="text" id="horaFin" *ngIf="(user | async)?.uid" placeholder="Hora Fin"  [(ngModel)]="horaFin" />
+  <input type="text" id="horaInicio" *ngIf="(user | async)?.uid" placeholder="Hora Inicio"  [(ngModel)]="horaInicio" />
+  <input type="text" id="nombre" *ngIf="(user | async)?.uid" placeholder="Nombre"  [(ngModel)]="nombre" />
+  <input type="text" id="estadoActividad" *ngIf="(user | async)?.uid" placeholder="Estado Actividad"  [(ngModel)]="estadoActividad" />
+  <input type="text" id="tipoActividad" *ngIf="(user | async)?.uid" placeholder="Tipo Actividad"  [(ngModel)]="tipoActividad" />
+  <input type="text" id="zonaAula" *ngIf="(user | async)?.uid" placeholder="Zona Aula"  [(ngModel)]="zonaAula" />
+  
+  <button (click)="Send(descripcion,horaFin, horaInicio, nombre, tipoActividad, estadoActividad, zonaAula)">send</button>
+-->
+</div>

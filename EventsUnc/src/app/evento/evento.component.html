@@ -3,8 +3,9 @@
   <div class="nav-wrapper">
     <a routerLink="" class="brand-logo">Facultad de economia - Clases</a>
     <a routerLink="" data-activates="mobile-demo" class="button-collapse"><i class="material-icons">menu</i></a>
-    
-    <div class="right"> {{hoy}}</div>
+
+    <div class="center yellow-text"> {{hoy}} - {{dia|uppercase}} - {{horaActual}}</div>
+    <div class="right"> </div>
     <ul class="side-nav" id="mobile-demo">
       <li><a routerLink=""><i class="material-icons">Inicio</i></a></li>
     </ul>
@@ -12,70 +13,47 @@
 </nav>
 
 
-<div class="container-fluid">
-    <!-- TITULOS -->
-    <div class="row">
-      <div class="col m2 center texto-titulo-tabla">
-        HORARIO
-      </div>
-      <div class="col m2 center texto-titulo-tabla">
-        TIPO
-      </div>
-      <div class="col m2 center texto-titulo-tabla">
-        ACTIVIDAD
-      </div>
-      <div class="col m2 center texto-titulo-tabla">
-        PROFE/REFERENTE
-      </div>
-      <div class="col m2 center texto-titulo-tabla">
-        AULA
-      </div>
-      <div class="col m2 center texto-titulo-tabla">
-        ESTADO
-      </div>
-    </div>
-    <!-- /TITULOS -->
+<div class="container-fluid" >
 
-    <!-- Una sola fila -->
-    <div class="row fila" *ngFor="let actividad of actividades | async" >
-      <div class="col m2 elemento-tabla center">
-        {{actividad.horaInicio}} : {{actividad.horaFin}}
+    <table class="bordered centered" [class.responsive-table]="tablaResponsiva">
+  <thead>
+    <tr class="texto-titulo-tabla">
+      <th>HORARIO</th>
+      <th>ACTIVIDAD</th>
+      <th>TIPO</th>
+      <th>PROFESOR</th>
+      <th>AULA</th>
+      <th>ESTADO</th>
+    </tr>
+  </thead>
+  <tbody>
 
-      </div>
-      <div class="col m2 elemento-tabla center">
-        {{actividad.descripcion}}<!-- Cuando la materia tiene nombre largo, usar marquesina  -->
-      </div>
-      <div class="col m2 elemento-tabla green center" >{{actividad.tipoActividad}}</div>
-      <div class="col m2 elemento-tabla">{{actividad.nombre}}</div>
-      <div 
-        [class.green]="actividad.estadoActividad == 'normal'"
-        [class.red]="actividad.estadoActividad == 'suspendida'"
-        [class.green]="actividad.estadoActividad == 'normal'" >
-      {{actividad.zonaAula}}</div>
-      <!-- 
-         el siguiente div hay que reemplazarlo por una de estas alternativas
-        ngIf estado==normal class=green
-        ngIf estado==suspendida class=red
-        ngIf estado==normal class=green
-      
-        ó
+     <tr  *ngFor="let actividad of actividades | async | orderBy:order:reverse" [class.encurso]="estaEnCurso(actividad.horaInicio,actividad.horaFin)">
+      <!-- Tratando de definir un observable que cambie el fondo de la fila que este cursando ahora mismo.   -->
+      <td>{{actividad.horaInicio}} : {{actividad.horaFin}}</td>
+      <td> {{actividad.descripcion}}</td><!--  <marquee behavior="alternate" scrolldelay="300"> </marquee>-->
+      <td class="green">
+       {{actividad.tipoActividad}}
 
-        <div [ngSwitch]="estado">
-          <div *ngSwitchCase="Normal" class="...green...">...</div>
-          <div *ngSwitchCase="Cambio" class="...yellow darken-1...">...</div>
-          <div *ngSwitchCase="Suspendido" class="...red black-text...">...</div>
+      </td>
+      <td>
+       {{actividad.nombre}}
+      </td>
+      <td>{{actividad.zonaAula}}</td>
+      <td>
+        <div class="estado elemento-tabla"
+        [class.green]="actividad.estadoActividad=='Normal'"
+        [class.yellow]="actividad.estadoActividad=='Se Cambio'"
+        [class.darken-1]="actividad.estadoActividad=='Se Cambio'"
+        [class.black-text]="actividad.estadoActividad=='Se Cambio'"
+        [class.red]="actividad.estadoActividad=='Suspendida'">
+         {{actividad.estadoActividad}}
         </div>
-
-      -->
-      <div class="col m2 center elemento-tabla green">
-        {{actividad.estadoActividad}}
-      
-      </div>
-
-    </div>
-    <!-- / Una sola fila -->
+      </td>
+    </tr>
+  </tbody>
+</table>
 
 
 </div>
-
 
