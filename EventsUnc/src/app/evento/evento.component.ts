@@ -8,7 +8,7 @@ import { Subject } from 'rxjs/Subject'
 
 import { Router } from '@angular/router';
 import { AngularFireDatabase, FirebaseListObservable } from 'angularfire2/database';
-import { AngularFireAuth } from 'angularfire2/auth';
+import { AuthService } from '../providers/auth.service';
 
 import * as firebase from 'firebase/app';
 import * as moment from 'moment';
@@ -42,7 +42,7 @@ export class EventoComponent {
   hora=0;
 
   constructor(
-    public afAuth: AngularFireAuth,
+    private authService: AuthService,
     public af: AngularFireDatabase,
     private router: Router, ) {
     this.actividades = af.list('/actividades',
@@ -58,11 +58,14 @@ export class EventoComponent {
       //Es necesario que las actividades tengan un campo fechaInicio para que se muestren las actividades del dia
       //En otro componente los valores de query no deben tener orderByChild:'fechaInicio', equalTo:hoy, sino 'startAt'.
 
-    this.user = this.afAuth.authState;
     //      this.actividades.push({ horario: "8:00 a 9:00"});
 
 
   }
+
+  isUserLoggedIn(){
+     return this.authService.loggedIn;
+   }
 
   getActividades(){
     this.actividades = this.af.list('/actividades',

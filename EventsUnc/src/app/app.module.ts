@@ -12,6 +12,7 @@ import { NotificacionesComponent } from './notificaciones/notificaciones.compone
 import { MainComponent } from './main/main.component';
 import { HeaderComponent } from './header/header.component';
 import {modEvento}from'./modEvento/modEvento.component';
+import { AuthenticationComponent } from './authentication/authentication.component';
 import { AuthService } from './providers/auth.service';
 import {PageNotFoundComponent} from './notfound/page.not.found.component';
 import { OrderModule } from 'ngx-order-pipe';
@@ -46,7 +47,8 @@ export const firebaseConfig = {
     MainComponent,//Pag. inicial admin, puede modificar items en pantalla
     HeaderComponent,
     modEvento,
-    PageNotFoundComponent
+    PageNotFoundComponent,
+    AuthenticationComponent
   ],
   imports: [
     BrowserModule,
