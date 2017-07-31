@@ -33,11 +33,20 @@
         </select>
     </div>
     <div class="col s3 ">
-        <input type="date"  [(ngModel)]="pickerDesde" name="pickerDesde">
-
+        <!--<input type="date"  [(ngModel)]="pickerDesde" name="pickerDesde">-->
+          <md-input-container>
+            <input mdInput [mdDatepicker]="pickerDesde">
+            <button mdSuffix [mdDatepickerToggle]="pickerDesde"></button>
+          </md-input-container>
+          <md-datepicker #pickerDesde></md-datepicker>
    </div>
     <div class="col s3 ">
-        <input type="date"  [(ngModel)]="pickerHasta" name="pickerHasta">
+        <!--<input type="date"  [(ngModel)]="pickerHasta" name="pickerHasta">-->
+          <md-input-container>
+            <input mdInput [mdDatepicker]="pickerHasta">
+            <button mdSuffix [mdDatepickerToggle]="pickerHasta"></button>
+          </md-input-container>
+          <md-datepicker #pickerHasta></md-datepicker>
 
     </div>
      <div class="col s2">

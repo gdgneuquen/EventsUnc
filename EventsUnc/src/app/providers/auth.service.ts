@@ -68,7 +68,7 @@ export class AuthService {
         //TODO con el token recibido ver si hay que  mandarlo en cada peticion o si ya lo maneja firebase
         //leer mas eso
     }).catch(function(error) {
-      console.log(error);
+      console.log(error); // "auth/internal-error"  , etc
       // An error happened.
       // Handle Errors here.
     });

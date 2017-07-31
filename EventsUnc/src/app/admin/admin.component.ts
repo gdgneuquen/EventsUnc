@@ -82,9 +82,6 @@ export class AdminComponent implements OnInit {
       if( horaInicio == null || horaFin == null ){
           alert("la Fecha inicio y hora inicio tienen que estar llennas")
       } else {
-
-
-
         this.actividades.push({
           periodo: periodo, descripcion: descripcion, horaFin: horaFin,
           horaInicio: horaInicio,   nombre: nombre,
