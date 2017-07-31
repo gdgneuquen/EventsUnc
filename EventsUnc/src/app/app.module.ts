@@ -14,6 +14,7 @@ import { HeaderComponent } from './header/header.component';
 import {modEvento}from'./modEvento/modEvento.component';
 import { AuthService } from './providers/auth.service';
 import {PageNotFoundComponent} from './notfound/page.not.found.component';
+import { OrderModule } from 'ngx-order-pipe';
 
 //Firebase
 import { AngularFireModule } from 'angularfire2';
@@ -53,10 +54,11 @@ export const firebaseConfig = {
     FormsModule,
     ReactiveFormsModule,
     HttpModule,
+    OrderModule,
     AngularFireModule.initializeApp(firebaseConfig), // imports firebase/app needed for everything
     AngularFireDatabaseModule, // imports firebase/database, only needed for database features
     AngularFireAuthModule, // imports firebase/auth, only needed for auth features
-    BrowserAnimationsModule, MdDatepickerModule, DatepickerModule, 
+    BrowserAnimationsModule, MdDatepickerModule, DatepickerModule,
      MdButtonModule, MdNativeDateModule, MdInputModule,MdCheckboxModule
   ],
   providers: [AuthService],

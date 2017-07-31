@@ -27,15 +27,15 @@ export class MainComponent {
   selectedActividad: string = '';
 
   constructor(
-    public afAuth: AngularFireAuth, 
+    public afAuth: AngularFireAuth,
     public af: AngularFireDatabase,
     private router: Router,){
     this.actividades = af.list('/actividades', { query: { limitToLast: 50 } });
-    this.user = this.afAuth.authState;    
+    this.user = this.afAuth.authState;
     //      this.actividades.push({ horario: "8:00 a 9:00"});
 
   }
-  
+
   Delete(key):void {
       //alert("la Fecha inicio y hora inicio tienen que estar llennas");
       if(confirm("Esta seguro que desea borrar el evento?")) {
@@ -43,10 +43,9 @@ export class MainComponent {
         this.msgVal = '';
       }
   }
-  
+
   modEvento(key){
     this.router.navigate(['/modEvento', key]);
   }
 
 }
- 
