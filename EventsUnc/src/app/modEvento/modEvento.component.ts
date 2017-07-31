@@ -28,7 +28,6 @@ export class modEvento implements OnInit {
   maxDate = new Date(2020, 0, 1);
   hoy=moment().locale('es').format('LLLL');
 
-  user: Observable<firebase.User>;
   actividades: FirebaseListObservable<any[]>; //actividades es tipo any para poder recibir todo lo que le trae el servicio
   msgVal: string = ''; //mensaje de entrada del form
   selectedActividad: string = '';
@@ -41,56 +40,48 @@ export class modEvento implements OnInit {
   numberHora: any[];
   tiposDeActividad: FirebaseListObservable<any[]>;
   estadoActividad: FirebaseListObservable<any[]>;
-  aulasFire:FirebaseListObservable<any[]>; 
+  aulasFire:FirebaseListObservable<any[]>;
   evento: FirebaseObjectObservable<any>;
   id: any; //id recibido
   periodos = ['Evento Único', 'Primer cuatrimestre', 'Segundo cuatrimestre'];
   periodo:  string = '';
  //aulas debería traerse desde la db pero no lo logro no se que pasa
-  aulas:FirebaseListObservable<any[]>; 
-  
+  aulas:FirebaseListObservable<any[]>;
+
 
   //Comprueba si hay un usuario logueado
   estaLogueado:boolean=false;
 
   constructor(
-    public afAuth: AngularFireAuth, 
+    private authService: AuthService,
     public af: AngularFireDatabase,
     private router: Router,
-    private rout: ActivatedRoute,
-    private authService : AuthService,){
+    private rout: ActivatedRoute){
     this.id = this.rout.snapshot.params['_id'];//tomo el id que viene por parámetro
     //busco el evento puntual en base al id
-    
+
     this.evento = af.object('/actividades/'+this.id);
 
 
-    this.actividades = af.list('/actividades');    
+    this.actividades = af.list('/actividades');
     //aulas debería traerse desde la db pero no lo logro no se que pasa
     this.aulas = af.list('/aula', { query: { limitToLast: 50 } });
     this.estadoActividad = af.list('/estado');
     this.tiposDeActividad = af.list('/tipo');
-    this.user = this.afAuth.authState;  
-    this.estaLogueado = this.user?true:false;
     this.numberHora = this.Horario();
+  }
+
+  isUserLoggedIn(){
+     return this.authService.loggedIn;
   }
 
   onSelect(key): void {
    this.selectedActividad = key;
   }
- 
-  login() { this.authService.loginWithGoogle();
-           this.estaLogueado=true;}
-
-  loginAnonymous() { this.authService.loginAnonymous(); 
-                    this.estaLogueado=true;}
-    
-  logout() { this.authService.logout(); 
-            this.estaLogueado=false;}
 
   Send(
     checkSemana: string, checkMes: string, checkCuatrimestre: string,
-    descripcion: string,   horaFin: string, minutoFin: string,     
+    descripcion: string,   horaFin: string, minutoFin: string,
     horaInicio: string,  minutoInicio: string,  nombre: string,
     tipoAct: string, estadoActividad: string,
     zonaAula: string, pickerDesde: string, pickerHasta: string) {
@@ -98,13 +89,13 @@ export class modEvento implements OnInit {
       if( horaInicio == null || horaFin == null ){
           alert("la Fecha inicio y hora inicio tienen que estar llennas")
       }else{
-   
+
         this.actividades.push({checkSemana: checkSemana, checkMes: checkMes, checkCuatrimestre: checkCuatrimestre,
         descripcion: descripcion,  horaFin: horaFin,
         horaInicio: horaInicio,    nombre: nombre,
-        tipoActividad:tipoAct ,    estadoActividad: estadoActividad,  
+        tipoActividad:tipoAct ,    estadoActividad: estadoActividad,
         zonaAula: zonaAula,        desde: pickerDesde, hasta: pickerHasta});
-        this.router.navigate(['/main']);  
+        this.router.navigate(['/main']);
       }
   }
 

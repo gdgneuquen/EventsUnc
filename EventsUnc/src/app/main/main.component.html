@@ -19,7 +19,7 @@
         AULA
       </div>
       <div class="col m1 center texto-titulo-tabla">
-        ESTADO    
+        ESTADO
       </div>
        <div class="col m1 center texto-titulo-tabla">
       </div>
@@ -31,7 +31,7 @@
       <div class="col m2 elemento-tabla center" >
         {{actividad.horaInicio}} : {{actividad.horaFin}}
       </div>
-      <div class="col m2 elemento-tabla center">        
+      <div class="col m2 elemento-tabla center">
         {{actividad.descripcion}}<!-- Cuando la materia tiene nombre largo, usar marquesina  -->
       </div>
       <div class="col m2 elemento-tabla green center">
@@ -42,7 +42,7 @@
       </div>
       <div class="col m2 elemento-tabla">
            {{actividad.zonaAula}}
-      </div>      
+      </div>
       <div class="col m1 center elemento-tabla green">
         {{actividad.estadoActividad}}
       </div>
@@ -52,8 +52,8 @@
       <div class="col m1 center elemento-tabla green">
         {{actividad.Hasta}}
       </div>
-      <div class="col m1 elemento-tabla center" >        
-        <a class="iconsch" (click)="Delete(actividad.$key)"><img src="./assets/delete.svg" ></a>  
+      <div class="col m1 elemento-tabla center" *ngIf="isUserLoggedIn()" >
+        <a class="iconsch" (click)="Delete(actividad.$key)"><img src="./assets/delete.svg" ></a>
       </div>
     </div>
 </div>
