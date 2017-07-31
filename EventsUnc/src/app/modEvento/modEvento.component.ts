@@ -87,25 +87,19 @@ export class modEvento implements OnInit {
     
   logout() { this.authService.logout(); 
             this.estaLogueado=false;}
-
-  Send(
-    checkSemana: string, checkMes: string, checkCuatrimestre: string,
-    descripcion: string,   horaFin: string, minutoFin: string,     
-    horaInicio: string,  minutoInicio: string,  nombre: string,
-    tipoAct: string, estadoActividad: string,
-    zonaAula: string, pickerDesde: string, pickerHasta: string) {
-
-      if( horaInicio == null || horaFin == null ){
-          alert("la Fecha inicio y hora inicio tienen que estar llennas")
-      }else{
+//Send(id, pediodo, descripcion, horaFin, horaInicio, nombre, tipoAct, estadoAct, zonaAula,  pickerDesde, pickerHasta
+  Send(key,
+     periodo:string, descripcion: string,  
+    horaFin: string,  horaInicio: string,   nombre: string,  tipoAct: string, estadoAct: string,
+    zonaAula: string, pickerDesde: MdDatepickerModule, pickerHasta: MdDatepickerModule) {
+      
    
-        this.actividades.push({checkSemana: checkSemana, checkMes: checkMes, checkCuatrimestre: checkCuatrimestre,
-        descripcion: descripcion,  horaFin: horaFin,
-        horaInicio: horaInicio,    nombre: nombre,
-        tipoActividad:tipoAct ,    estadoActividad: estadoActividad,  
-        zonaAula: zonaAula,        desde: pickerDesde, hasta: pickerHasta});
+        this.actividades.update(this.id , 
+          {descripcion: descripcion, estadoActividad: estadoAct, horaFin: horaFin,    
+          horaInicio: horaInicio,   nombre: nombre,periodo: periodo,
+          pickerDesde: pickerDesde, pickerHasta: pickerHasta, tipoActividad: tipoAct,   
+          zonaAula: zonaAula});
         this.router.navigate(['/main']);  
-      }
   }
 
   Delete(key): void {
