@@ -13,8 +13,8 @@ export const routes: Routes = [
     { path:"admin",  component:AdminComponent  },
     { path:"event", component:EventoComponent },
     { path:"modEvento/:_id", component:modEvento },
-    { path: '**', component: PageNotFoundComponent },//cualquier url que no encuentre
-    { path:"notificaciones",   component:NotificacionesComponent   }
+    { path:"notificaciones",   component:NotificacionesComponent},
+    { path: '**', component: PageNotFoundComponent }//cualquier url que no encuentre
 ];
 
 export const routing: ModuleWithProviders = RouterModule.forRoot(routes);

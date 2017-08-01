@@ -7,11 +7,12 @@
         HORARIO
       </div>
       <div class="col m2 center texto-titulo-tabla">
-        TIPO
-      </div>
-      <div class="col m2 center texto-titulo-tabla">
         ACTIVIDAD
       </div>
+      <div class="col m2 center texto-titulo-tabla">
+        TIPO
+      </div>
+      
       <div class="col m2 center texto-titulo-tabla">
         PROFE/REFERENTE
       </div>
@@ -37,6 +38,8 @@
       <div class="col m2 elemento-tabla green center">
         {{actividad.tipoActividad}}
       </div>
+      
+      
       <div class="col m2 elemento-tabla">
         {{actividad.nombre}}
       </div>
@@ -45,12 +48,6 @@
       </div>
       <div class="col m1 center elemento-tabla green">
         {{actividad.estadoActividad}}
-      </div>
-      <div class="col m1 center elemento-tabla green">
-        {{actividad.Desde}}
-      </div>
-      <div class="col m1 center elemento-tabla green">
-        {{actividad.Hasta}}
       </div>
       <div class="col m1 elemento-tabla center" *ngIf="isUserLoggedIn()" >
         <a class="iconsch" (click)="Delete(actividad.$key)"><img src="./assets/delete.svg" ></a>
