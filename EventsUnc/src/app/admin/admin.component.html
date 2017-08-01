@@ -49,18 +49,31 @@
           <md-datepicker #pickerHasta></md-datepicker>
 
     </div>
-     <div class="col s2">
+     
+  </div>
+
+  <div class="row">
+    <div class="col s4">
       <select type="text" id="periodos"  placeholder="Periodo"  [(ngModel)]="periodo" class="black-text browser-default">
         <option value="" disabled selected>Periodo</option>
         <option *ngFor="let p of periodos"   >{{p}}</option>
       </select>
     </div>
-  </div>
-  <div class="row">
-    <div class="col s3">
-        <h6>TIPO DE ACTIVIDAD</h6>
+    <div class="col s4" >
+      <select type="text" id="dias"  placeholder="dias"
+        [(ngModel)]="dias" class="black-text browser-default" multiple="multiple" style="height: 90pt">
+        <option [value]="lu">Lunes</option>
+        <option [value]="ma">Martes</option>
+        <option [value]="mi">Miercoles</option>
+        <option [value]="ju">Jueves</option>
+        <option [value]="vi">Viernes</option>
+        <option [value]="sa">Sabado</option>
+        <option [value]="do">Domingo</option>
+      </select>
     </div>
+
   </div>
+
   <div class="row">
     <div class="col s3">
         <select type="text" id="tipoDeActividad"  placeholder="Tipo Actividad"
@@ -70,17 +83,7 @@
           [class.green]="t.estado == '1'" [class.yellow]="t.estado == '2'" [class.red]="t.estado == '3'">{{t.nombre}}</option>
         </select>
     </div>
-    <div class="col s2" >
-      <select [(ngModel)]="dias" >
-        <option value="lu">Lunes</option>
-        <option value="ma">Martes</option>
-        <option value="mi">Miercoles</option>
-        <option value="ju">Jueves</option>
-        <option value="vi">Viernes</option>
-        <option value="sa">Sabado</option>
-        <option value="do">Domingo</option>
-      </select>
-    </div>
+    
   </div>
   <div class="row">
     <div class="input-field col s6">

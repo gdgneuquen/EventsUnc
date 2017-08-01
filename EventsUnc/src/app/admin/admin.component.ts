@@ -74,7 +74,7 @@ export class AdminComponent implements OnInit {
      dias:string, periodo:string, descripcion: string,
     horaFin: string,  horaInicio: string,   nombre: string,  tipoAct: string, estadoAct: string,
     zonaAula: string, pickerDesde: MdDatepickerModule, pickerHasta: MdDatepickerModule) {
-
+console.log("dias"+dias);
       if (pickerDesde == undefined) {
          pickerDesde = false;
       }
@@ -84,14 +84,14 @@ export class AdminComponent implements OnInit {
       if( horaInicio == null || horaFin == null ){
           alert("la Fecha inicio y hora inicio tienen que estar llennas")
       } else {
-        this.actividades.push({
+       /* this.actividades.push({
           periodo: periodo, descripcion: descripcion, horaFin: horaFin,
           horaInicio: horaInicio,   nombre: nombre,
           tipoActividad: tipoAct,   estadoActividad: estadoAct,
           zonaAula: zonaAula,
           pickerDesde: pickerDesde,      pickerHasta: pickerHasta
 
-      });
+      });*/
         this.router.navigate(['/main']);
       }
   }
