@@ -7,7 +7,6 @@ import 'rxjs/add/operator/toPromise';
 
 import { Router } from '@angular/router';
 import { AngularFireDatabase, FirebaseListObservable } from 'angularfire2/database';
-import { AngularFireAuth } from 'angularfire2/auth';
 import { AuthService } from '../providers/auth.service';
 
 import * as firebase from 'firebase/app';
@@ -26,7 +25,6 @@ export class AdminComponent implements OnInit {
   maxDate = new Date(2020, 0, 1);
   hoy=moment().locale('es').format('LLLL');
 
-  user: Observable<firebase.User>;
   actividades: FirebaseListObservable<any[]>; //actividades es tipo any para poder recibir todo lo que le trae el servicio
   msgVal: string = ''; //mensaje de entrada del form
   selectedActividad: string = '';
@@ -40,48 +38,40 @@ export class AdminComponent implements OnInit {
   estadoActividad: FirebaseListObservable<any[]>;
   tipoAct: string = '';
   estadoAct: string = '';
-  aulasFire:FirebaseListObservable<any[]>; 
+  aulasFire:FirebaseListObservable<any[]>;
   periodos = ['Evento Único', 'Primer cuatrimestre', 'Segundo cuatrimestre'];
   periodo: any[];
   dias:  string = '';
 
  // aulas = ['Grado', 'Post Grado', 'Evento'];
   //aulas debería traerse desde la db pero no lo logro no se que pasa
-  aulas:FirebaseListObservable<any[]>; 
-  
+  aulas:FirebaseListObservable<any[]>;
+
 
   //Comprueba si hay un usuario logueado
   estaLogueado:boolean=false;
 
   constructor(
-    public afAuth: AngularFireAuth, 
     public af: AngularFireDatabase,
     private router: Router,
-    private authService : AuthService,){
-      
-    this.actividades = af.list('/actividades', { query: { limitToLast: 50 } });    
+    private authService : AuthService){
+
+    this.actividades = af.list('/actividades', { query: { limitToLast: 50 } });
     //aulas debería traerse desde la db pero no lo logro no se que pasa
     this.aulas = af.list('/aula', { query: { limitToLast: 50 } });
     this.estadoActividad = af.list('/estado');
     this.tipoDeActividad = af.list('/tipo');
-    this.user = this.afAuth.authState;  
-    this.estaLogueado = this.user?true:false;
     this.numberHora = this.Horario();
   }
 
   onSelect(key): void {
    this.selectedActividad = key;
   }
- 
-  login() { this.authService.loginWithGoogle();
-           this.estaLogueado=true;}
 
-  loginAnonymous() { this.authService.loginAnonymous(); 
-                    this.estaLogueado=true;}
-    
-  logout() { this.authService.logout(); 
-            this.estaLogueado=false;}
-/**checkSemana, checkMes, checkCuatrimestre, descripcion, 
+  isUserLoggedIn(){
+   return this.authService.loggedIn;
+  }
+/**checkSemana, checkMes, checkCuatrimestre, descripcion,
       horaFin, horaInicio, nombre, tipoAct, estadoAct, zonaAula,  pickerDesde, pickerHasta */
   Send(
      dias:string, periodo:string, descripcion: string,
@@ -96,16 +86,16 @@ console.log("dias"+dias);
       }
       if( horaInicio == "" || horaFin == "" || descripcion == "" || nombre == "" || tipoAct == "" || zonaAula == ""){
           alert("Por favor complete todos los campos obligatorios")
-      } else { 
-          this.actividades.push({         
-          periodo: periodo, descripcion: descripcion, horaFin: horaFin,    
+      } else {
+          this.actividades.push({
+          periodo: periodo, descripcion: descripcion, horaFin: horaFin,
           horaInicio: horaInicio,   nombre: nombre,
           tipoActividad: tipoAct,   estadoActividad: estadoAct,
-          zonaAula: zonaAula,       
+          zonaAula: zonaAula,
           pickerDesde: pickerDesde,      pickerHasta: pickerHasta
-      
+
       });
-        this.router.navigate(['/main']);  
+        this.router.navigate(['/main']);
       }
   }
  myFilter = (d: Date): boolean => {
@@ -117,9 +107,9 @@ console.log("dias"+dias);
       this.actividades.remove( key);
       this.msgVal = '';
   }
- 
+
   verActividadMongo(_id: string): void {
-   this.router.navigate(['actividadesDetail', _id]);    
+   this.router.navigate(['actividadesDetail', _id]);
   }
 
   updateActividadMongo(msg: string, key): void {
