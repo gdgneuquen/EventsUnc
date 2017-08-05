@@ -1,6 +1,6 @@
 <app-header></app-header>
 
-<div class="container-fluid">
+<div class="container-fluid" *ngIf="isUserLoggedIn()">
     <!-- TITULOS -->
     <div class="row">
       <div class="col m1 center texto-titulo-tabla">
@@ -12,7 +12,7 @@
       <div class="col m1 center texto-titulo-tabla">
         TIPO
       </div>
-      
+
       <div class="col m2 center texto-titulo-tabla">
         PROFE/REFERENTE
       </div>
@@ -49,10 +49,10 @@
         {{actividad.nombre}}
       </div>
       <div class="col m1 elemento-tabla">
-           {{actividad.pickerDesde}}
+           {{actividad.pickerDesde  | date: 'dd/MM/yy'}}
       </div>
           <div class="col m1 elemento-tabla">
-           {{actividad.pickerHasta}}
+           {{actividad.pickerHasta  | date: 'dd/MM/yy'}}
       </div>
       <div class="col m1 elemento-tabla">
            {{actividad.zonaAula}}
@@ -60,10 +60,10 @@
       <div class="col m1 center elemento-tabla green">
         {{actividad.estadoActividad}}
       </div>
-      <div class="col m1 elemento-tabla center" *ngIf="isUserLoggedIn()" >
-         <a class="iconsch" (click)="modEvento(actividad.$key)"><img src="./assets/pencil24.png" ></a> 
-         <a class="iconsch" (click)="Delete(actividad.$key)"><img src="./assets/delete.svg" ></a>
-      </div>
+
+      <div class="col m1 elemento-tabla center" >
+         <a class="iconsch edit" (click)="modEvento(actividad.$key)"><i class="small material-icons">edit</i></a>
+         <a class="iconsch delete" (click)="Delete(actividad.$key)"><i class="small material-icons">delete</i></a>       </div>
     </div>
 </div>
 

@@ -11,3 +11,19 @@ body{
     letter-spacing: 2px;
     font-family: 'Roboto', sans-serif;
 }
+
+a.iconsch.edit > i{
+color:#ffecb3;
+cursor: pointer;
+}
+
+a.iconsch.edit > i:hover{
+color:#ffa726;
+cursor: pointer;
+}
+a.iconsch.delete > i{
+color:#ef5350;
+}
+a.iconsch.delete > i:hover{
+color:#c62828;
+}
