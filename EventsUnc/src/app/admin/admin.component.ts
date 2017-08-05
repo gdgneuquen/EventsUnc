@@ -105,7 +105,7 @@ export class AdminComponent implements OnInit {
           pickerDesde: pickerDesde,      pickerHasta: pickerHasta
 
       });
-        this.router.navigate(['/main']);
+       this.router.navigate(['/main']);  
       }
   }
  myFilter = (d: Date): boolean => {
