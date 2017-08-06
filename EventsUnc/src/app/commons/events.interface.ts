@@ -1,4 +1,3 @@
-
 export class actividad {
   descripcion: string;
   horaFin: string;
@@ -25,4 +24,3 @@ export class tipo {
 export class zona {
   nombre: string;  
 }
-

@@ -1,3 +1,4 @@
+import { AuthService } from '../providers/auth.service';
 import { Component, OnInit } from '@angular/core';
 
 
@@ -7,7 +8,11 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./header.component.css']
 })
 export class HeaderComponent implements OnInit {
-  constructor() { }
+  constructor(private authService: AuthService) { }
+
+  isUserLoggedIn(){
+     return this.authService.loggedIn;
+  }
 
   ngOnInit() {
   }

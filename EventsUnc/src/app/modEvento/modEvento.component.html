@@ -1,0 +1,115 @@
+<app-header></app-header>
+
+<div>
+
+<div class="container"  [hidden]="!isUserLoggedIn()">
+  < <div class="row">
+      <div class="col m2 center texto-titulo-tabla">
+        HORARIO
+      </div>
+      <div class="col m2 center texto-titulo-tabla">
+        TIPO
+      </div>
+      <div class="col m2 center texto-titulo-tabla">
+        ACTIVIDAD
+      </div>
+      <div class="col m2 center texto-titulo-tabla">
+        PROFE/REFERENTE
+      </div>
+      <div class="col m2 center texto-titulo-tabla">
+        AULA
+      </div>
+      <div class="col m1 center texto-titulo-tabla">
+        ESTADO
+      </div>
+       <div class="col m1 center texto-titulo-tabla">
+      </div>
+    </div>
+  <div class="row" >
+<!-- ejemplo de toma de datos {{ (evento | async)?.descripcion }} -->
+<div class="row">
+    <div class="col s2 ">
+      <select type="text" id="horaInicio"   placeholder="Hora Inicio"  [(ngModel)]="horaInicio" class="black-text browser-default">
+        <option *ngFor="let number of numberHora" [value]="number" [selected]="number === (evento | async)?.horaInicio" >{{number}}</option>
+      </select>
+    </div>
+    <div class="col s2 ">
+        <select type="text" id="horaFin"  placeholder="Hora Fin"  [(ngModel)]="horaFin" class="black-text browser-default">
+          <option *ngFor="let number of numberHora" [value]="number" [selected]="number === (evento | async)?.horaFin">{{number}}</option>
+        </select>
+    </div>
+    <div class="col s3 ">
+        <input type="date"  [(ngModel)]="pickerDesde" [value]="(evento | async)?.pickerDesde" name="pickerDesde">
+
+   </div>
+    <div class="col s3 ">
+        <input type="date"  [(ngModel)]="pickerHasta"  [value]="(evento | async)?.pickerHasta" name="pickerHasta">
+
+    </div>
+    <div class="col s2">
+      <select type="text" id="periodos"  placeholder="Periodo"  [(ngModel)]="periodo" class="black-text browser-default">
+        <option *ngFor="let p of periodos"  [selected]="p === (evento | async)?.periodo" >{{p}}</option>
+      </select>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col s3">
+        <h6>TIPO DE ACTIVIDAD</h6>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col s3">
+
+      <select type="text"   placeholder="Tipo Actividad" [(ngModel)]="tipoAct" class="black-text browser-default">
+        <option *ngFor="let t of tiposDeActividad | async"  [selected]="t.nombre === (evento | async)?.tipoActividad">{{t.nombre}}</option>
+      </select>
+    </div>
+  </div>
+  <div class="row">
+    <div class="input-field col s6">
+          <input id="descripcion"    [value]=" (evento | async)?.descripcion"
+           placeholder="Nombre de la Actividad"  [(ngModel)]="descripcion">
+    </div>
+  </div>
+  <div class="row">
+    <div class="input-field col s6">
+      <input type="text" id="nombre"   [value]=" (evento | async)?.nombre"
+        placeholder="Referencia/Catedra"  [(ngModel)]="nombre">
+    </div>
+  </div>
+  <div class="row">
+    <div class="col s2">
+        <h6>Aula</h6>
+    </div>
+      <div class="col s2">
+        <h6>Estado</h6>
+      </div>
+  </div>
+  <div class="row">
+    <div class="col s2" >
+
+      <select  [(ngModel)]="zonaAula"   class="black-text browser-default" >
+        <option *ngFor="let a of aulas | async" [selected]="a.nombre === (evento | async)?.zonaAula">{{a.nombre}}</option>
+     </select>
+    </div>
+    <div class="col s2" >
+      <select  [(ngModel)]="estadoAct"   class="black-text browser-default" >
+        <option *ngFor="let a of estadoActividad | async" [selected]="a.nombre === (evento | async)?.estadoAct"
+          [class.green]="a.estado == '1'" [class.yellow]="a.estado == '2'" [class.red]="a.estado == '3'">
+          {{a.nombre}}
+        </option>
+     </select>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col s2">
+      <a (click)="Send( pediodo, descripcion, horaFin, horaInicio,
+       nombre, tipoAct, estadoAct, zonaAula,  pickerDesde, pickerHasta)"
+          class="waves-effect waves-light indigo darken-1 btn">OK</a>
+    </div>
+    <div class="col s1">
+      <a class="waves-effect waves-light indigo darken-1 btn">CANCEL</a>
+    </div>
+  </div>
+  </div>
+</div>
