@@ -60,7 +60,6 @@ export class modEvento implements OnInit {
     this.id = this.rout.snapshot.params['_id'];//tomo el id que viene por parámetro
     //busco el evento puntual en base al id
 
-    this.evento = af.object('/actividades/'+this.id);
 
 
     this.actividades = af.list('/actividades');
@@ -68,7 +67,9 @@ export class modEvento implements OnInit {
     this.aulas = af.list('/aula', { query: { limitToLast: 50 } });
     this.estadoActividad = af.list('/estado');
     this.tiposDeActividad = af.list('/tipo');
-    this.numberHora = this.Horario();
+    this.numberHora = this.Horario();   
+    this.evento = af.object('/actividades/'+this.id);
+
   }
 
   isUserLoggedIn(){
@@ -88,28 +89,19 @@ export class modEvento implements OnInit {
   logout() { this.authService.logout(); 
             this.estaLogueado=false;}
 //Send(id, pediodo, descripcion, horaFin, horaInicio, nombre, tipoAct, estadoAct, zonaAula,  pickerDesde, pickerHasta
-  Send(key,
+  Send(
      periodo:string, descripcion: string,  
     horaFin: string,  horaInicio: string,   nombre: string,  tipoAct: string, estadoAct: string,
     zonaAula: string, pickerDesde: MdDatepickerModule, pickerHasta: MdDatepickerModule) {
       
-   
-        this.actividades.update(this.id , 
+         console.log("periodo "+periodo+" descripcion "+descripcion);
+
+        this.evento.update(
           {descripcion: descripcion, estadoActividad: estadoAct, horaFin: horaFin,    
           horaInicio: horaInicio,   nombre: nombre,periodo: periodo,
           pickerDesde: pickerDesde, pickerHasta: pickerHasta, tipoActividad: tipoAct,   
           zonaAula: zonaAula});
         this.router.navigate(['/main']);  
-  }
-
-  Delete(key): void {
-      this.actividades.remove( key);
-      this.msgVal = '';
-  }
-
-  updateActividadMongo(msg: string, key): void {
-    this.actividades.update( key, {alert: msg});
-
   }
 
   Horario(){
