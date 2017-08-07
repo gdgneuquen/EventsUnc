@@ -143,20 +143,28 @@
   </div>
   <div class="row">
     <div class="col s2" >
-
-      <select  [(ngModel)]="zonaAula"  class="black-text browser-default" >
-         <option value="AULA" disabled selected>AULA</option>
-        <option *ngFor="let a of aulas | async" [value]="a.nombre">{{a.nombre}}</option>
-     </select>
+        <md-select   id="zonaAula"
+                [(ngModel)]="zonaAula"
+                placeholder="Seleccione..."
+                class="browser-default black-text browser-default"
+                style="min-width: 200px;"
+                floatPlaceholder="never" >
+          <md-option  *ngFor="let a of aulas | async" [value]="a.nombre">{{a.nombre}}
+          </md-option>
+        </md-select>
     </div>
     <div class="col s2">
-      <select  [(ngModel)]="estadoAct"  class="black-text browser-default" >
-        <option value="ESTADO" disabled selected>ESTADO</option>
-        <option *ngFor="let a of estadoActividad | async" [value]="a.nombre"
-          [class.green]="a.estado == '1'" [class.yellow]="a.estado == '2'" [class.red]="a.estado == '3'">
-          {{a.nombre}}
-        </option>
-     </select>
+        <md-select   id="estadoAct"
+                [(ngModel)]="estadoAct"
+                placeholder="Seleccione..."
+                class="browser-default black-text browser-default"
+                style="min-width: 200px;"
+                floatPlaceholder="never" >
+          <md-option   *ngFor="let a of estadoActividad | async" [value]="a.nombre"
+           [class.green]="a.estado == '1'" [class.yellow]="a.estado == '2'" [class.red]="a.estado == '3'">{{a.nombre}}
+          </md-option>
+        </md-select>
+
     </div>
   </div>
   <div class="row">
