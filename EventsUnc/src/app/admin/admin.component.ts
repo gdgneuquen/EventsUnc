@@ -41,9 +41,17 @@ export class AdminComponent implements OnInit {
   aulasFire:FirebaseListObservable<any[]>;
   periodos = ['Evento Único', 'Primer cuatrimestre', 'Segundo cuatrimestre'];
   periodo: any[];
-  dias:  string = '';
+  dias: any[];
+  
+  chk_lun  = false;
+  chk_ma  = false;
+  chk_mi  = false;
+  chk_ju  = false;
+  chk_vi  = false;
+  chk_sa  = false;
+  chk_do  = false;
 
- // aulas = ['Grado', 'Post Grado', 'Evento'];
+  // aulas = ['Grado', 'Post Grado', 'Evento'];
   //aulas debería traerse desde la db pero no lo logro no se que pasa
   aulas:FirebaseListObservable<any[]>;
 
@@ -74,10 +82,12 @@ export class AdminComponent implements OnInit {
 /**checkSemana, checkMes, checkCuatrimestre, descripcion,
       horaFin, horaInicio, nombre, tipoAct, estadoAct, zonaAula,  pickerDesde, pickerHasta */
   Send(
-     dias:string, periodo:string, descripcion: string,
-    horaFin: string,  horaInicio: string,   nombre: string,  tipoAct: string, estadoAct: string,
-    zonaAula: string, pickerDesde: MdDatepickerModule, pickerHasta: MdDatepickerModule) {
-console.log("dias"+dias);
+    chk_lun: string, chk_ma: string, chk_mi: string, chk_ju: string, chk_vi: string, chk_sa: string, chk_do: string,
+    periodo:string, descripcion: string,  horaFin: string,  horaInicio: string,   nombre: string,  tipoAct: string, 
+    estadoAct: string,  zonaAula: string, pickerDesde: MdDatepickerModule, pickerHasta: MdDatepickerModule) {
+
+      var dias = [  chk_lun,  chk_ma, chk_mi, chk_ju, chk_vi, chk_sa, chk_do];//creo el arreglo de días
+
       if (pickerDesde == undefined) {
          pickerDesde = false;
       }
@@ -86,16 +96,16 @@ console.log("dias"+dias);
       }
       if( horaInicio == "" || horaFin == "" || descripcion == "" || nombre == "" || tipoAct == "" || zonaAula == ""){
           alert("Por favor complete todos los campos obligatorios")
-      } else {
-          this.actividades.push({
-          periodo: periodo, descripcion: descripcion, horaFin: horaFin,
+      } else { 
+          this.actividades.push({  dias: dias,       
+          periodo: periodo, descripcion: descripcion, horaFin: horaFin,    
           horaInicio: horaInicio,   nombre: nombre,
           tipoActividad: tipoAct,   estadoActividad: estadoAct,
           zonaAula: zonaAula,
           pickerDesde: pickerDesde,      pickerHasta: pickerHasta
 
       });
-        this.router.navigate(['/main']);
+       this.router.navigate(['/main']);  
       }
   }
  myFilter = (d: Date): boolean => {
