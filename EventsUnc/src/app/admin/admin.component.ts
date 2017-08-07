@@ -50,7 +50,7 @@ export class AdminComponent implements OnInit {
   chk_vi  = false;
   chk_sa  = false;
   chk_do  = false;
-
+ // dias = [ this.chk_lun, this.chk_ma, this.chk_mi, this.chk_ju, this.chk_vi, this.chk_sa, this.chk_do];//creo el arreglo de días
   // aulas = ['Grado', 'Post Grado', 'Evento'];
   //aulas debería traerse desde la db pero no lo logro no se que pasa
   aulas:FirebaseListObservable<any[]>;
@@ -86,7 +86,7 @@ export class AdminComponent implements OnInit {
     periodo:string, descripcion: string,  horaFin: string,  horaInicio: string,   nombre: string,  tipoAct: string, 
     estadoAct: string,  zonaAula: string, pickerDesde: MdDatepickerModule, pickerHasta: MdDatepickerModule) {
 
-      var dias = [  chk_lun,  chk_ma, chk_mi, chk_ju, chk_vi, chk_sa, chk_do];//creo el arreglo de días
+         var dias = [  chk_lun,  chk_ma, chk_mi, chk_ju, chk_vi, chk_sa, chk_do];//creo el arreglo de días
 
       if (pickerDesde == undefined) {
          pickerDesde = false;

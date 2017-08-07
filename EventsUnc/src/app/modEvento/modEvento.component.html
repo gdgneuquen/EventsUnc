@@ -1,32 +1,25 @@
 <app-header></app-header>
-
 <div>
 
-<div class="container"  [hidden]="!isUserLoggedIn()">
-  < <div class="row">
-      <div class="col m2 center texto-titulo-tabla">
-        HORARIO
-      </div>
-      <div class="col m2 center texto-titulo-tabla">
-        TIPO
-      </div>
-      <div class="col m2 center texto-titulo-tabla">
-        ACTIVIDAD
-      </div>
-      <div class="col m2 center texto-titulo-tabla">
-        PROFE/REFERENTE
-      </div>
-      <div class="col m2 center texto-titulo-tabla">
-        AULA
-      </div>
-      <div class="col m1 center texto-titulo-tabla">
-        ESTADO
-      </div>
-       <div class="col m1 center texto-titulo-tabla">
-      </div>
+<div class="container" [hidden]="!isUserLoggedIn()">
+  <div class="row">
+    <div class="col s2">
+        <h6>HORA INICIO(*)</h6>
     </div>
+    <div class="col s2">
+        <h6>HORA FIN(*)</h6>
+    </div>
+    <div class="col s3">
+      FECHA DESDE
+    </div>
+    <div class="col s3">
+      FECHA HASTA
+    </div>
+    <div class="col s2">
+      PERIODO
+    </div>
+  </div>
   <div class="row" >
-<!-- ejemplo de toma de datos {{ (evento | async)?.descripcion }} -->
 <div class="row">
     <div class="col s2 ">
       <select type="text" id="horaInicio"   placeholder="Hora Inicio"  [(ngModel)]="horaInicio" class="black-text browser-default">
@@ -52,6 +45,20 @@
       </select>
     </div>
   </div>
+  <div class="row">
+    <div class="col s12" >
+      <section class="example-section">          
+          <md-checkbox class="example-margin" [checked]="(evento | async)?.dias[0]" [(ngModel)]="chk_lun">Lunes</md-checkbox>
+          <md-checkbox class="example-margin" [checked]="(evento | async)?.dias[1]" [(ngModel)]="chk_ma">Martes</md-checkbox>
+          <md-checkbox class="example-margin" [checked]="(evento | async)?.dias[2]" [(ngModel)]="chk_mi">Miercoles</md-checkbox>
+          <md-checkbox class="example-margin" [checked]="(evento | async)?.dias[3]" [(ngModel)]="chk_ju">Jueves</md-checkbox>
+          <md-checkbox class="example-margin" [checked]="(evento | async)?.dias[4]" [(ngModel)]="chk_vi">Viernes</md-checkbox>
+          <md-checkbox class="example-margin" [checked]="(evento | async)?.dias[5]" [(ngModel)]="chk_sa">Sabado</md-checkbox>
+          <md-checkbox class="example-margin" [checked]="(evento | async)?.dias[6]" [(ngModel)]="chk_do">Domingo</md-checkbox>
+        </section>
+      </div>
+  </div>
+
   <div class="row">
     <div class="col s3">
         <h6>TIPO DE ACTIVIDAD</h6>
@@ -94,7 +101,7 @@
     </div>
     <div class="col s2" >
       <select  [(ngModel)]="estadoAct"   class="black-text browser-default" >
-        <option *ngFor="let a of estadoActividad | async" [selected]="a.nombre === (evento | async)?.estadoAct"
+        <option *ngFor="let a of estadoActividad | async" [selected]="a.nombre === (evento | async)?.estadoActividad"
           [class.green]="a.estado == '1'" [class.yellow]="a.estado == '2'" [class.red]="a.estado == '3'">
           {{a.nombre}}
         </option>
@@ -103,8 +110,9 @@
   </div>
   <div class="row">
     <div class="col s2">
-      <a (click)="Send( pediodo, descripcion, horaFin, horaInicio,
-       nombre, tipoAct, estadoAct, zonaAula,  pickerDesde, pickerHasta)"
+      <a (click)="Send(  chk_lun, chk_ma, chk_mi, chk_ju, chk_vi, chk_sa, chk_do,
+       periodo, descripcion, horaFin, horaInicio,
+       nombre, tipoAct, estadoAct, zonaAula,  pickerDesde, pickerHasta )"
           class="waves-effect waves-light indigo darken-1 btn">OK</a>
     </div>
     <div class="col s1">

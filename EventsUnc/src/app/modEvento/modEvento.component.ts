@@ -48,9 +48,18 @@ export class modEvento implements OnInit {
  //aulas debería traerse desde la db pero no lo logro no se que pasa
   aulas:FirebaseListObservable<any[]>;
 
+  dias: any[];
+  
+  chk_lun  = false;
+  chk_ma  = false;
+  chk_mi  = false;
+  chk_ju  = false;
+  chk_vi  = false;
+  chk_sa  = false;
+  chk_do  = false;
 
   //Comprueba si hay un usuario logueado
-  estaLogueado:boolean=false;
+  estaLogueado:boolean = false;
 
   constructor(
     private authService: AuthService,
@@ -59,11 +68,9 @@ export class modEvento implements OnInit {
     private rout: ActivatedRoute){
     this.id = this.rout.snapshot.params['_id'];//tomo el id que viene por parámetro
     //busco el evento puntual en base al id
-
+    this.actividades = af.list('/actividades');
     this.evento = af.object('/actividades/'+this.id);
 
-
-    this.actividades = af.list('/actividades');
     //aulas debería traerse desde la db pero no lo logro no se que pasa
     this.aulas = af.list('/aula', { query: { limitToLast: 50 } });
     this.estadoActividad = af.list('/estado');
@@ -87,19 +94,27 @@ export class modEvento implements OnInit {
     
   logout() { this.authService.logout(); 
             this.estaLogueado=false;}
-//Send(id, pediodo, descripcion, horaFin, horaInicio, nombre, tipoAct, estadoAct, zonaAula,  pickerDesde, pickerHasta
-  Send(key,
-     periodo:string, descripcion: string,  
-    horaFin: string,  horaInicio: string,   nombre: string,  tipoAct: string, estadoAct: string,
-    zonaAula: string, pickerDesde: MdDatepickerModule, pickerHasta: MdDatepickerModule) {
-      
-   
-        this.actividades.update(this.id , 
-          {descripcion: descripcion, estadoActividad: estadoAct, horaFin: horaFin,    
-          horaInicio: horaInicio,   nombre: nombre,periodo: periodo,
-          pickerDesde: pickerDesde, pickerHasta: pickerHasta, tipoActividad: tipoAct,   
-          zonaAula: zonaAula});
+/*  chk_lun, chk_ma, chk_mi, chk_ju, chk_vi, chk_sa, chk_do,
+       periodo, descripcion, horaFin, horaInicio,
+       nombre, tipoAct, estadoAct, zonaAula,  pickerDesde, pickerHasta */
+  Send(chk_lun: string, chk_ma: string, chk_mi: string, chk_ju: string, chk_vi: string, chk_sa: string, chk_do: string,
+    periodo:string, descripcion: string,  horaFin: string,  horaInicio: string,   nombre: string,  tipoAct: string, 
+    estadoAct: string,  zonaAula: string, pickerDesde: MdDatepickerModule, pickerHasta: MdDatepickerModule) {
+
+    var dias = [  chk_lun, chk_ma, chk_mi, chk_ju, chk_vi, chk_sa, chk_do];//creo el arreglo de días
+  console.log(estadoAct);
+
+       this.actividades.update(this.id , 
+          {   dias: dias,       
+          periodo: periodo, descripcion: descripcion, horaFin: horaFin,    
+          horaInicio: horaInicio,   nombre: nombre,
+          tipoActividad: tipoAct,   estadoActividad: estadoAct,
+          zonaAula: zonaAula,
+          pickerDesde: pickerDesde,      pickerHasta: pickerHasta
+        });
         this.router.navigate(['/main']);  
+
+
   }
 
   Delete(key): void {
