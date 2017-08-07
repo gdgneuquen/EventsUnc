@@ -1,4 +1,5 @@
-import { Component, NgZone, OnInit } from '@angular/core';
+import { forEach } from '@angular/router/src/utils/collection';
+import { Component, Input, NgZone, OnInit  } from '@angular/core';
 import { FormBuilder } from '@angular/forms';
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/observable/throw';//Para trabajar con los observables desde rxjs
@@ -12,7 +13,14 @@ import { AuthService } from '../providers/auth.service';
 import * as firebase from 'firebase/app';
 import * as moment from 'moment';
 //materialize
-import {MdDatepickerModule} from '@angular/material';
+import {MdDatepickerModule, DateAdapter} from '@angular/material';
+import { MdDatepicker, MdDatepickerInputEvent } from '@angular/material';
+
+export class DiasSemana {
+  id: string;
+  name: string;
+  value: boolean;
+}
 
 @Component({
   selector: 'app-admin',
@@ -20,10 +28,20 @@ import {MdDatepickerModule} from '@angular/material';
   styleUrls: ['./admin.component.css']
 })
 
-export class AdminComponent implements OnInit {
+export class AdminComponent implements OnInit  {
+   diasSemana: DiasSemana[] = [
+    { id: 'chk_lun', name: 'Lunes', value: false },
+    { id: 'chk_ma', name: 'Martes', value: false  },
+    { id: 'chk_mi', name: 'Miercoles', value: false  },
+    { id: 'chk_ju', name: 'Jueves', value: false  },
+    { id: 'chk_vi', name: 'Viernes', value: false  },
+    { id: 'chk_sa', name: 'Sabado', value: false  },
+    { id: 'chk_do', name: 'Domingo', value: false  }
+  ];
+
   minDate = new Date(2000, 0, 1);
   maxDate = new Date(2020, 0, 1);
-  hoy=moment().locale('es').format('LLLL');
+  hoy = moment().locale('es').format('LLLL');
 
   actividades: FirebaseListObservable<any[]>; //actividades es tipo any para poder recibir todo lo que le trae el servicio
   msgVal: string = ''; //mensaje de entrada del form
@@ -31,6 +49,8 @@ export class AdminComponent implements OnInit {
   descripcion: string = '';
   horaFin: string = '';
   horaInicio: string = '';
+  //fechaFin:string = '';
+  //fechaInicio: string = '';
   nombre: string = '';
   zonaAula: string = '';
   numberHora: any[];
@@ -40,9 +60,8 @@ export class AdminComponent implements OnInit {
   estadoAct: string = '';
   aulasFire:FirebaseListObservable<any[]>;
   periodos = ['Evento Único', 'Primer cuatrimestre', 'Segundo cuatrimestre'];
-  periodo: any[];
-  dias: any[];
-  
+  periodo: string = '';
+
   chk_lun  = false;
   chk_ma  = false;
   chk_mi  = false;
@@ -50,11 +69,12 @@ export class AdminComponent implements OnInit {
   chk_vi  = false;
   chk_sa  = false;
   chk_do  = false;
-
-  // aulas = ['Grado', 'Post Grado', 'Evento'];
+  //pickerDesde = moment().locale('es').format('DD/MM/YYYY');
+  //pickerHasta = moment().locale('es').format('DD/MM/YYYY');
+ // aulas = ['Grado', 'Post Grado', 'Evento'];
   //aulas debería traerse desde la db pero no lo logro no se que pasa
   aulas:FirebaseListObservable<any[]>;
-
+  diasSelected: DiasSemana[];
 
   //Comprueba si hay un usuario logueado
   estaLogueado:boolean=false;
@@ -62,14 +82,19 @@ export class AdminComponent implements OnInit {
   constructor(
     public af: AngularFireDatabase,
     private router: Router,
-    private authService : AuthService){
+    private authService : AuthService,
+    private dateAdapter: DateAdapter<Date>){}
 
-    this.actividades = af.list('/actividades', { query: { limitToLast: 50 } });
+
+  ngOnInit(){
+    this.actividades = this.af.list('/actividades', { query: { limitToLast: 50 } });
     //aulas debería traerse desde la db pero no lo logro no se que pasa
-    this.aulas = af.list('/aula', { query: { limitToLast: 50 } });
-    this.estadoActividad = af.list('/estado');
-    this.tipoDeActividad = af.list('/tipo');
+    this.aulas = this.af.list('/aula', { query: { limitToLast: 50 } });
+    this.estadoActividad = this.af.list('/estado');
+    this.tipoDeActividad = this.af.list('/tipo');
     this.numberHora = this.Horario();
+    this.dateAdapter.setLocale('es-ar');
+
   }
 
   onSelect(key): void {
@@ -79,33 +104,38 @@ export class AdminComponent implements OnInit {
   isUserLoggedIn(){
    return this.authService.loggedIn;
   }
+
+  getDataFormat(e: MdDatepickerInputEvent<Date>){
+   //manage event
+  }
 /**checkSemana, checkMes, checkCuatrimestre, descripcion,
       horaFin, horaInicio, nombre, tipoAct, estadoAct, zonaAula,  pickerDesde, pickerHasta */
   Send(
-    chk_lun: string, chk_ma: string, chk_mi: string, chk_ju: string, chk_vi: string, chk_sa: string, chk_do: string,
-    periodo:string, descripcion: string,  horaFin: string,  horaInicio: string,   nombre: string,  tipoAct: string, 
-    estadoAct: string,  zonaAula: string, pickerDesde: MdDatepickerModule, pickerHasta: MdDatepickerModule) {
+    chk_lun: boolean, chk_ma: boolean, chk_mi: boolean, chk_ju: boolean, chk_vi: boolean,
+    chk_sa: boolean, chk_do: boolean,
+    periodo:string, descripcion: string,
+    horaFin: string,  horaInicio: string,   nombre: string,  tipoAct: string,
+    estadoAct: string, zonaAula: string,
+    pickerDesde: MdDatepicker<Date>, pickerHasta: MdDatepicker<Date>) {
 
       var dias = [  chk_lun,  chk_ma, chk_mi, chk_ju, chk_vi, chk_sa, chk_do];//creo el arreglo de días
+      //console.log("dias", moment(pickerDesde._selected).locale('es').format('DD/MM/YYYY'));
+      //console.log("dias", moment(pickerHasta._selected).locale('es').format('YYYY-MM-DD'));
 
-      if (pickerDesde == undefined) {
-         pickerDesde = false;
-      }
-      if (pickerHasta == undefined) {
-         pickerHasta = false;
-      }
       if( horaInicio == "" || horaFin == "" || descripcion == "" || nombre == "" || tipoAct == "" || zonaAula == ""){
           alert("Por favor complete todos los campos obligatorios")
-      } else { 
-          this.actividades.push({  dias: dias,       
-          periodo: periodo, descripcion: descripcion, horaFin: horaFin,    
+      } else {
+          this.actividades.push({
+          dias: dias,
+          periodo: periodo, descripcion: descripcion, horaFin: horaFin,
           horaInicio: horaInicio,   nombre: nombre,
           tipoActividad: tipoAct,   estadoActividad: estadoAct,
           zonaAula: zonaAula,
-          pickerDesde: pickerDesde,      pickerHasta: pickerHasta
+          pickerDesde: moment(pickerDesde._selected).locale('es').format('YYYY-MM-DD'),
+          pickerHasta: moment(pickerHasta._selected).locale('es').format('YYYY-MM-DD')
 
       });
-       this.router.navigate(['/main']);  
+        this.goToMain();
       }
   }
  myFilter = (d: Date): boolean => {
@@ -132,17 +162,15 @@ export class AdminComponent implements OnInit {
   }
 
 
-  Horario(){
-    var arr = [], i, j;
-    for(i=7; i<24; i++) {
-      for(j=0; j<4; j++) {
-        arr.push(i + ":" + (j===0 ? "00" : 15*j) );
+    Horario(){
+      var arr = [], i, j;
+      for(i=7; i<24; i++) {
+        for(j=0; j<4; j++) {
+          arr.push(i + ":" + (j===0 ? "00" : 15*j) );
+        }
       }
+      return arr;
     }
-    return arr;
-  }
 
-  ngOnInit(){
 
-  }
 }

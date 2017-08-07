@@ -3,7 +3,7 @@
 <div>
 
 <div class="container"  [hidden]="!isUserLoggedIn()">
-  < <div class="row">
+   <div class="row">
       <div class="col m2 center texto-titulo-tabla">
         HORARIO
       </div>
@@ -103,7 +103,7 @@
   </div>
   <div class="row">
     <div class="col s2">
-      <a (click)="Send( pediodo, descripcion, horaFin, horaInicio,
+      <a (click)="Send(chk_lun, chk_ma, chk_mi, chk_ju, chk_vi, chk_sa, chk_do, periodo, descripcion, horaFin, horaInicio,
        nombre, tipoAct, estadoAct, zonaAula,  pickerDesde, pickerHasta)"
           class="waves-effect waves-light indigo darken-1 btn">OK</a>
     </div>

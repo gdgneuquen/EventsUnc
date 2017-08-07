@@ -15,7 +15,8 @@ import * as moment from 'moment';
 import { AuthService } from '../providers/auth.service';
 
 //materialize
-import {MdDatepickerModule} from '@angular/material';
+import {MdDatepickerModule, DateAdapter} from '@angular/material';
+import { MdDatepicker, MdDatepickerInputEvent } from '@angular/material';
 
 @Component({
   selector: 'modevent-app',
@@ -27,6 +28,8 @@ export class modEvento implements OnInit {
   minDate = new Date(2000, 0, 1);
   maxDate = new Date(2020, 0, 1);
   hoy=moment().locale('es').format('LLLL');
+  // moment().locale('es').format('L');
+  // moment().locale('es').format('YYYY-MM-DD'); //formato firebase
 
   actividades: FirebaseListObservable<any[]>; //actividades es tipo any para poder recibir todo lo que le trae el servicio
   msgVal: string = ''; //mensaje de entrada del form
@@ -40,66 +43,82 @@ export class modEvento implements OnInit {
   numberHora: any[];
   tiposDeActividad: FirebaseListObservable<any[]>;
   estadoActividad: FirebaseListObservable<any[]>;
+  estadoAct: string = '';
   aulasFire:FirebaseListObservable<any[]>;
   evento: FirebaseObjectObservable<any>;
   id: any; //id recibido
   periodos = ['Evento Único', 'Primer cuatrimestre', 'Segundo cuatrimestre'];
   periodo:  string = '';
+  pickerDesde: MdDatepicker<Date>;
+   pickerHasta: MdDatepicker<Date>;
  //aulas debería traerse desde la db pero no lo logro no se que pasa
   aulas:FirebaseListObservable<any[]>;
-
-
-  //Comprueba si hay un usuario logueado
-  estaLogueado:boolean=false;
+  chk_lun  = false;
+  chk_ma  = false;
+  chk_mi  = false;
+  chk_ju  = false;
+  chk_vi  = false;
+  chk_sa  = false;
+  chk_do  = false;
 
   constructor(
     private authService: AuthService,
     public af: AngularFireDatabase,
     private router: Router,
-    private rout: ActivatedRoute){
+    private rout: ActivatedRoute,
+    private dateAdapter: DateAdapter<Date>){
+  }
+
+  ngOnInit(){
     this.id = this.rout.snapshot.params['_id'];//tomo el id que viene por parámetro
     //busco el evento puntual en base al id
 
-    this.evento = af.object('/actividades/'+this.id);
-
-
-    this.actividades = af.list('/actividades');
+    this.evento = this.af.object('/actividades/'+this.id);
+    this.actividades = this.af.list('/actividades');
     //aulas debería traerse desde la db pero no lo logro no se que pasa
-    this.aulas = af.list('/aula', { query: { limitToLast: 50 } });
-    this.estadoActividad = af.list('/estado');
-    this.tiposDeActividad = af.list('/tipo');
+    this.aulas = this.af.list('/aula', { query: { limitToLast: 50 } });
+    this.estadoActividad = this.af.list('/estado');
+    this.tiposDeActividad = this.af.list('/tipo');
     this.numberHora = this.Horario();
+    this.dateAdapter.setLocale('es-ar');
   }
 
   isUserLoggedIn(){
      return this.authService.loggedIn;
   }
-
+  getDataFormat(e: MdDatepickerInputEvent<Date>){
+   //manage event
+  }
   onSelect(key): void {
    this.selectedActividad = key;
   }
- 
-  login() { this.authService.loginWithGoogle();
-           this.estaLogueado=true;}
 
-  loginAnonymous() { this.authService.loginAnonymous(); 
-                    this.estaLogueado=true;}
-    
-  logout() { this.authService.logout(); 
-            this.estaLogueado=false;}
+
 //Send(id, pediodo, descripcion, horaFin, horaInicio, nombre, tipoAct, estadoAct, zonaAula,  pickerDesde, pickerHasta
+  /*
   Send(key,
-     periodo:string, descripcion: string,  
+     periodo:string, descripcion: string,
     horaFin: string,  horaInicio: string,   nombre: string,  tipoAct: string, estadoAct: string,
     zonaAula: string, pickerDesde: MdDatepickerModule, pickerHasta: MdDatepickerModule) {
-      
-   
-        this.actividades.update(this.id , 
-          {descripcion: descripcion, estadoActividad: estadoAct, horaFin: horaFin,    
+      */
+  Send(
+    chk_lun: boolean, chk_ma: boolean, chk_mi: boolean, chk_ju: boolean, chk_vi: boolean,
+    chk_sa: boolean, chk_do: boolean,
+    periodo:string, descripcion: string,
+    horaFin: string,  horaInicio: string,   nombre: string,  tipoAct: string,
+    estadoAct: string, zonaAula: string,
+    pickerDesde: MdDatepicker<Date>, pickerHasta: MdDatepicker<Date>) {
+
+        this.actividades.update(this.id ,
+          {descripcion: descripcion, estadoActividad: estadoAct, horaFin: horaFin,
           horaInicio: horaInicio,   nombre: nombre,periodo: periodo,
-          pickerDesde: pickerDesde, pickerHasta: pickerHasta, tipoActividad: tipoAct,   
+          pickerDesde: pickerDesde, pickerHasta: pickerHasta, tipoActividad: tipoAct,
           zonaAula: zonaAula});
-        this.router.navigate(['/main']);  
+        this.goToMain();
+  }
+
+  goToMain(){
+    this.router.navigate(['/main']);
   }
 
   Delete(key): void {
@@ -120,9 +139,5 @@ export class modEvento implements OnInit {
       }
     }
     return arr;
-  }
-
-  ngOnInit(){
-
   }
 }

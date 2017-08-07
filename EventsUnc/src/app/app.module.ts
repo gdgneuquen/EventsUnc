@@ -23,19 +23,27 @@ import { AngularFireDatabaseModule } from 'angularfire2/database';
 import { AngularFireAuthModule } from 'angularfire2/auth';
 
 //materialize
-import { MdDatepickerModule, MdNativeDateModule, MdCheckboxModule} from '@angular/material';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { MdButtonModule } from '@angular/material';
-import { MdInputModule } from '@angular/material';
-import { DatepickerModule } from 'angular2-material-datepicker'
+import { MaterialModule, MdDatepickerModule, MdNativeDateModule , MdCheckboxModule} from '@angular/material';
+import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
+import {MdButtonModule} from '@angular/material';
+import {MdInputModule, MdSelectModule} from '@angular/material';
+//import { DatepickerModule } from 'angular2-material-datepicker'
 
 export const firebaseConfig = {
-    apiKey: "AIzaSyATyRktSqq_zEPiX4Yj8B8wZuWEh2I3cfs",
+    apiKey: "AIzaSyDDdH4sytAHwcS72AYm9hhk99aO-C4E3FQ",
+    authDomain: "unctest-176a0.firebaseapp.com",
+    databaseURL: "https://unctest-176a0.firebaseio.com",
+    projectId: "unctest-176a0",
+    storageBucket: "unctest-176a0.appspot.com",
+    messagingSenderId: "736583010741"
+  /*
+     apiKey: "AIzaSyATyRktSqq_zEPiX4Yj8B8wZuWEh2I3cfs",
     authDomain: "faeatest.firebaseapp.com",
     databaseURL: "https://faeatest.firebaseio.com",
     projectId: "faeatest",
     storageBucket: "faeatest.appspot.com",
     messagingSenderId: "869582996123"
+    */
 };
 
 @NgModule({
@@ -60,8 +68,9 @@ export const firebaseConfig = {
     AngularFireModule.initializeApp(firebaseConfig), // imports firebase/app needed for everything
     AngularFireDatabaseModule, // imports firebase/database, only needed for database features
     AngularFireAuthModule, // imports firebase/auth, only needed for auth features
-    BrowserAnimationsModule, MdDatepickerModule, DatepickerModule,
-    MdButtonModule, MdNativeDateModule, MdInputModule,MdCheckboxModule
+    MaterialModule,BrowserAnimationsModule, MdDatepickerModule, //DatepickerModule,
+     MdButtonModule, MdNativeDateModule, MdInputModule,MdCheckboxModule,
+     MdSelectModule
   ],
   providers: [AuthService],
   bootstrap: [AppComponent]

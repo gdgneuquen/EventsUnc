@@ -1,5 +1,6 @@
 /* You can add global styles to this file, and also import other style files */
 @import "../node_modules/materialize-css/dist/css/materialize.css";
+@import "~@angular/material/prebuilt-themes/indigo-pink.css";
 *{
     padding: 0px;
     margin: 0px;
@@ -12,6 +13,38 @@ body{
     font-family: 'Roboto', sans-serif;
 }
 
+
+md-select > div{
+      min-height: 2.8em;
+}
+.mat-select{
+padding-top: 0px;
+}
+.mat-floating-placeholder{
+  opacity: 1;
+    top: -34px !important;
+    left: -6px  !important;
+
+}
+.mat-select-placeholder{
+  color:  rgba(255, 255, 255, 0.9)  !important;
+  font-size: 1rem  !important;
+}
+
+.mat-select-trigger{
+  background-color: rgba(255, 255, 255, 0.9)  !important;
+    width: 100%;
+    padding: 5px;
+    /*border: 1px solid #f2f2f2;*/
+    border-radius: 2px;
+    height: 3rem;
+}
+.mat-select-placeholder{
+  color: #000000 !important;
+}
+.mat-select-value-text{
+      padding: 8px;
+}
 a.iconsch.edit > i{
 color:#ffecb3;
 cursor: pointer;
@@ -26,4 +59,8 @@ color:#ef5350;
 }
 a.iconsch.delete > i:hover{
 color:#c62828;
+}
+
+.mat-checkbox{
+  margin-right: 1em;
 }
