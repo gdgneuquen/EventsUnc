@@ -49,5 +49,12 @@ export class MainComponent {
   modEvento(key){
     this.router.navigate(['/modEvento', key]);
   }
+  updateAlertaMongo(msg: string, key):void{    
+    this.actividades.update( key, {alert: msg});
 
+  }
+
+  onSelect(key): void {
+   this.selectedActividad = key;
+  }
 }

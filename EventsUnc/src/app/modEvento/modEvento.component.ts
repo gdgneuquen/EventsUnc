@@ -41,15 +41,17 @@ export class modEvento implements OnInit {
   tiposDeActividad: FirebaseListObservable<any[]>;
   estadoActividad: FirebaseListObservable<any[]>;
   aulasFire:FirebaseListObservable<any[]>;
-  evento: FirebaseObjectObservable<any>;
+
   id: any; //id recibido
   periodos = ['Evento Único', 'Primer cuatrimestre', 'Segundo cuatrimestre'];
   periodo:  string = '';
  //aulas debería traerse desde la db pero no lo logro no se que pasa
   aulas:FirebaseListObservable<any[]>;
+  evento: FirebaseObjectObservable<any>;
 
   dias: any[];
-  
+  chk_l: string='';
+
   chk_lun  = false;
   chk_ma  = false;
   chk_mi  = false;
@@ -68,14 +70,17 @@ export class modEvento implements OnInit {
     private rout: ActivatedRoute){
     this.id = this.rout.snapshot.params['_id'];//tomo el id que viene por parámetro
     //busco el evento puntual en base al id
-    this.actividades = af.list('/actividades');
+   // this.actividades = af.list('/actividades');
     this.evento = af.object('/actividades/'+this.id);
-
+    
     //aulas debería traerse desde la db pero no lo logro no se que pasa
     this.aulas = af.list('/aula', { query: { limitToLast: 50 } });
     this.estadoActividad = af.list('/estado');
     this.tiposDeActividad = af.list('/tipo');
     this.numberHora = this.Horario();
+
+    //inicializando variables ngModel
+    var estadoAct = this.evento;
   }
 
   isUserLoggedIn(){
@@ -102,8 +107,19 @@ export class modEvento implements OnInit {
     estadoAct: string,  zonaAula: string, pickerDesde: MdDatepickerModule, pickerHasta: MdDatepickerModule) {
 
     var dias = [  chk_lun, chk_ma, chk_mi, chk_ju, chk_vi, chk_sa, chk_do];//creo el arreglo de días
-  console.log(estadoAct);
-
+  console.log(
+  "periodo:"+ periodo +" \ " +
+   "descripcion:"+ descripcion+ " \ " +
+   "horaFin:"+ horaFin+" \ " +
+   "horaInicio:"+  horaInicio+" \ " +
+    "nombre:"+   nombre+ " \ " +
+    "tipoAct:"+   tipoAct+ " \ " +
+    "estadoAct:"+   estadoAct+" \ " +
+    "zonaAula:"+    zonaAula+ " \ " +
+    "pickerDesde:"+    pickerDesde+ " \ " +
+    "pickerHasta:"+    pickerHasta
+      );
+/*
        this.actividades.update(this.id , 
           {   dias: dias,       
           periodo: periodo, descripcion: descripcion, horaFin: horaFin,    
@@ -111,20 +127,10 @@ export class modEvento implements OnInit {
           tipoActividad: tipoAct,   estadoActividad: estadoAct,
           zonaAula: zonaAula,
           pickerDesde: pickerDesde,      pickerHasta: pickerHasta
-        });
+        }).catch(error => this.handleError(error));
         this.router.navigate(['/main']);  
 
-
-  }
-
-  Delete(key): void {
-      this.actividades.remove( key);
-      this.msgVal = '';
-  }
-
-  updateActividadMongo(msg: string, key): void {
-    this.actividades.update( key, {alert: msg});
-
+*/
   }
 
   Horario(){
@@ -140,4 +146,8 @@ export class modEvento implements OnInit {
   ngOnInit(){
 
   }
+   // Default error handling for all actions
+ private handleError(error) {
+   console.log(error)
+ }
 }
