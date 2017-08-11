@@ -9,8 +9,27 @@
   <link rel="icon" type="image/x-icon" href="favicon.ico">
 
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <!-- Compiled and minified CSS -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.1/css/materialize.min.css">
+
+  <!-- Compiled and minified JavaScript -->
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.1/js/materialize.min.js"></script>
+
 </head>
 <body>
   <app-root></app-root>
 </body>
+<script type="text/javascript">
+  $('.datepicker').pickadate({
+    selectMonths: true, // Creates a dropdown to control month
+    selectYears: 15, // Creates a dropdown of 15 years to control year,
+    today: 'Hoy',
+    clear: 'Limpiar',
+    close: 'Ok',
+    format: 'dd/mm/yyyy',
+    closeOnSelect: false // Close upon selecting a date,
+  });
+</script>
 </html>

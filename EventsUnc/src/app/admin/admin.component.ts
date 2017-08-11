@@ -49,8 +49,8 @@ export class AdminComponent implements OnInit  {
   descripcion: string = '';
   horaFin: string = '';
   horaInicio: string = '';
-  //fechaFin:string = '';
-  //fechaInicio: string = '';
+  //fechaFin:MdDatepicker<Date> ;
+  //fechaInicio:MdDatepicker<Date> ;
   nombre: string = '';
   zonaAula: string = '';
   numberHora: any[];

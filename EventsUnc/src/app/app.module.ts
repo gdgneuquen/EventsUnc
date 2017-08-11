@@ -1,3 +1,5 @@
+
+import { Evento, IEvento } from './commons/evento.model';
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { HttpModule } from '@angular/http';
@@ -28,6 +30,8 @@ import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {MdButtonModule} from '@angular/material';
 import {MdInputModule, MdSelectModule} from '@angular/material';
 //import { DatepickerModule } from 'angular2-material-datepicker'
+import { MaterializeModule } from 'angular2-materialize';
+
 
 export const firebaseConfig = {
 
@@ -64,7 +68,7 @@ export const firebaseConfig = {
     AngularFireAuthModule, // imports firebase/auth, only needed for auth features
     MaterialModule,BrowserAnimationsModule, MdDatepickerModule, //DatepickerModule,
      MdButtonModule, MdNativeDateModule, MdInputModule,MdCheckboxModule,
-     MdSelectModule
+     MdSelectModule,MaterializeModule
   ],
   providers: [AuthService],
   bootstrap: [AppComponent]
