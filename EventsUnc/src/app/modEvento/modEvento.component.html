@@ -4,11 +4,11 @@
 
 <div class="container" [hidden]="!isUserLoggedIn()">
   <!--<form    >-->
-    <!--
+
     <div class="row">
-      <pre>{{ evento | json }}</pre>
+      <pre>{{ (evento | async)?.descripcion  }}</pre>
     </div>
-    -->
+
   <div class="row">
     <div class="col s12 m6 l3">
         <h6>HORA INICIO(*)</h6>
@@ -24,139 +24,152 @@
     </div>
 
   </div>
+
   <div class="row">
     <div class="col s12 m6 l3">
-        <select materialize="material_select" class="white-text"  id="horaInicio" name="horaInicio"
-                [materializeSelectOptions]="numberHora"
-                [(ngModel)]="evento.horaInicio">
+      <div class="input-field">
+        <select materialize="material_select" class="white-text" name="horaInicio" id="horaInicio"
+                [(ngModel)]="horaInicio" (input)="horaInicio=$event.target.value"
+                [materializeSelectOptions]="numberHora" >
           <option *ngFor="let number of numberHora" [value]="number">{{number}}</option>
         </select>
-    </div>
-
-    <div class="col s12 m6 l3">
-        <select materialize="material_select"  id="horaFin" name="horaFin"
-                [materializeSelectOptions]="numberHora"
-                [(ngModel)]="evento.horaFin">
-          <option *ngFor="let number of numberHora" [value]="number">{{number}}</option>
-        </select>
-    </div>
-
-    <div class="col s12 m6 l3">
-      <input type="text" class="datepicker"  id="pickerDesde" name="pickerDesde"   [defaultValue]="evento.pickerDesde" [(ngModel)]="evento.pickerDesde" style="width: 120px;">
-
-   </div>
-
-
-      <div class="col s12 m6 l3">
-        <input type="text" class="datepicker" id="pickerHasta" name="pickerHasta"  [defaultValue]="evento.pickerHasta"  [(ngModel)]="evento.pickerHasta" style="width: 120px;">
+        <label for="horaInicio" data-error="campo requerido" data-success="right"></label>
       </div>
-
-  </div>
-
-  <div class="row">
-    <div class="col s12 m12 l12">
-        <h6>DIAS</h6>
     </div>
-  </div>
-  <div class="row">
-    <div class="col s12 m12 l12">
-          <input type="checkbox" class="filled-in" [(ngModel)]="dias[0]"  id="chk_lun"/><label for="chk_lun">Lunes</label>
-          <input type="checkbox" class="filled-in" [(ngModel)]="dias[1]"  id="chk_ma"/><label for="chk_ma">Martes</label>
-          <input type="checkbox" class="filled-in" [(ngModel)]="dias[2]"  id="chk_mi"/><label for="chk_mi">Miercoles</label>
-          <input type="checkbox" class="filled-in" [(ngModel)]="dias[3]"  id="chk_ju"/><label for="chk_ju">Jueves</label>
-          <input type="checkbox" class="filled-in" [(ngModel)]="dias[4]"  id="chk_vi"/><label for="chk_vi">Viernes</label>
-          <input type="checkbox" class="filled-in" [(ngModel)]="dias[5]"  id="chk_sa"/><label for="chk_sa">Sabado</label>
-          <input type="checkbox" class="filled-in" [(ngModel)]="dias[6]"  id="chk_do"/><label for="chk_do">Domingo</label>
-    </div>
-    </div>
-  <div class="row">
     <div class="col s12 m6 l3">
-        <h6>PERIODO</h6>
+      <div class="input-field">
+          <select materialize="material_select" name="horaFin" id="horaFin"
+                  [(ngModel)]="horaFin" (input)="horaFin=$event.target.value"
+                  [materializeSelectOptions]="numberHora" >
+            <option *ngFor="let number of numberHora" [value]="number">{{number}}</option>
+          </select>
+          <label for="horaFin" data-error="campo requerido" data-success="right"></label>
+      </div>
     </div>
 
     <div class="col s12 m6 l3">
-        <h6>TIPO DE ACTIVIDAD</h6>
-    </div>
+      <div class="input-field">
+        <input type="text" class="datepicker"  id="pickerDesde" name="pickerDesde"   [defaultValue]="pickerDesde" [(ngModel)]="pickerDesde" style="width: 120px;">
+      </div>
+     </div>
+
+
     <div class="col s12 m6 l3">
-
+      <div class="input-field">
+          <input type="text" class="datepicker" id="pickerHasta" name="pickerHasta"  [defaultValue]="pickerHasta"  [(ngModel)]="pickerHasta" style="width: 120px;">
+      </div>
     </div>
 
-  </div>
+    </div>
     <div class="row">
-
-     <div class="col s12 m6 l3">
-        <select materialize="material_select"  name="periodo" id="periodo"  style="width: 200px;"
-                [materializeSelectOptions]="periodos"
-                [(ngModel)]="evento.periodo">
-          <option *ngFor="let p of periodos" [value]="p">{{p}}</option>
-        </select>
-    </div>
-    <div class="col s12 m6 l5">
-        <select materialize="material_select" id="tipoActividad"  name="tipoActividad"  style="width: 200px;"
-                [materializeSelectOptions]="tiposDeActividad"
-                [(ngModel)]="evento.tipoActividad">
-          <option
-                  *ngFor="let t of tiposDeActividad  | async"
-                  [class.green]="t.estado == '1'"
-                  [class.yellow]="t.estado == '2'"
-                  [class.red]="t.estado == '3'">{{t.nombre}}</option>
-        </select>
-
-    </div>
-   <div class="col s12 m6 l3">
-
-
-    </div>
-  </div>
-  <div class="row">
-    <div class="input-field col s6">
-          <input placeholder="Nombre de la Actividad (*)"
-                  id="descripcion" type="text" name="descripcion"
-                  [(ngModel)]="evento.descripcion"
-                  class="validate">
-          <label for="descripcion"></label>
-    </div>
-  </div>
-  <div class="row">
-    <div class="input-field col s6">
-          <input placeholder="Referente/Profesor (*)"
-                  id="nombre" type="text" name="nombre"
-                  [(ngModel)]="evento.nombre"
-                  class="validate">
-          <label for="nombre"></label>
-    </div>
-  </div>
-  <div class="row">
-    <div class="col s12 m6 l3">
-        <h6>AULA(*)</h6>
-    </div>
-      <div class="col s12 m6 l3">
-        <h6>ESTADO(*)</h6>
+      <div class="col s12 m12 l12">
+          <h6>DIAS</h6>
       </div>
-  </div>
-  <div class="row">
-    <div class="col s12 m6 l3" >
-        <select materialize="material_select" name="zonaAula"  style="width: 200px;"
-                [materializeSelectOptions]="aulas"
-                [(ngModel)]="evento.zonaAula">
-          <option   *ngFor="let a of aulas | async"
-                   [value]="a.nombre">{{a.nombre}}</option>
-        </select>
+    </div>
+    <div class="row">
+      <div class="col s12 m12 l12">
+        <div class="input-field">
+            <input type="checkbox" class="filled-in" [(ngModel)]="chk_lun"  id="chk_lun"/><label for="chk_lun">Lunes</label>
+            <input type="checkbox" class="filled-in" [(ngModel)]="chk_ma"  id="chk_ma"/><label for="chk_ma">Martes</label>
+            <input type="checkbox" class="filled-in" [(ngModel)]="chk_mi"  id="chk_mi"/><label for="chk_mi">Miercoles</label>
+            <input type="checkbox" class="filled-in" [(ngModel)]="chk_ju"  id="chk_ju"/><label for="chk_ju">Jueves</label>
+            <input type="checkbox" class="filled-in" [(ngModel)]="chk_vi"  id="chk_vi"/><label for="chk_vi">Viernes</label>
+            <input type="checkbox" class="filled-in" [(ngModel)]="chk_sa"  id="chk_sa"/><label for="chk_sa">Sabado</label>
+            <input type="checkbox" class="filled-in" [(ngModel)]="chk_do"  id="chk_do"/><label for="chk_do">Domingo</label>
+        </div>
+      </div>
+      </div>
+    <div class="row">
+      <div class="col s12 m6 l3">
+          <h6>PERIODO</h6>
+      </div>
+
+      <div class="col s12 m6 l3">
+          <h6>TIPO DE ACTIVIDAD</h6>
+      </div>
+      <div class="col s12 m6 l3">
+
+      </div>
 
     </div>
-    <div class="col s2col s12 m6 l3">
-        <select materialize="material_select" name="estadoActividad"  style="width: 200px;"
-                [materializeSelectOptions]="aulas"
-                [(ngModel)]="evento.estadoActividad">
-          <option   *ngFor="let a of estadoActividad | async"
-                    [class.green]="a.estado == '1'"
-                    [class.yellow]="a.estado == '2'"
-                    [class.red]="a.estado == '3'"
-                   [value]="a.nombre">{{a.nombre}}</option>
-        </select>
+      <div class="row">
 
+       <div class="col s12 m6 l3">
+         <div class="input-field">
+            <select materialize="material_select"  name="periodo" id="periodo"  style="width: 200px;"
+                    [materializeSelectOptions]="periodos"
+                    [(ngModel)]="periodo">
+              <option *ngFor="let p of periodos" [value]="p">{{p}}</option>
+            </select>
+         </div>
+      </div>
+      <div class="col s12 m6 l5">
+        <div class="input-field">
+          <select materialize="material_select" id="tipoActividad"  name="tipoActividad"  style="width: 200px;"
+                  [materializeSelectOptions]="tiposDeActividades"
+                  [(ngModel)]="tipoActividad">
+            <option
+                    *ngFor="let t of tiposDeActividades | async"
+                    [class.green]="t.estado == '1'"
+                    [class.yellow]="t.estado == '2'"
+                    [class.red]="t.estado == '3'">{{t.nombre}}</option>
+          </select>
+        </div>
+      </div>
+     <div class="col s12 m6 l3">
+
+
+      </div>
     </div>
-  </div>
+    <div class="row">
+      <div class="input-field col s6">
+            <input placeholder="Nombre de la Actividad (*)"
+                    id="descripcion" type="text" name="descripcion"
+                    [(ngModel)]="descripcion"
+                    class="validate">
+            <label for="descripcion"></label>
+      </div>
+    </div>
+    <div class="row">
+      <div class="input-field col s6">
+            <input placeholder="Referente/Profesor (*)"
+                    id="nombre" type="text" name="nombre"
+                    [(ngModel)]="nombre"
+                    class="validate">
+            <label for="nombre"></label>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col s12 m6 l3">
+          <h6>AULA(*)</h6>
+      </div>
+        <div class="col s12 m6 l3">
+          <h6>ESTADO(*)</h6>
+        </div>
+    </div>
+    <div class="row">
+      <div class="col s12 m6 l3" >
+          <select materialize="material_select" name="zonaAula"  style="width: 200px;"
+                  [materializeSelectOptions]="aulas"
+                  [(ngModel)]="zonaAula">
+            <option   *ngFor="let a of aulas  | async "
+                     [value]="a.nombre">{{a.nombre}}</option>
+          </select>
+
+      </div>
+      <div class="col s2col s12 m6 l3">
+          <select materialize="material_select" name="estadoActividad"  style="width: 200px;"
+                  [materializeSelectOptions]="aulas"
+                  [(ngModel)]="estadoActividad">
+            <option   *ngFor="let a of estadoActividades | async "
+                      [class.green]="a.estado == '1'"
+                      [class.yellow]="a.estado == '2'"
+                      [class.red]="a.estado == '3'"
+                     [value]="a.nombre">{{a.nombre}}</option>
+          </select>
+
+      </div>
+    </div>
   <div class="row">
     <div class="col s2">
       <!--

@@ -1,6 +1,6 @@
 
-export interface IEvento {
-  //$key?: string;
+export interface Evento {
+  $key?: string;
   descripcion: string;
   dias: any[];
   horaFin: string;
@@ -14,7 +14,7 @@ export interface IEvento {
   periodo: string;
 }
 
-
+/*
 export class Evento implements IEvento {
   //$key?: string;
   public descripcion: string;
@@ -58,3 +58,4 @@ export class Evento implements IEvento {
       this.periodo = periodo;
   }
 }
+*/
