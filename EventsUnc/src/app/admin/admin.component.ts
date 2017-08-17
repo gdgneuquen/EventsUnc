@@ -101,7 +101,7 @@ export class AdminComponent implements OnInit  {
    this.selectedActividad = key;
   }
 
-  isUserLoggedIn(){
+  isUserLoggedIn() {
    return this.authService.loggedIn;
   }
 

@@ -1,9 +1,7 @@
-
-import { Evento, IEvento } from './commons/evento.model';
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { HttpModule } from '@angular/http';
-import { routing }from'./app-router.module';
+import { routing } from './app-router.module';
 //FORMS
 import { FormsModule, ReactiveFormsModule,  } from '@angular/forms';
 
@@ -13,9 +11,10 @@ import { AdminComponent } from './admin/admin.component';
 import { NotificacionesComponent } from './notificaciones/notificaciones.component';
 import { MainComponent } from './main/main.component';
 import { HeaderComponent } from './header/header.component';
-import { modEvento }from'./modEvento/modEvento.component';
+import { modEvento } from './modEvento/modEvento.component';
 import { AuthenticationComponent } from './authentication/authentication.component';
 import { AuthService } from './providers/auth.service';
+import { FirebaseconnectionService } from './providers/firebaseconnection.service';
 import { PageNotFoundComponent} from './notfound/page.not.found.component';
 import { OrderModule } from 'ngx-order-pipe';
 
@@ -29,13 +28,12 @@ import { MaterialModule, MdDatepickerModule, MdNativeDateModule , MdCheckboxModu
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {MdButtonModule} from '@angular/material';
 import {MdInputModule, MdSelectModule} from '@angular/material';
-//import { DatepickerModule } from 'angular2-material-datepicker'
 import { MaterializeModule } from 'angular2-materialize';
 
 
 export const firebaseConfig = {
 
-     apiKey: "AIzaSyATyRktSqq_zEPiX4Yj8B8wZuWEh2I3cfs",
+    apiKey: "AIzaSyATyRktSqq_zEPiX4Yj8B8wZuWEh2I3cfs",
     authDomain: "faeatest.firebaseapp.com",
     databaseURL: "https://faeatest.firebaseio.com",
     projectId: "faeatest",
@@ -66,11 +64,11 @@ export const firebaseConfig = {
     AngularFireModule.initializeApp(firebaseConfig), // imports firebase/app needed for everything
     AngularFireDatabaseModule, // imports firebase/database, only needed for database features
     AngularFireAuthModule, // imports firebase/auth, only needed for auth features
-    MaterialModule,BrowserAnimationsModule, MdDatepickerModule, //DatepickerModule,
-     MdButtonModule, MdNativeDateModule, MdInputModule,MdCheckboxModule,
-     MdSelectModule,MaterializeModule
+    MaterialModule, BrowserAnimationsModule, MdDatepickerModule,
+     MdButtonModule, MdNativeDateModule, MdInputModule, MdCheckboxModule,
+     MdSelectModule, MaterializeModule
   ],
-  providers: [AuthService],
+  providers: [AuthService, FirebaseconnectionService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

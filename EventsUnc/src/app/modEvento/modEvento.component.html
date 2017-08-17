@@ -2,14 +2,15 @@
 
 <div>
 
-<div class="container" [hidden]="!isUserLoggedIn()">
+<div class="container" [hidden]="!isUserLoggedIn()" *ngIf="eventoObject" >
   <!--<form    >-->
 
     <div class="row">
-      <pre>{{ (evento | async)?.descripcion  }}</pre>
+      <pre>{{(eventoObject | json)  }}</pre>
     </div>
 
   <div class="row">
+    <input type="hidden" [(ngModel)]="eventoObject.$key" id="$key" name="$key">
     <div class="col s12 m6 l3">
         <h6>HORA INICIO(*)</h6>
     </div>
@@ -29,7 +30,7 @@
     <div class="col s12 m6 l3">
       <div class="input-field">
         <select materialize="material_select" class="white-text" name="horaInicio" id="horaInicio"
-                [(ngModel)]="horaInicio" (input)="horaInicio=$event.target.value"
+                [(ngModel)]="eventoObject.horaInicio" (change)="OnChanges($event)"
                 [materializeSelectOptions]="numberHora" >
           <option *ngFor="let number of numberHora" [value]="number">{{number}}</option>
         </select>
@@ -39,7 +40,8 @@
     <div class="col s12 m6 l3">
       <div class="input-field">
           <select materialize="material_select" name="horaFin" id="horaFin"
-                  [(ngModel)]="horaFin" (input)="horaFin=$event.target.value"
+                  *ngIf="eventoObject" [(ngModel)]="eventoObject.horaFin"  (change)="OnChanges($event)"
+                  (input)="horaFin=$event.target.value"
                   [materializeSelectOptions]="numberHora" >
             <option *ngFor="let number of numberHora" [value]="number">{{number}}</option>
           </select>
@@ -49,14 +51,18 @@
 
     <div class="col s12 m6 l3">
       <div class="input-field">
-        <input type="text" class="datepicker"  id="pickerDesde" name="pickerDesde"   [defaultValue]="pickerDesde" [(ngModel)]="pickerDesde" style="width: 120px;">
+        <input type="text" class="datepicker"  id="pickerDesde" name="pickerDesde"
+               [defaultValue]="eventoObject.pickerDesde" (change)="OnChanges($event)"
+               [(ngModel)]="eventoObject.pickerDesde" style="width: 120px;">
       </div>
      </div>
 
 
     <div class="col s12 m6 l3">
       <div class="input-field">
-          <input type="text" class="datepicker" id="pickerHasta" name="pickerHasta"  [defaultValue]="pickerHasta"  [(ngModel)]="pickerHasta" style="width: 120px;">
+          <input type="text" class="datepicker" id="pickerHasta" name="pickerHasta"
+                 [defaultValue]="eventoObject.pickerHasta" (change)="OnChanges($event)"
+                 [(ngModel)]="eventoObject.pickerHasta" style="width: 120px;">
       </div>
     </div>
 
@@ -69,13 +75,13 @@
     <div class="row">
       <div class="col s12 m12 l12">
         <div class="input-field">
-            <input type="checkbox" class="filled-in" [(ngModel)]="chk_lun"  id="chk_lun"/><label for="chk_lun">Lunes</label>
-            <input type="checkbox" class="filled-in" [(ngModel)]="chk_ma"  id="chk_ma"/><label for="chk_ma">Martes</label>
-            <input type="checkbox" class="filled-in" [(ngModel)]="chk_mi"  id="chk_mi"/><label for="chk_mi">Miercoles</label>
-            <input type="checkbox" class="filled-in" [(ngModel)]="chk_ju"  id="chk_ju"/><label for="chk_ju">Jueves</label>
-            <input type="checkbox" class="filled-in" [(ngModel)]="chk_vi"  id="chk_vi"/><label for="chk_vi">Viernes</label>
-            <input type="checkbox" class="filled-in" [(ngModel)]="chk_sa"  id="chk_sa"/><label for="chk_sa">Sabado</label>
-            <input type="checkbox" class="filled-in" [(ngModel)]="chk_do"  id="chk_do"/><label for="chk_do">Domingo</label>
+            <input type="checkbox" class="filled-in" (change)="OnChanges($event)" [(ngModel)]="eventoObject.chk_lun"  id="chk_lun" name="chk_lun"/><label for="chk_lun">Lunes</label>
+            <input type="checkbox" class="filled-in" (change)="OnChanges($event)" [(ngModel)]="eventoObject.chk_ma"  id="chk_ma" name="chk_ma"/><label for="chk_ma">Martes</label>
+            <input type="checkbox" class="filled-in" (change)="OnChanges($event)" [(ngModel)]="eventoObject.chk_mi"  id="chk_mi" name="chk_mi"/><label for="chk_mi">Miercoles</label>
+            <input type="checkbox" class="filled-in" (change)="OnChanges($event)" [(ngModel)]="eventoObject.chk_ju"  id="chk_ju" name="chk_ju"/><label for="chk_ju">Jueves</label>
+            <input type="checkbox" class="filled-in" (change)="OnChanges($event)" [(ngModel)]="eventoObject.chk_vi"  id="chk_vi" name="chk_vi"/><label for="chk_vi">Viernes</label>
+            <input type="checkbox" class="filled-in" (change)="OnChanges($event)" [(ngModel)]="eventoObject.chk_sa"  id="chk_sa" name="chk_sa"/><label for="chk_sa">Sabado</label>
+            <input type="checkbox" class="filled-in" (change)="OnChanges($event)" [(ngModel)]="eventoObject.chk_do"  id="chk_do" name="chk_do"/><label for="chk_do">Domingo</label>
         </div>
       </div>
       </div>
@@ -97,8 +103,8 @@
        <div class="col s12 m6 l3">
          <div class="input-field">
             <select materialize="material_select"  name="periodo" id="periodo"  style="width: 200px;"
-                    [materializeSelectOptions]="periodos"
-                    [(ngModel)]="periodo">
+                    [materializeSelectOptions]="periodos"  (change)="OnChanges($event)"
+                    [(ngModel)]="eventoObject.periodo">
               <option *ngFor="let p of periodos" [value]="p">{{p}}</option>
             </select>
          </div>
@@ -106,8 +112,8 @@
       <div class="col s12 m6 l5">
         <div class="input-field">
           <select materialize="material_select" id="tipoActividad"  name="tipoActividad"  style="width: 200px;"
-                  [materializeSelectOptions]="tiposDeActividades"
-                  [(ngModel)]="tipoActividad">
+                  [materializeSelectOptions]="tiposDeActividades"  (change)="OnChanges($event)"
+                  [(ngModel)]="eventoObject.tipoActividad">
             <option
                     *ngFor="let t of tiposDeActividades | async"
                     [class.green]="t.estado == '1'"
@@ -125,8 +131,8 @@
       <div class="input-field col s6">
             <input placeholder="Nombre de la Actividad (*)"
                     id="descripcion" type="text" name="descripcion"
-                    [(ngModel)]="descripcion"
-                    class="validate">
+                    [(ngModel)]="eventoObject.descripcion"  (change)="OnChanges($event)"
+                   class="validate">
             <label for="descripcion"></label>
       </div>
     </div>
@@ -134,8 +140,8 @@
       <div class="input-field col s6">
             <input placeholder="Referente/Profesor (*)"
                     id="nombre" type="text" name="nombre"
-                    [(ngModel)]="nombre"
-                    class="validate">
+                    [(ngModel)]="eventoObject.nombre"  (change)="OnChanges($event)"
+                   class="validate">
             <label for="nombre"></label>
       </div>
     </div>
@@ -150,8 +156,8 @@
     <div class="row">
       <div class="col s12 m6 l3" >
           <select materialize="material_select" name="zonaAula"  style="width: 200px;"
-                  [materializeSelectOptions]="aulas"
-                  [(ngModel)]="zonaAula">
+                  [materializeSelectOptions]="aulas"  (change)="OnChanges($event)"
+                  [(ngModel)]="eventoObject.zonaAula">
             <option   *ngFor="let a of aulas  | async "
                      [value]="a.nombre">{{a.nombre}}</option>
           </select>
@@ -159,8 +165,8 @@
       </div>
       <div class="col s2col s12 m6 l3">
           <select materialize="material_select" name="estadoActividad"  style="width: 200px;"
-                  [materializeSelectOptions]="aulas"
-                  [(ngModel)]="estadoActividad">
+                  [materializeSelectOptions]="aulas"  (change)="OnChanges($event)"
+                  [(ngModel)]="eventoObject.estadoActividad">
             <option   *ngFor="let a of estadoActividades | async "
                       [class.green]="a.estado == '1'"
                       [class.yellow]="a.estado == '2'"
@@ -175,7 +181,7 @@
       <!--
       <input type="submit" value="OK" class="waves-effect waves-light indigo darken-1 btn">
      -->
-      <a (click)="SendEvento(evento)"
+      <a (click)="SendEvento(eventoObject)"
           class="waves-effect waves-light indigo darken-1 btn">OK</a>
 <!--
       <a (click)="Send(chk_lun, chk_ma, chk_mi, chk_ju, chk_vi, chk_sa, chk_do, periodo, descripcion,
