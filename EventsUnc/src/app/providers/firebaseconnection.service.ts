@@ -41,15 +41,44 @@ export class FirebaseconnectionService {
     return this.af.object('/actividades/' + key, options);
   }
 
-  /*
-  getActividadByKey(key: string, options: any): FirebaseObjectObservable<any> {
-    return this.af.object('/actividades/' + key, options);
+  addActividad(actividad: Evento) {
+    // TODO: asume que fue validado
+    this.af.list('/actividades').push(
+      {
+        descripcion: actividad.descripcion,
+        dias: actividad.dias,
+        estadoActividad: actividad.estadoActividad,
+        horaFin: actividad.horaFin,
+        horaInicio: actividad.horaInicio,
+        nombre: actividad.nombre,
+        periodo: actividad.periodo,
+        pickerDesde: actividad.pickerDesde,
+        pickerHasta: actividad.pickerHasta,
+        tipoActividad: actividad.tipoActividad,
+        zonaAula: actividad.zonaAula
+      }
+    );
   }
-
-  */
   updateActividadByKey(key: string, actividad: Evento) {
-    const item = this.af.object('/actividades/' + key);
-    item.set(actividad);
+    // no actualizaba
+    actividad.dias = [actividad.chk_lun, actividad.chk_ma, actividad.chk_mi, actividad.chk_ju, actividad.chk_vi, actividad.chk_sa, actividad.chk_do];
+
+    this.af.object('/actividades/' + key).set(
+      {
+        descripcion: actividad.descripcion,
+        dias: actividad.dias,
+        estadoActividad: actividad.estadoActividad,
+        horaFin: actividad.horaFin,
+        horaInicio: actividad.horaInicio,
+        nombre: actividad.nombre,
+        periodo: actividad.periodo,
+        pickerDesde: actividad.pickerDesde,
+        pickerHasta: actividad.pickerHasta,
+        tipoActividad: actividad.tipoActividad,
+        zonaAula: actividad.zonaAula
+      }
+    );
+
   }
 
   removeActividadByKey(key: string) {

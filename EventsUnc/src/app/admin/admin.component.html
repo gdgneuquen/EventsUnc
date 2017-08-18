@@ -21,7 +21,7 @@
   <div class="row">
     <div class="col s12 m6 l3">
         <md-select   id="horaInicio"
-                [(ngModel)]="horaInicio"
+                [(ngModel)]="eventoObject.horaInicio"
                 placeholder="Seleccione..."
                 floatPlaceholder="never">
           <md-option [value]="number" *ngFor="let number of numberHora" >{{ number }}
@@ -30,7 +30,7 @@
     </div>
     <div class="col s12 m6 l3">
         <md-select id="horaFin"
-                [(ngModel)]="horaFin"
+                [(ngModel)]="eventoObject.horaFin"
                 placeholder="Seleccione..."
                 floatPlaceholder="never">
           <md-option [value]="number" *ngFor="let number of numberHora" >{{ number }}</md-option>
@@ -38,7 +38,7 @@
     </div>
     <div class="col s12 m6 l3">
       <input mdInput
-              [mdDatepicker]="pickerDesde" [min]="minDate" [max]="maxDate"
+              [mdDatepicker]="pickerDesde" [min]="minDate" [max]="maxDate" [ngModel]="eventoObject.pickerDesde"
               placeholder="Seleccione..." (dateChange)="getDataFormat($event)"
               style="width: 120px;" name="pickerDesde" id="pickerDesde"
               floatPlaceholder="never">
@@ -47,7 +47,7 @@
    </div>
       <div class="col s12 m6 l3">
         <input mdInput
-                [mdDatepicker]="pickerHasta" [min]="minDate" [max]="maxDate"
+                [mdDatepicker]="pickerHasta" [min]="minDate" [max]="maxDate" [ngModel]="eventoObject.pickerHasta"
                 placeholder="Seleccione..." (dateChange)="getDataFormat($event)"
                 style="width: 120px;" name="pickerHasta" id="pickerHasta"
                 floatPlaceholder="never">
@@ -63,13 +63,13 @@
   <div class="row">
     <div class="col s12 m12 l12">
         <section >
-          <md-checkbox  [(ngModel)]="chk_lun">Lunes</md-checkbox>
-          <md-checkbox  [(ngModel)]="chk_ma">Martes</md-checkbox>
-          <md-checkbox  [(ngModel)]="chk_mi">Miercoles</md-checkbox>
-          <md-checkbox  [(ngModel)]="chk_ju">Jueves</md-checkbox>
-          <md-checkbox  [(ngModel)]="chk_vi">Viernes</md-checkbox>
-          <md-checkbox  [(ngModel)]="chk_sa">Sabado</md-checkbox>
-          <md-checkbox  [(ngModel)]="chk_do">Domingo</md-checkbox>
+          <md-checkbox [checked]="eventoObject.chk_lun" [(ngModel)]="eventoObject.chk_lun">Lunes</md-checkbox>
+          <md-checkbox [checked]="eventoObject.chk_ma"  [(ngModel)]="eventoObject.chk_ma">Martes</md-checkbox>
+          <md-checkbox [checked]="eventoObject.chk_mi"  [(ngModel)]="eventoObject.chk_mi">Miercoles</md-checkbox>
+          <md-checkbox [checked]="eventoObject.chk_ju"  [(ngModel)]="eventoObject.chk_ju">Jueves</md-checkbox>
+          <md-checkbox [checked]="eventoObject.chk_vi"  [(ngModel)]="eventoObject.chk_vi">Viernes</md-checkbox>
+          <md-checkbox [checked]="eventoObject.chk_sa"  [(ngModel)]="eventoObject.chk_sa">Sabado</md-checkbox>
+          <md-checkbox [checked]="eventoObject.chk_do"  [(ngModel)]="eventoObject.chk_do">Domingo</md-checkbox>
         </section>
     </div>
     </div>
@@ -91,7 +91,7 @@
 
      <div class="col s12 m6 l3">
         <md-select id="periodos"
-                [(ngModel)]="periodo"
+                [(ngModel)]="eventoObject.periodo"
                 placeholder="Seleccione..."
                 style="min-width: 200px;"
                 class="browser-default black-text browser-default"
@@ -102,13 +102,13 @@
     </div>
     <div class="col s12 m6 l5">
         <md-select   id="tipoDeActividad"
-                [(ngModel)]="tipoAct"
+                [(ngModel)]="eventoObject.tipoActividad"
                 placeholder="Seleccione..."
                 class="browser-default black-text browser-default"
                 style="min-width: 200px;"
                 floatPlaceholder="never" >
           <md-option  [value]="t.nombre"
-                  *ngFor="let t of tipoDeActividad | async "
+                  *ngFor="let t of tiposDeActividades | async "
                   [class.green]="t.estado == '1'"
                   [class.yellow]="t.estado == '2'"
                   [class.red]="t.estado == '3'">{{t.nombre}}
@@ -124,13 +124,13 @@
   <div class="row">
     <div class="input-field col s6">
           <input id="descripcion"
-           placeholder="Nombre de la Actividad (*)"  [(ngModel)]="descripcion">
+           placeholder="Nombre de la Actividad (*)"  [(ngModel)]="eventoObject.descripcion">
     </div>
   </div>
   <div class="row">
     <div class="input-field col s6">
           <input type="text" id="nombre"
-            placeholder="Referente/Profesor (*)"  [(ngModel)]="nombre">
+            placeholder="Referente/Profesor (*)"  [(ngModel)]="eventoObject.nombre">
     </div>
   </div>
   <div class="row">
@@ -144,7 +144,7 @@
   <div class="row">
     <div class="col s2" >
         <md-select   id="zonaAula"
-                [(ngModel)]="zonaAula"
+                [(ngModel)]="eventoObject.zonaAula"
                 placeholder="Seleccione..."
                 class="browser-default black-text browser-default"
                 style="min-width: 200px;"
@@ -155,12 +155,12 @@
     </div>
     <div class="col s2">
         <md-select   id="estadoAct"
-                [(ngModel)]="estadoAct"
+                [(ngModel)]="eventoObject.estadoActividad"
                 placeholder="Seleccione..."
                 class="browser-default black-text browser-default"
                 style="min-width: 200px;"
                 floatPlaceholder="never" >
-          <md-option   *ngFor="let a of estadoActividad | async" [value]="a.nombre"
+          <md-option   *ngFor="let a of estadoActividades | async" [value]="a.nombre"
            [class.green]="a.estado == '1'" [class.yellow]="a.estado == '2'" [class.red]="a.estado == '3'">{{a.nombre}}
           </md-option>
         </md-select>
@@ -169,11 +169,13 @@
   </div>
   <div class="row">
     <div class="col s2">
-
+      <a (click)="SendEvento(eventoObject)"
+         class="waves-effect waves-light indigo darken-1 btn">OK</a>
+<!--
       <a (click)="Send(chk_lun, chk_ma, chk_mi, chk_ju, chk_vi, chk_sa, chk_do, periodo, descripcion,
       horaFin, horaInicio, nombre, tipoAct, estadoAct, zonaAula,  pickerDesde, pickerHasta)"
           class="waves-effect waves-light indigo darken-1 btn">OK</a>
-
+-->
     </div>
     <div class="col s1">
       <a (click)="goToMain()" class="waves-effect waves-light indigo darken-1 btn">CANCEL</a>

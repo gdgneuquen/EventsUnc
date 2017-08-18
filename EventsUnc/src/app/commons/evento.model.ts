@@ -1,6 +1,6 @@
 
 export interface IEvento {
-  $key?: string;
+  key?: string;
   descripcion: string;
   dias: any[];
   horaFin: string;
@@ -15,7 +15,7 @@ export interface IEvento {
 }
 
 export class Evento implements IEvento {
-  $key?: string;
+  key?: string;
   public descripcion: string;
   public dias: any[];
   public horaFin: string;
@@ -36,7 +36,7 @@ export class Evento implements IEvento {
   public chk_do: boolean;
 
   constructor(
-    $key: string,
+    key: string,
     descripcion: string,
     dias: any[],
     horaFin: string,
@@ -49,8 +49,8 @@ export class Evento implements IEvento {
     zonaAula: string,
     periodo: string
   ) {
-      if (!$key) {
-        this.$key = $key;
+      if (key) {
+        this.key = key;
       }
 
       this.descripcion = descripcion;
