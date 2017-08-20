@@ -1,9 +1,12 @@
-import { Component, NgZone } from '@angular/core';
+import { Component, NgZone, OnInit } from '@angular/core';
 import { FormBuilder } from '@angular/forms';
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/observable/throw';//Para trabajar con los observables desde rxjs
 import 'rxjs/add/operator/catch';//para poder tomar cosas
 import 'rxjs/add/operator/toPromise';
+import 'rxjs/add/observable/of';
+import 'rxjs/add/operator/map';
+import { map } from 'rxjs/operator/map';
 import { Subject } from 'rxjs/Subject'
 
 import { Router } from '@angular/router';
@@ -20,15 +23,16 @@ import * as moment from 'moment';
   templateUrl: './evento.component.html',
   styleUrls: ['./evento.component.css']
 })
-export class EventoComponent {
+export class EventoComponent implements OnInit {
 
   tablaResponsiva = true;
 
-  //Relacionado al plugin momentjs:
+  //Relacionado al plugin momentjs y la fecha:
   horaActual = moment().locale('es').format('LT');
   hoy = moment().locale('es').format('L');//fecha corta
   filtroDia = moment().locale('es').format('YYYY-MM-DD'); //formato firebase
   dia = moment().locale('es').format('dddd');//dia de la semana
+  diaEnNumero = 0;
 
   //Relacionado al plugin ngx-order-pipe. Hay que agregarlo a imports en app.module.ts
   order = "actividad.pickerDesde";
@@ -39,7 +43,8 @@ export class EventoComponent {
   actividades: FirebaseListObservable<any[]>; //actividades es tipo any para poder recibir todo lo que le trae el servicio
   msgVal: string = ''; //mensaje de entrada del form
   selectedActividad: string = '';
-  hora=0;
+  hora = 0;
+  arrayEventos: any[];
 
   constructor(
     private authService: AuthService,
@@ -47,33 +52,81 @@ export class EventoComponent {
     private router: Router, ) {
     this.actividades = af.list('/actividades',
       {
-        query: {
-          limitToLast: 50,
-          orderByChild: 'pickerDesde',
-          //startAt: this.filtroDia //contemplaria desde rango de fechas incluyendo la actual
-          equalTo: this.filtroDia
+        query:
+        {
+          orderByChild: "pickerDesde",
+          startAt: this.hoy
         }
       });
 
-      //Es necesario que las actividades tengan un campo fechaInicio para que se muestren las actividades del dia
-      //En otro componente los valores de query no deben tener orderByChild:'fechaInicio', equalTo:hoy, sino 'startAt'.
+    //Es necesario que las actividades tengan un campo fechaInicio para que se muestren las actividades del dia
+    //En otro componente los valores de query no deben tener orderByChild:'fechaInicio', equalTo:hoy, sino 'startAt'.
 
     //      this.actividades.push({ horario: "8:00 a 9:00"});
 
 
   }
 
-  isUserLoggedIn(){
-     return this.authService.loggedIn;
-   }
+  ngOnInit() {
+    console.log("on init");
+    this.actividades.subscribe(eventos => {
+      this.arrayEventos = eventos;
+      this.arrayEventos.sort(this.ordenarPorHoraInicio);
 
-  getActividades(){
+    })
+    this.diaDeLaSemana();
+  }
+  
+  diaDeLaSemana(){
+    switch (this.dia) {
+      case "lunes":
+        this.diaEnNumero = 0;
+        break;
+      case "martes":
+        this.diaEnNumero = 1;
+        break;
+      case "miercoles":
+        this.diaEnNumero = 2;
+        break;
+      case "jueves":
+        this.diaEnNumero = 3;
+        break;
+      case "viernes":
+        this.diaEnNumero = 4;
+        break;
+      case "sabado":
+        this.diaEnNumero = 5;
+        break;
+      case "domingo":
+        this.diaEnNumero = 6;
+        break;
+      default:
+        this.diaEnNumero = 0;
+        break;
+    }
+      
+
+  }
+  ordenarPorHoraInicio(a, b) {
+    if (a.horaInicio < b.horaInicio) {
+      return -1;
+    }
+    if (a.horaInicio > b.horaInicio) {
+      return 1;
+    }
+    return 0;
+  }
+  isUserLoggedIn() {
+    return this.authService.loggedIn;
+  }
+
+  getActividades() {
     this.actividades = this.af.list('/actividades',
       {
         query: {
           limitToLast: 50,
-          orderByChild: 'fechaInicio',
-          equalTo: this.hoy
+          orderByChild: 'pickerDesde',
+          startAt: this.hoy
         }
       });
   }
@@ -82,5 +135,6 @@ export class EventoComponent {
   estaEnCurso(horaInicio, horaFin) {
     // TODO: implementar funcion.
   }
+
 
 }
