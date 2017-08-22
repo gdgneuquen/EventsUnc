@@ -17,7 +17,9 @@
   import { AuthService } from '../providers/auth.service';
   import { FirebaseconnectionService } from '../providers/firebaseconnection.service';
   import {Evento} from "../commons/evento.model";
-
+//materialize
+import { MdDatepickerModule, DateAdapter } from '@angular/material';
+import { MdDatepicker } from '@angular/material';
 
   @Component({
     selector: 'modevent-app',
@@ -46,7 +48,8 @@
       private authService: AuthService,
       private afService: FirebaseconnectionService,
       private router: Router,
-      private route: ActivatedRoute) { }
+      private route: ActivatedRoute,
+      private dateAdapter: DateAdapter<Date>) { }
 
     ngOnInit() {
       this.id = this.route.snapshot.params['_id'];
@@ -60,8 +63,8 @@
             snapshot.val().horaFin,
             snapshot.val().horaInicio,
             snapshot.val().nombre,
-            moment(snapshot.val().pickerDesde).locale('es').format('DD/MM/YYYY'),
-            moment(snapshot.val().pickerHasta).locale('es').format('DD/MM/YYYY'),
+            snapshot.val().pickerDesde,//moment(snapshot.val().pickerDesde).locale('es').format('DD/MM/YYYY'),
+            snapshot.val().pickerHasta,//moment(snapshot.val().pickerHasta).locale('es').format('DD/MM/YYYY'),
             snapshot.val().estadoActividad,
             snapshot.val().tipoActividad,
             snapshot.val().zonaAula,
@@ -77,6 +80,7 @@
       this.tiposDeActividades = this.afService.getListTiposActividades();
       this.numberHora = this.afService.getHorario();
       this.periodos = this.afService.getListPeriodos();
+      this.dateAdapter.setLocale('es-ar');
     }
 
     isUserLoggedIn() {
@@ -85,6 +89,12 @@
 
     SendEvento(eventoSend: Evento) {
       // TODO: hacer contrl de error y validaciones
+      if ( eventoSend.horaInicio === "" || eventoSend.horaFin === "" ||
+          eventoSend.descripcion === "" || eventoSend.nombre === "" ||
+          eventoSend.tipoActividad === "" || eventoSend.zonaAula === "") {
+        alert("Por favor complete todos los campos obligatorios");
+        return false;
+      }
       eventoSend.pickerDesde = moment(eventoSend.pickerDesde).locale('es').format('YYYY-MM-DD');
       eventoSend.pickerHasta = moment(eventoSend.pickerHasta).locale('es').format('YYYY-MM-DD'),
       this.afService.updateActividadByKey(this.id, eventoSend);
