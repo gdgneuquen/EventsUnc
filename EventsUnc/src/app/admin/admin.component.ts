@@ -28,14 +28,14 @@ export class AdminComponent implements OnInit  {
 
   minDate = new Date(2000, 0, 1);
   maxDate = new Date(2020, 0, 1);
-  hoy = moment().locale('es').format('LLLL');
+  hoy = moment().locale('es').format('DD/M/YYYY');
 
   actividades: FirebaseListObservable<any[]>;
   numberHora: any[];
   tiposDeActividades: FirebaseListObservable<any[]>;
   estadoActividades: FirebaseListObservable<any[]>;
   evento: FirebaseObjectObservable<any>;
-  eventoObject: Evento;
+  eventoObject = new Evento();
   id: any; // id recibido
   periodos: string[];
   aulas: FirebaseListObservable<any[]>;
@@ -48,7 +48,7 @@ export class AdminComponent implements OnInit  {
     private dateAdapter: DateAdapter<Date>) { }
 
   ngOnInit() {
-    this.eventoObject = new Evento('', '', [], '', '', '', '', '', '', '', '', '');
+    this.eventoObject = new Evento('', '', [false,false,false,false,false,false,false], '', '', '', '', '', '', '', '', '');
     this.actividades = this.afService.getListActividades();
     this.aulas = this.afService.getListAulas(50);
     this.estadoActividades = this.afService.getListEstados();
@@ -67,7 +67,8 @@ export class AdminComponent implements OnInit  {
    return this.authService.loggedIn;
   }
 
-  getDataFormat(e) {
+  getDataFormat(e: Event) {
+    console.log(e.target);
    // manage event
   }
 
@@ -79,50 +80,19 @@ export class AdminComponent implements OnInit  {
       alert("Por favor complete todos los campos obligatorios");
       return false;
     }
-    console.log(eventoSend.pickerDesde);
     eventoSend.pickerDesde = moment(eventoSend.pickerDesde).locale('es').format('YYYY-MM-DD');
     eventoSend.pickerHasta = moment(eventoSend.pickerHasta).locale('es').format('YYYY-MM-DD');
-    console.log(eventoSend.pickerDesde);
     // check undefined && false
-    var dias = [(eventoSend.chk_lun == true),
+    let dias = [(eventoSend.chk_lun == true),
       (eventoSend.chk_ma == true),
         (eventoSend.chk_mi == true),
           (eventoSend.chk_ju == true),
             (eventoSend.chk_vi == true),
               (eventoSend.chk_sa == true),
                 (eventoSend.chk_do == true)];//creo el arreglo de días
-    this.eventoObject.dias = dias;
+    eventoSend.dias = dias;
     this.afService.addActividad(eventoSend);
     this.goToMain();
-  }
-
-  Send(
-    chk_lun: boolean, chk_ma: boolean, chk_mi: boolean, chk_ju: boolean, chk_vi: boolean,
-    chk_sa: boolean, chk_do: boolean,
-    periodo:string, descripcion: string,
-    horaFin: string,  horaInicio: string,   nombre: string,  tipoAct: string,
-    estadoAct: string, zonaAula: string,
-    pickerDesde: MdDatepicker<Date>, pickerHasta: MdDatepicker<Date>) {
-
-      var dias = [  chk_lun,  chk_ma, chk_mi, chk_ju, chk_vi, chk_sa, chk_do];//creo el arreglo de días
-      //console.log("dias", moment(pickerDesde._selected).locale('es').format('DD/MM/YYYY'));
-      //console.log("dias", moment(pickerHasta._selected).locale('es').format('YYYY-MM-DD'));
-
-      if( horaInicio == "" || horaFin == "" || descripcion == "" || nombre == "" || tipoAct == "" || zonaAula == ""){
-          alert("Por favor complete todos los campos obligatorios")
-      } else {
-          this.actividades.push({
-          dias: dias,
-          periodo: periodo, descripcion: descripcion, horaFin: horaFin,
-          horaInicio: horaInicio,   nombre: nombre,
-          tipoActividad: tipoAct,   estadoActividad: estadoAct,
-          zonaAula: zonaAula,
-          pickerDesde: moment(pickerDesde._selected).locale('es').format('YYYY-MM-DD'),
-          pickerHasta: moment(pickerHasta._selected).locale('es').format('YYYY-MM-DD')
-
-      });
-        this.goToMain();
-      }
   }
 
   myFilter = (d: Date): boolean => {
