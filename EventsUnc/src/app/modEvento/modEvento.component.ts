@@ -105,8 +105,9 @@ export class modEvento implements OnInit {
   Send(chk_lun: string, chk_ma: string, chk_mi: string, chk_ju: string, chk_vi: string, chk_sa: string, chk_do: string,
     periodo:string, descripcion: string,  horaFin: string,  horaInicio: string,   nombre: string,  tipoAct: string, 
     estadoAct: string,  zonaAula: string, pickerDesde: MdDatepickerModule, pickerHasta: MdDatepickerModule) {
-
-    var dias = [  chk_lun, chk_ma, chk_mi, chk_ju, chk_vi, chk_sa, chk_do];//creo el arreglo de días
+    var dias = [  chk_lun,  chk_ma, chk_mi, chk_ju, chk_vi, chk_sa, chk_do];//creo el arreglo de días
+      
+   // var dias = [  chk_lun, chk_ma, chk_mi, chk_ju, chk_vi, chk_sa, chk_do];//creo el arreglo de días
   console.log(
   "periodo:"+ periodo +" \ " +
    "descripcion:"+ descripcion+ " \ " +
@@ -119,7 +120,7 @@ export class modEvento implements OnInit {
     "pickerDesde:"+    pickerDesde+ " \ " +
     "pickerHasta:"+    pickerHasta
       );
-/*
+
        this.actividades.update(this.id , 
           {   dias: dias,       
           periodo: periodo, descripcion: descripcion, horaFin: horaFin,    
@@ -130,7 +131,7 @@ export class modEvento implements OnInit {
         }).catch(error => this.handleError(error));
         this.router.navigate(['/main']);  
 
-*/
+
   }
 
   Horario(){
