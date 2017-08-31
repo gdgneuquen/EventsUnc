@@ -1,6 +1,6 @@
 <app-header></app-header>
 
-<div class="container-fluid" *ngIf="isUserLoggedIn()">
+<div class="container-fluid" *ngIf="isUserLoggedIn() && actividades">
     <!-- TITULOS -->
     <div class="row">
       <div class="col m1 center texto-titulo-tabla">
@@ -57,11 +57,17 @@
       <div class="col m1 elemento-tabla">
            {{actividad.zonaAula}}
       </div>
-      <div class="col m1 center elemento-tabla green" (click)="onSelect(actividad)">
+      <div class="col m1 center elemento-tabla center"
+        [class.green]="actividad.estadoActividad=='Normal'"
+        [class.black-text]="actividad.estadoActividad=='Normal'"
+        
+        [class.red]="actividad.estadoActividad=='Se Cambio'"
+        [class.black-text]="actividad.estadoActividad=='Se Cambio'"
+
+        [class.yellow]="actividad.estadoActividad=='Suspendida'"
+        [class.black-text]="actividad.estadoActividad=='Suspendida'"
+        (click)="onSelect(actividad)">
         {{actividad.estadoActividad}} 
-        <div *ngIf="selectedActividad">
-            <input [(ngModel)]="actividad.estadoActividad" />
-        </div>
       </div>
 
       <div class="col m1 elemento-tabla center" >

@@ -28,7 +28,7 @@
   </thead>
   <tbody>
 
-     <tr  *ngFor="let actividad of actividades | async | orderBy:order:reverse" [class.encurso]="estaEnCurso(actividad.horaInicio,actividad.horaFin)">
+     <tr  *ngFor="let actividad of actividades | async " [class.encurso]="estaEnCurso(actividad.horaInicio,actividad.horaFin)">
       <!-- Tratando de definir un observable que cambie el fondo de la fila que este cursando ahora mismo.   -->
       <td>{{actividad.horaInicio}} : {{actividad.horaFin}}</td>
       <td> {{actividad.descripcion}}</td><!--  <marquee behavior="alternate" scrolldelay="300"> </marquee>-->
@@ -43,10 +43,12 @@
       <td>
         <div class="estado elemento-tabla"
         [class.green]="actividad.estadoActividad=='Normal'"
-        [class.yellow]="actividad.estadoActividad=='Se Cambio'"
+        [class.red]="actividad.estadoActividad=='Se Cambio'"
         [class.darken-1]="actividad.estadoActividad=='Se Cambio'"
         [class.black-text]="actividad.estadoActividad=='Se Cambio'"
-        [class.red]="actividad.estadoActividad=='Suspendida'">
+        [class.yellow]="actividad.estadoActividad=='Suspendida'"        
+        [class.darken-1]="actividad.estadoActividad=='Suspendida'"
+        [class.black-text]="actividad.estadoActividad=='Suspendida'">
          {{actividad.estadoActividad}}
         </div>
       </td>

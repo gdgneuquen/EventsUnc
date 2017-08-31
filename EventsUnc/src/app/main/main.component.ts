@@ -1,5 +1,5 @@
 import { AuthService } from '../providers/auth.service';
-import { Component, NgZone } from '@angular/core';
+import { Component, NgZone, OnInit } from '@angular/core';
 import { FormBuilder } from '@angular/forms';
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/observable/throw';//Para trabajar con los observables desde rxjs
@@ -17,23 +17,23 @@ import * as moment from 'moment';
   templateUrl: './main.component.html',
   styleUrls: ['./main.component.css']
 })
-export class MainComponent {
+export class MainComponent implements OnInit {
 
   hoy = moment().locale('es').format('LLLL');
-
-  actividades:FirebaseListObservable<any[]>; //actividades es tipo any para poder recibir todo lo que le trae el servicio
+  //actividades es tipo any para poder recibir todo lo que le trae el servicio
+  actividades:FirebaseListObservable<any[]>;
   msgVal: string = ''; //mensaje de entrada del form
   selectedActividad: string = '';
 
   constructor(
     private authService: AuthService,
     public af: AngularFireDatabase,
-    private router: Router){
-    this.actividades = af.list('/actividades', { query: { limitToLast: 50 } });
+    private router: Router){}
+
+  ngOnInit(){
+    this.actividades = this.af.list('/actividades');
     //      this.actividades.push({ horario: "8:00 a 9:00"});
-
   }
-
   isUserLoggedIn(){
      return this.authService.loggedIn;
   }

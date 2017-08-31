@@ -1,4 +1,4 @@
-import { Component, NgZone } from '@angular/core';
+import { Component, NgZone, OnInit } from '@angular/core';
 import { FormBuilder } from '@angular/forms';
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/observable/throw';//Para trabajar con los observables desde rxjs
@@ -20,7 +20,7 @@ import * as moment from 'moment';
   templateUrl: './evento.component.html',
   styleUrls: ['./evento.component.css']
 })
-export class EventoComponent {
+export class EventoComponent  implements OnInit {
 
   tablaResponsiva = true;
 
@@ -44,36 +44,33 @@ export class EventoComponent {
   constructor(
     private authService: AuthService,
     public af: AngularFireDatabase,
-    private router: Router, ) {
-    this.actividades = af.list('/actividades',
-      {
-        query: {
-          limitToLast: 50,
-          orderByChild: 'pickerDesde',
-          //startAt: this.filtroDia //contemplaria desde rango de fechas incluyendo la actual
-          equalTo: this.filtroDia
-        }
-      });
+    private router: Router) {}
 
-      //Es necesario que las actividades tengan un campo fechaInicio para que se muestren las actividades del dia
-      //En otro componente los valores de query no deben tener orderByChild:'fechaInicio', equalTo:hoy, sino 'startAt'.
-
-    //      this.actividades.push({ horario: "8:00 a 9:00"});
-
-
+  ngOnInit() {
+    this.getActividades();
+    console.log(
+      "horaActual: "+this.horaActual +"\n"+
+      "hoy: "+this.hoy +"\n"+
+      "filtroDia: "+this.filtroDia +"\n"+
+      "dia: "+this.dia
+    );
   }
 
   isUserLoggedIn(){
      return this.authService.loggedIn;
    }
-
+   
   getActividades(){
+      //Es necesario que las actividades tengan un campo fechaInicio para que se muestren las actividades del dia
+      //En otro componente los valores de query no deben tener orderByChild:'fechaInicio', equalTo:hoy, sino 'startAt'.
+
     this.actividades = this.af.list('/actividades',
       {
         query: {
-          limitToLast: 50,
-          orderByChild: 'fechaInicio',
-          equalTo: this.hoy
+          orderByChild: 'pickerDesde',
+          //startAt: this.filtroDia,
+          //endAt: this.filtroDia
+          //equalTo: this.hoy
         }
       });
   }
