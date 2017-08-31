@@ -1,154 +1,106 @@
-import { Component, NgZone, OnInit } from '@angular/core';
+import {Component, Input, NgZone, OnDestroy, OnChanges, OnInit, DoCheck, ViewChild, SimpleChanges} from '@angular/core';
+import { RouterModule, Router} from '@angular/router';
+import { ActivatedRoute, ParamMap } from '@angular/router';
 import { FormBuilder } from '@angular/forms';
 import { Observable } from 'rxjs/Observable';
-import 'rxjs/add/observable/throw';//Para trabajar con los observables desde rxjs
-import 'rxjs/add/operator/catch';//para poder tomar cosas
+import 'rxjs/add/observable/throw'; // Para trabajar con los observables desde rxjs
+import 'rxjs/add/operator/catch'; // para poder tomar cosas
 import 'rxjs/add/operator/toPromise';
+import 'rxjs/add/operator/take';
+import 'rxjs/add/operator/switchMap';
 
-import { RouterModule, Router, ActivatedRoute, Params} from '@angular/router';
+
 import { AngularFireDatabase, FirebaseListObservable, FirebaseObjectObservable } from 'angularfire2/database';
-import { AngularFireAuth } from 'angularfire2/auth';
 
-import * as firebase from 'firebase/app';
 import * as moment from 'moment';
 
 import { AuthService } from '../providers/auth.service';
-
+import { FirebaseconnectionService } from '../providers/firebaseconnection.service';
+import {Evento} from "../commons/evento.model";
 //materialize
-import {MdDatepickerModule} from '@angular/material';
+import { MdDatepickerModule, DateAdapter } from '@angular/material';
+import { MdDatepicker } from '@angular/material';
 
 @Component({
   selector: 'modevent-app',
   templateUrl: './modEvento.component.html',
   styleUrls: ['./modEvento.component.css']
 })
-export class modEvento implements OnInit {
 
+export class modEvento implements OnInit {
   minDate = new Date(2000, 0, 1);
   maxDate = new Date(2020, 0, 1);
-  hoy=moment().locale('es').format('LLLL');
-
-  actividades: FirebaseListObservable<any[]>; //actividades es tipo any para poder recibir todo lo que le trae el servicio
-  msgVal: string = ''; //mensaje de entrada del form
-  selectedActividad: string = '';
-  descripcion: string = '';
-  horaFin: string = '';
-  horaInicio: string = '';
-  nombre: string = '';
-  tipoAct: string = '';
-  zonaAula: string = '';
+  hoy = moment().locale('es').format('LLLL');
+  // moment().locale('es').format('L');
+  // moment().locale('es').format('YYYY-MM-DD'); //formato firebase
+  // actividades es tipo any para poder recibir todo lo que le trae el servicio
+  actividades: FirebaseListObservable<any[]>;
   numberHora: any[];
-  tiposDeActividad: FirebaseListObservable<any[]>;
-  estadoActividad: FirebaseListObservable<any[]>;
-  aulasFire:FirebaseListObservable<any[]>;
-
-  id: any; //id recibido
-  periodos = ['Evento Único', 'Primer cuatrimestre', 'Segundo cuatrimestre'];
-  periodo:  string = '';
- //aulas debería traerse desde la db pero no lo logro no se que pasa
-  aulas:FirebaseListObservable<any[]>;
+  tiposDeActividades: FirebaseListObservable<any[]>;
+  estadoActividades: FirebaseListObservable<any[]>;
   evento: FirebaseObjectObservable<any>;
-
-  dias: any[];
-  chk_l: string='';
-
-  chk_lun  = false;
-  chk_ma  = false;
-  chk_mi  = false;
-  chk_ju  = false;
-  chk_vi  = false;
-  chk_sa  = false;
-  chk_do  = false;
-
-  //Comprueba si hay un usuario logueado
-  estaLogueado:boolean = false;
+  eventoObject: Evento;
+  id: any; // id recibido
+  periodos: string[];
+  aulas: FirebaseListObservable<any[]>;
 
   constructor(
     private authService: AuthService,
-    public af: AngularFireDatabase,
+    private afService: FirebaseconnectionService,
     private router: Router,
-    private rout: ActivatedRoute){
-    this.id = this.rout.snapshot.params['_id'];//tomo el id que viene por parámetro
-    //busco el evento puntual en base al id
-   // this.actividades = af.list('/actividades');
-    this.evento = af.object('/actividades/'+this.id);
-    
-    //aulas debería traerse desde la db pero no lo logro no se que pasa
-    this.aulas = af.list('/aula', { query: { limitToLast: 50 } });
-    this.estadoActividad = af.list('/estado');
-    this.tiposDeActividad = af.list('/tipo');
-    this.numberHora = this.Horario();
+    private route: ActivatedRoute,
+    private dateAdapter: DateAdapter<Date>) { }
 
-    //inicializando variables ngModel
-    var estadoAct = this.evento;
+  ngOnInit() {
+    this.id = this.route.snapshot.params['_id'];
+    this.afService.getActividadByKey(this.id, { preserveSnapshot: true })
+      .subscribe(snapshot => {
+        this.evento = snapshot,
+        this.eventoObject = new Evento(
+          this.id,
+          snapshot.val().descripcion,
+          snapshot.val().dias,
+          snapshot.val().horaFin,
+          snapshot.val().horaInicio,
+          snapshot.val().nombre,
+          snapshot.val().pickerDesde,//moment(snapshot.val().pickerDesde).locale('es').format('DD/MM/YYYY'),
+          snapshot.val().pickerHasta,//moment(snapshot.val().pickerHasta).locale('es').format('DD/MM/YYYY'),
+          snapshot.val().estadoActividad,
+          snapshot.val().tipoActividad,
+          snapshot.val().zonaAula,
+          snapshot.val().periodo
+        )
+        },
+      () => console.log('error'),
+      () => console.log('completed!')
+    );
+    this.actividades = this.afService.getListActividades();
+    this.aulas = this.afService.getListAulas(50);
+    this.estadoActividades = this.afService.getListEstados();
+    this.tiposDeActividades = this.afService.getListTiposActividades();
+    this.numberHora = this.afService.getHorario();
+    this.periodos = this.afService.getListPeriodos();
+    this.dateAdapter.setLocale('es-ar');
   }
 
-  isUserLoggedIn(){
+  isUserLoggedIn() {
      return this.authService.loggedIn;
   }
 
-  onSelect(key): void {
-   this.selectedActividad = key;
-  }
- 
-  login() { this.authService.loginWithGoogle();
-           this.estaLogueado=true;}
-
-  loginAnonymous() { this.authService.loginAnonymous(); 
-                    this.estaLogueado=true;}
-    
-  logout() { this.authService.logout(); 
-            this.estaLogueado=false;}
-/*  chk_lun, chk_ma, chk_mi, chk_ju, chk_vi, chk_sa, chk_do,
-       periodo, descripcion, horaFin, horaInicio,
-       nombre, tipoAct, estadoAct, zonaAula,  pickerDesde, pickerHasta */
-  Send(chk_lun: string, chk_ma: string, chk_mi: string, chk_ju: string, chk_vi: string, chk_sa: string, chk_do: string,
-    periodo:string, descripcion: string,  horaFin: string,  horaInicio: string,   nombre: string,  tipoAct: string, 
-    estadoAct: string,  zonaAula: string, pickerDesde: MdDatepickerModule, pickerHasta: MdDatepickerModule) {
-    var dias = [  chk_lun,  chk_ma, chk_mi, chk_ju, chk_vi, chk_sa, chk_do];//creo el arreglo de días
-      
-   // var dias = [  chk_lun, chk_ma, chk_mi, chk_ju, chk_vi, chk_sa, chk_do];//creo el arreglo de días
-  console.log(
-  "periodo:"+ periodo +" \ " +
-   "descripcion:"+ descripcion+ " \ " +
-   "horaFin:"+ horaFin+" \ " +
-   "horaInicio:"+  horaInicio+" \ " +
-    "nombre:"+   nombre+ " \ " +
-    "tipoAct:"+   tipoAct+ " \ " +
-    "estadoAct:"+   estadoAct+" \ " +
-    "zonaAula:"+    zonaAula+ " \ " +
-    "pickerDesde:"+    pickerDesde+ " \ " +
-    "pickerHasta:"+    pickerHasta
-      );
-
-       this.actividades.update(this.id , 
-          {   dias: dias,       
-          periodo: periodo, descripcion: descripcion, horaFin: horaFin,    
-          horaInicio: horaInicio,   nombre: nombre,
-          tipoActividad: tipoAct,   estadoActividad: estadoAct,
-          zonaAula: zonaAula,
-          pickerDesde: pickerDesde,      pickerHasta: pickerHasta
-        }).catch(error => this.handleError(error));
-        this.router.navigate(['/main']);  
-
-
-  }
-
-  Horario(){
-    var arr = [], i, j;
-    for(i=7; i<24; i++) {
-      for(j=0; j<4; j++) {
-        arr.push(i + ":" + (j===0 ? "00" : 15*j) );
-      }
+  SendEvento(eventoSend: Evento) {
+    // TODO: hacer contrl de error y validaciones
+    if ( eventoSend.horaInicio === "" || eventoSend.horaFin === "" ||
+        eventoSend.descripcion === "" || eventoSend.nombre === "" ||
+        eventoSend.tipoActividad === "" || eventoSend.zonaAula === "") {
+      alert("Por favor complete todos los campos obligatorios");
+      return false;
     }
-    return arr;
+    eventoSend.pickerDesde = moment(eventoSend.pickerDesde).locale('es').format('YYYY-MM-DD');
+    eventoSend.pickerHasta = moment(eventoSend.pickerHasta).locale('es').format('YYYY-MM-DD'),
+    this.afService.updateActividadByKey(this.id, eventoSend);
+    this.goToMain();
   }
-
-  ngOnInit(){
-
+  goToMain() {
+    this.router.navigate(['/main']);
   }
-   // Default error handling for all actions
- private handleError(error) {
-   console.log(error)
- }
 }
