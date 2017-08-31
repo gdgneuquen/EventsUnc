@@ -1,0 +1,125 @@
+<app-header></app-header>
+<div class="container" [hidden]="!isUserLoggedIn()">
+  <div class="row">
+    <div class="col s2">
+        <h6>HORA INICIO(*)</h6>
+    </div>
+    <div class="col s2">
+        <h6>HORA FIN(*)</h6>
+    </div>
+    <div class="col s3">
+      FECHA DESDE
+    </div>
+    <div class="col s3">
+      FECHA HASTA
+    </div>
+    <div class="col s2">
+      PERIODO
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col s2 ">
+      <select type="text" id="horaInicio"  placeholder="Hora Inicio"  [(ngModel)]="horaInicio" class="black-text browser-default">
+        <option value="" disabled selected>Hora</option>
+        <option *ngFor="let number of numberHora" [value]="number">{{number}}</option>
+      </select>
+    </div>
+    <div class="col s2 ">
+        <select type="text" id="horaFin"   placeholder="Hora Fin"  [(ngModel)]="horaFin" class="black-text browser-default">
+          <option value="" disabled selected>Hora</option>
+          <option *ngFor="let number of numberHora" [value]="number">{{number}}</option>
+        </select>
+    </div>
+    <div class="col s3 ">
+        <input type="date"  [(ngModel)]="pickerDesde" name="pickerDesde">
+
+   </div>
+    <div class="col s3 ">
+        <input type="date"  [(ngModel)]="pickerHasta" name="pickerHasta">
+
+    </div>
+     <div class="col s2">
+      <select type="text" id="periodos"  placeholder="Periodo"  [(ngModel)]="periodo" class="black-text browser-default">
+        <option value="" disabled selected>Periodo</option>
+        <option *ngFor="let p of periodos"   >{{p}}</option>
+      </select>
+    </div>  
+  </div>  
+    <div class="row">
+        <div class="col s12" >
+        <section class="example-section">
+          <md-checkbox class="example-margin"  [(ngModel)]="chk_lun">Lunes</md-checkbox>
+          <md-checkbox class="example-margin"  [(ngModel)]="chk_ma">Martes</md-checkbox>
+          <md-checkbox class="example-margin"  [(ngModel)]="chk_mi">Miercoles</md-checkbox>
+          <md-checkbox class="example-margin"  [(ngModel)]="chk_ju">Jueves</md-checkbox>
+          <md-checkbox class="example-margin"  [(ngModel)]="chk_vi">Viernes</md-checkbox>
+          <md-checkbox class="example-margin"  [(ngModel)]="chk_sa">Sabado</md-checkbox>
+          <md-checkbox class="example-margin"  [(ngModel)]="chk_do">Domingo</md-checkbox>
+        </section>
+      </div>
+  </div>
+
+
+  <div class="row">
+    <div class="col s3">
+        <select type="text" id="tipoDeActividad"   placeholder="Tipo Actividad"
+          [(ngModel)]="tipoAct" class="black-text browser-default">
+          <option value="" disabled selected>TIPO DE ACTIVIDAD</option>
+          <option *ngFor="let t of tipoDeActividad | async " [value]="t.nombre"
+          [class.green]="t.estado == '1'" [class.yellow]="t.estado == '2'" [class.red]="t.estado == '3'">{{t.nombre}}</option>
+        </select>
+    </div>
+
+  </div>
+  <div class="row">
+    <div class="input-field col s6">
+          <input id="descripcion"
+           placeholder="Nombre de la Actividad (*)"  [(ngModel)]="descripcion">
+    </div>
+  </div>
+  <div class="row">
+    <div class="input-field col s6">
+          <input type="text" id="nombre"
+            placeholder="Referente/Profesor (*)"  [(ngModel)]="nombre">
+    </div>
+  </div>
+  <div class="row">
+    <div class="col s2">
+        <h6>AULA(*)</h6>
+    </div>
+      <div class="col s2">
+        <h6>ESTADO(*)</h6>
+      </div>
+  </div>
+  <div class="row">
+    <div class="col s2" >
+
+      <select  [(ngModel)]="zonaAula"  class="black-text browser-default" >
+         <option value="AULA" disabled selected>AULA</option>
+        <option *ngFor="let a of aulas | async" [value]="a.nombre">{{a.nombre}}</option>
+     </select>
+    </div>
+    <div class="col s2">
+      <select  [(ngModel)]="estadoAct"  class="black-text browser-default" >
+        <option value="ESTADO" disabled selected>ESTADO</option>
+        <option *ngFor="let a of estadoActividad | async" [value]="a.nombre"
+          [class.green]="a.estado == '1'" [class.yellow]="a.estado == '2'" [class.red]="a.estado == '3'">
+          {{a.nombre}}
+        </option>
+     </select>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col s2">
+      <a (click)="Send(chk_lun, chk_ma, chk_mi, chk_ju, chk_vi, chk_sa, chk_do,
+      periodo, descripcion, horaFin, horaInicio,
+       nombre, tipoAct, estadoAct, zonaAula,  pickerDesde, pickerHasta)" 
+          class="waves-effect waves-light indigo darken-1 btn">OK</a>
+    </div>
+    <div class="col s1">
+      <a (click)="goToMain()" class="waves-effect waves-light indigo darken-1 btn">CANCEL</a>
+    </div>
+  </div>
+  </div>
+</div>

@@ -12,7 +12,6 @@ import { AuthService } from '../providers/auth.service';
 
 import * as firebase from 'firebase/app';
 import * as moment from 'moment';
-// import { actividad, aula, estado, tipo, zona } from '../commons/events.interface';
 
 
 @Component({
@@ -41,6 +40,7 @@ export class EventoComponent  implements OnInit {
   selectedActividad: string = '';
   hora=0;
 
+  
   constructor(
     private authService: AuthService,
     public af: AngularFireDatabase,
@@ -48,24 +48,30 @@ export class EventoComponent  implements OnInit {
 
   ngOnInit() {
     this.getActividades();
+    console.log(
+      "horaActual: "+this.horaActual +"\n"+
+      "hoy: "+this.hoy +"\n"+
+      "filtroDia: "+this.filtroDia +"\n"+
+      "dia: "+this.dia
+    );
   }
 
   isUserLoggedIn(){
      return this.authService.loggedIn;
    }
-
+   
   getActividades(){
       //Es necesario que las actividades tengan un campo fechaInicio para que se muestren las actividades del dia
       //En otro componente los valores de query no deben tener orderByChild:'fechaInicio', equalTo:hoy, sino 'startAt'.
-
+      //this.actividades = this.af.list('/actividades');
+      
     this.actividades = this.af.list('/actividades',
       {
         query: {
-          limitToLast: 50,
           orderByChild: 'pickerDesde',
-          //startAt: this.filtroDia,
-          //endAt: this.filtroDia
-          equalTo: this.filtroDia
+         // endAt: '2017-09-19',
+         // endAt: this.filtroDia
+          //equalTo: this.hoy
         }
       });
   }
