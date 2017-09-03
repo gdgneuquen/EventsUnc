@@ -21,6 +21,10 @@ export class FirebaseconnectionService {
     return this.af.list('/actividades');
   }
 
+  getListActividadesWithOptions(options: any): FirebaseListObservable<any[]> {
+    return this.af.list('/actividades', options);
+  }
+
   getListAulas(limit: number = 50): FirebaseListObservable<any[]> {
     return this.af.list('/aula', { query: { limitToLast: limit } });
   }
