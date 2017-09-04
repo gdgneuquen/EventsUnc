@@ -29,18 +29,7 @@ import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {MdButtonModule} from '@angular/material';
 import {MdInputModule, MdSelectModule} from '@angular/material';
 import { MaterializeModule } from 'angular2-materialize';
-
-
-export const firebaseConfig = {
-
-    apiKey: "AIzaSyATyRktSqq_zEPiX4Yj8B8wZuWEh2I3cfs",
-    authDomain: "faeatest.firebaseapp.com",
-    databaseURL: "https://faeatest.firebaseio.com",
-    projectId: "faeatest",
-    storageBucket: "faeatest.appspot.com",
-    messagingSenderId: "869582996123"
-
-};
+import { environment } from '../environments/environment';
 
 @NgModule({
   declarations: [
@@ -61,7 +50,7 @@ export const firebaseConfig = {
     ReactiveFormsModule,
     HttpModule,
     OrderModule,
-    AngularFireModule.initializeApp(firebaseConfig), // imports firebase/app needed for everything
+    AngularFireModule.initializeApp(environment.firebase), // imports firebase/app needed for everything
     AngularFireDatabaseModule, // imports firebase/database, only needed for database features
     AngularFireAuthModule, // imports firebase/auth, only needed for auth features
     MaterialModule, BrowserAnimationsModule, MdDatepickerModule,
