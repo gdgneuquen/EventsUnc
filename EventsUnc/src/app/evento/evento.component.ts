@@ -1,4 +1,4 @@
-import { Component, NgZone, OnInit } from '@angular/core';
+import { Component, NgZone, OnInit, ɵConsole } from '@angular/core';
 import { FormBuilder } from '@angular/forms';
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/observable/throw';//Para trabajar con los observables desde rxjs
@@ -87,30 +87,49 @@ export class EventoComponent  implements OnInit {
     });
   }
   // filtrar actividad de esta semana y de hoy
+  // controlar que sea valido, que este dentro de la semana vigente, que sea dia actual
+  // que no vencio (en horas) y que este en el array de dias seleccionados
   filterCurrentActivity(actividad: Evento) {
     // evento que esta en la semana actual, y que sea hoy
-    if ( this.belongsToWeek(actividad) && this.belongsToToday(actividad)) {
+    if ( this.belongsToWeek(actividad) //&& this.belongsToToday(actividad)
+        &&  this.isEventValid(actividad)) {
         this.actividades.push(actividad);
     }
   }
 
   belongsToWeek(actividad: Evento) {
-    const firstDayWeek = moment().startOf('isoWeek').locale('es');  // lunes
-    const lastDayWeek = moment().endOf('isoWeek').locale('es'); // domingo
-    const currentFromDayFrom = moment(actividad.pickerDesde).locale('es');
-    const currentFromDayTo = moment(actividad.pickerHasta).locale('es');
-
-    return currentFromDayFrom.diff(firstDayWeek,'days') >= 0 && currentFromDayTo.diff(lastDayWeek,'days') <= 0 ;
+    return moment().locale('es').isBetween(moment(actividad.pickerDesde+"T"+actividad.horaInicio, moment.ISO_8601).locale('es'), moment(actividad.pickerHasta+"T"+actividad.horaFin, moment.ISO_8601).locale('es'));
   }
 
   belongsToToday(actividad: Evento) {
     const currentFromDayFrom = moment(actividad.pickerDesde).locale('es');
     const currentFromDayTo = moment(actividad.pickerHasta).locale('es');
-
-    return currentFromDayFrom.diff( moment().locale('es'),'days') === 0 || currentFromDayTo.diff( moment().locale('es'),'days') === 0;
+    return moment().locale('es').diff(currentFromDayFrom ,'days') === 0 || moment().locale('es').diff(currentFromDayTo ,'days') === 0;
   }
+
+  isEventValid(actividad: Evento) {
+    // moment('2017-09-04').locale('es').weekday();  muestra dias 0-6
+    // moment('2017-09-04').locale('es').isoWeekday();  muestra dias 1-7
+
+    // TODO: Controlar el dia seleccionado en array y la hora vencida
+    /*
+    console.log('pickerDesde:' + actividad.pickerDesde + '  pickerHasta:' + actividad.pickerHasta);
+    console.log('horaInicio:' + actividad.horaInicio + '  horaFin:' + actividad.horaFin);
+    console.log('dias:' + actividad.dias);
+    console.log('dia de la semana:' + moment().locale('es').weekday());
+    console.log('dia de la semana:' + actividad.dias[moment().locale('es').weekday()]);
+    console.log('hora actual >= horaInicio:',  moment().locale('es').format('HH:mm') >= actividad.horaInicio);
+    console.log('hora actual <= horaFin:',  moment().locale('es').format('HH:mm') <= actividad.horaFin);
+    */
+    return actividad.dias[moment().locale('es').weekday()]
+          && moment().locale('es').format('HH:mm') >= actividad.horaInicio
+          && moment().locale('es').format('HH:mm') <= actividad.horaFin;
+          //&& moment().locale('es') >= moment(actividad.pickerDesde+"T"+actividad.horaInicio, moment.ISO_8601).locale('es')
+          // && moment().locale('es') >= moment(actividad.pickerHasta+"T"+actividad.horaFin, moment.ISO_8601).locale('es')
+  }
+
   // esta funcion estaba pensada paracambiar el fondo por uno mas llamativo de la actividad en curso.
-  estaEnCurso(horaInicio, horaFin) {
+  estaEnCurso(actividad: Evento) {
     // TODO: implementar funcion.
   }
 

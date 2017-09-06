@@ -94,7 +94,9 @@ export class FirebaseconnectionService {
     let arr = [], i, j;
     for (i = 7; i < 24; i++) {
       for ( j = 0; j < 4; j++) {
-        arr.push(i + ':' + (j === 0 ? '00' : 15 * j) );
+        //fix: usar hora con formato 99:99 para ahorrar conversiones con momentjs
+        arr.push( ((i+'').length == 1 ? '0'+i : i) + ':' + (j === 0 ? '00' : 15 * j) );
+        //arr.push(i + ':' + (j === 0 ? '00' : 15 * j) );
       }
     }
     return arr;
