@@ -1,3 +1,4 @@
+import { Observable } from 'angular2-material-datepicker/node_modules/rxjs/Rx';
 //import { MaterializeAction } from 'angular2-materialize/dist';
 import { Component, EventEmitter, OnInit } from '@angular/core';
 import { AuthService } from '../providers/auth.service';
@@ -11,13 +12,14 @@ import { Router } from '@angular/router';
 })
 export class AuthenticationComponent implements OnInit {
   modalActions:any;
-
+  currentUser:Observable<any>;
   constructor(private authService: AuthService,
               private router: Router) { }
 
 
   ngOnInit() {
     //this.modalActions = new EventEmitter<string|MaterializeAction>();
+
   }
   /*
   openModal() {
@@ -39,6 +41,7 @@ export class AuthenticationComponent implements OnInit {
     return this.authService.loginAnonymous();
   }
   isUserLoggedIn(){
+
     return this.authService.loggedIn;
   }
 
