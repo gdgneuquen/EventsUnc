@@ -86,6 +86,7 @@ export class EventoComponent  implements OnInit {
       )
     });
   }
+  
   // filtrar actividad de esta semana y de hoy
   filterCurrentActivity(actividad: Evento) {
     // evento que esta en la semana actual, y que sea hoy
