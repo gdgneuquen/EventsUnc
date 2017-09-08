@@ -96,7 +96,7 @@ export class EventoComponent  implements OnInit {
         this.actividades.push(actividad);
     }
   }
-
+  //que la fecha de hoy este entre la fecha y hora disponible del la actividad
   belongsToWeek(actividad: Evento) {
     return moment().locale('es').isBetween(moment(actividad.pickerDesde+"T"+actividad.horaInicio, moment.ISO_8601).locale('es'), moment(actividad.pickerHasta+"T"+actividad.horaFin, moment.ISO_8601).locale('es'));
   }
@@ -106,26 +106,13 @@ export class EventoComponent  implements OnInit {
     const currentFromDayTo = moment(actividad.pickerHasta).locale('es');
     return moment().locale('es').diff(currentFromDayFrom ,'days') === 0 || moment().locale('es').diff(currentFromDayTo ,'days') === 0;
   }
-
+  // Controlar el dia seleccionado en array y la hora vencida
   isEventValid(actividad: Evento) {
-    // moment('2017-09-04').locale('es').weekday();  muestra dias 0-6
-    // moment('2017-09-04').locale('es').isoWeekday();  muestra dias 1-7
-
-    // TODO: Controlar el dia seleccionado en array y la hora vencida
-    /*
-    console.log('pickerDesde:' + actividad.pickerDesde + '  pickerHasta:' + actividad.pickerHasta);
-    console.log('horaInicio:' + actividad.horaInicio + '  horaFin:' + actividad.horaFin);
-    console.log('dias:' + actividad.dias);
-    console.log('dia de la semana:' + moment().locale('es').weekday());
-    console.log('dia de la semana:' + actividad.dias[moment().locale('es').weekday()]);
-    console.log('hora actual >= horaInicio:',  moment().locale('es').format('HH:mm') >= actividad.horaInicio);
-    console.log('hora actual <= horaFin:',  moment().locale('es').format('HH:mm') <= actividad.horaFin);
-    */
+    // moment('9999-99-99').locale('es').weekday();  muestra dias 0-6
+    // moment('9999-99-99').locale('es').isoWeekday();  muestra dias 1-7
     return actividad.dias[moment().locale('es').weekday()]
           && moment().locale('es').format('HH:mm') >= actividad.horaInicio
           && moment().locale('es').format('HH:mm') <= actividad.horaFin;
-          //&& moment().locale('es') >= moment(actividad.pickerDesde+"T"+actividad.horaInicio, moment.ISO_8601).locale('es')
-          // && moment().locale('es') >= moment(actividad.pickerHasta+"T"+actividad.horaFin, moment.ISO_8601).locale('es')
   }
 
   // esta funcion estaba pensada paracambiar el fondo por uno mas llamativo de la actividad en curso.
