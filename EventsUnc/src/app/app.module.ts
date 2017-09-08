@@ -40,6 +40,7 @@ export const firebaseConfig = {
     storageBucket: "faeatest.appspot.com",
     messagingSenderId: "869582996123"
 
+
 };
 
 @NgModule({

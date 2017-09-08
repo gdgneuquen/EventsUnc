@@ -35,7 +35,7 @@
     <!-- /TITULOS -->
 
     <!-- Una sola fila -->
-    <div class="row fila" *ngFor="let actividad of actividades | async"  >
+    <div class="row fila" *ngFor="let actividad of actividades | async" >
       <div class="col m1 elemento-tabla center" >
         {{actividad.horaInicio}} a {{actividad.horaFin}}
       </div>
@@ -57,17 +57,8 @@
       <div class="col m1 elemento-tabla">
            {{actividad.zonaAula}}
       </div>
-      <div class="col m1 center elemento-tabla center"
-        [class.green]="actividad.estadoActividad=='Normal'"
-        [class.black-text]="actividad.estadoActividad=='Normal'"
-        
-        [class.red]="actividad.estadoActividad=='Se Cambio'"
-        [class.black-text]="actividad.estadoActividad=='Se Cambio'"
-
-        [class.yellow]="actividad.estadoActividad=='Suspendida'"
-        [class.black-text]="actividad.estadoActividad=='Suspendida'"
-        (click)="onSelect(actividad)">
-        {{actividad.estadoActividad}} 
+      <div class="col m1 center elemento-tabla green">
+        {{actividad.estadoActividad}}
       </div>
 
       <div class="col m1 elemento-tabla center" >
@@ -75,5 +66,3 @@
          <a class="iconsch delete" (click)="Delete(actividad.$key)"><i class="small material-icons">delete</i></a>       </div>
     </div>
 </div>
-
-

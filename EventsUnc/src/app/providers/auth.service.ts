@@ -8,8 +8,8 @@ import { AngularFireAuthModule, AngularFireAuth, FirebaseAuthStateObservable } f
 
 @Injectable()
 export class AuthService {
-  user: Observable<firebase.User>;
   public loggedIn: boolean=false;
+  public user: any;
 
 
   constructor(private afAuth: AngularFireAuth) {
@@ -18,8 +18,9 @@ export class AuthService {
         //console.log('onAuthStateChanged');
         //console.log('isUserLoggedIn',this.afAuth.auth.currentUser);
         if(firebaseUser){
-          //console.log('firebaseUser',firebaseUser);
-         this.user = afAuth.authState;
+          //console.log('firebaseUser',firebaseUser.providerData[0]);//solo google
+          console.log('logged in');
+          this.user = firebaseUser.providerData[0];//afAuth.authState;
           this.loggedIn = true;
         }else{
           console.log('not logged in');
@@ -62,9 +63,10 @@ export class AuthService {
         // This gives you a Google Access Token.
         var token = googleUser.credential.accessToken;
         // The signed-in user info.
-        var user = googleUser.user;
+        var localuser = googleUser.user;
         console.log('Google token', token);
-        console.log('Google user', user);
+        console.log('Google user', localuser);
+        //this.user= googleUser.user.authState;
         //TODO con el token recibido ver si hay que  mandarlo en cada peticion o si ya lo maneja firebase
         //leer mas eso
     }).catch(function(error) {
@@ -104,7 +106,7 @@ export class AuthService {
     });
   }
 
-  getUser() {
+  getUser() :firebase.Promise<any>{
      if (this.afAuth.auth.currentUser != null) {
       this.afAuth.auth.currentUser.providerData.forEach(function (profile) {
         console.log("  Sign-in provider: "+profile.providerId);
@@ -114,7 +116,7 @@ export class AuthService {
         console.log("  Photo URL: "+profile.photoURL);
       });
     }
-    return this.afAuth.authState;
+    return this.user;
   }
 
 }

@@ -31,7 +31,7 @@ export class MainComponent implements OnInit {
     private router: Router){}
 
   ngOnInit(){
-    this.actividades = this.af.list('/actividades');
+    this.actividades = this.af.list('/actividades', { query: { limitToLast: 50 } });
     //      this.actividades.push({ horario: "8:00 a 9:00"});
   }
   isUserLoggedIn(){
@@ -49,12 +49,5 @@ export class MainComponent implements OnInit {
   modEvento(key){
     this.router.navigate(['/modEvento', key]);
   }
-  updateAlertaMongo(msg: string, key):void{    
-    this.actividades.update( key, {alert: msg});
 
-  }
-
-  onSelect(key): void {
-   this.selectedActividad = key;
-  }
 }

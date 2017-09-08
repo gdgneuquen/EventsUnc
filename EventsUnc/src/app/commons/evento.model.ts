@@ -18,13 +18,13 @@ export interface IEvento {
   export class Evento {
   key?: string;
   public dias: any[];
-  public chk_lun: boolean;
-  public chk_ma: boolean;
-  public chk_mi: boolean;
-  public chk_ju: boolean;
-  public chk_vi: boolean;
-  public chk_sa: boolean;
-  public chk_do: boolean;
+  public chk_lun: boolean = false;
+  public chk_ma: boolean = false;
+  public chk_mi: boolean = false;
+  public chk_ju: boolean = false;
+  public chk_vi: boolean = false;
+  public chk_sa: boolean = false;
+  public chk_do: boolean = false;
 
   constructor(
     key?: string,

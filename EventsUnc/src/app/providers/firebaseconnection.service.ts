@@ -21,6 +21,10 @@ export class FirebaseconnectionService {
     return this.af.list('/actividades');
   }
 
+  getListActividadesWithOptions(options: any): FirebaseListObservable<any[]> {
+    return this.af.list('/actividades', options);
+  }
+
   getListAulas(limit: number = 50): FirebaseListObservable<any[]> {
     return this.af.list('/aula', { query: { limitToLast: limit } });
   }
@@ -90,7 +94,9 @@ export class FirebaseconnectionService {
     let arr = [], i, j;
     for (i = 7; i < 24; i++) {
       for ( j = 0; j < 4; j++) {
-        arr.push(i + ':' + (j === 0 ? '00' : 15 * j) );
+        //fix: usar hora con formato 99:99 para ahorrar conversiones con momentjs
+        arr.push( ((i+'').length == 1 ? '0'+i : i) + ':' + (j === 0 ? '00' : 15 * j) );
+        //arr.push(i + ':' + (j === 0 ? '00' : 15 * j) );
       }
     }
     return arr;
