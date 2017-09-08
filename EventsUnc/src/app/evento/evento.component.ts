@@ -1,3 +1,4 @@
+ 
 import { Component, NgZone, OnInit, ɵConsole } from '@angular/core';
 import { FormBuilder } from '@angular/forms';
 import { Observable } from 'rxjs/Observable';
@@ -121,3 +122,4 @@ export class EventoComponent  implements OnInit {
   }
 
 }
+ 
