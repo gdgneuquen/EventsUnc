@@ -31,6 +31,19 @@ import {MdInputModule, MdSelectModule} from '@angular/material';
 import { MaterializeModule } from 'angular2-materialize';
 import { environment } from '../environments/environment';
 
+
+export const firebaseConfig = {
+
+    apiKey: "AIzaSyATyRktSqq_zEPiX4Yj8B8wZuWEh2I3cfs",
+    authDomain: "faeatest.firebaseapp.com",
+    databaseURL: "https://faeatest.firebaseio.com",
+    projectId: "faeatest",
+    storageBucket: "faeatest.appspot.com",
+    messagingSenderId: "869582996123"
+
+
+};
+
 @NgModule({
   declarations: [
     AppComponent,

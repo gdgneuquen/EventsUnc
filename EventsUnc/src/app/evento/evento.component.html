@@ -1,10 +1,11 @@
+
 <nav class="nav-extended black">
 
   <div class="nav-wrapper">
     <a routerLink="" class="brand-logo">Facultad de economia - Clases</a>
     <a routerLink="" data-activates="mobile-demo" class="button-collapse"><i class="material-icons">menu</i></a>
 
-    <div class="center yellow-text"> {{hoy}} - {{dia|uppercase}} - {{horaActual}}</div>
+    <div class="right yellow-text"> {{hoy |uppercase}}</div>
     <div class="right"> </div>
     <ul class="side-nav" id="mobile-demo">
       <li><a routerLink=""><i class="material-icons">Inicio</i></a></li>
@@ -28,13 +29,12 @@
   </thead>
   <tbody>
       <!--  | orderBy:order:reverse -->
-     <tr  *ngFor="let actividad of actividades" [class.encurso]="estaEnCurso(actividad.horaInicio,actividad.horaFin)">
+     <tr  *ngFor="let actividad of actividades | orderBy:order:reverse" [class.encurso]="estaEnCurso(actividad)">
       <!-- Tratando de definir un observable que cambie el fondo de la fila que este cursando ahora mismo.   -->
       <td>{{actividad.horaInicio}} : {{actividad.horaFin}}</td>
       <td> {{actividad.descripcion}}</td><!--  <marquee behavior="alternate" scrolldelay="300"> </marquee>-->
       <td class="green">
        {{actividad.tipoActividad}}
-
       </td>
       <td>
        {{actividad.nombre}}
