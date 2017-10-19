@@ -1,4 +1,4 @@
-import { Component, NgZone, OnInit } from '@angular/core';
+import { Component, Input, NgZone, OnInit  } from '@angular/core';
 import { FormBuilder } from '@angular/forms';
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/observable/throw';//Para trabajar con los observables desde rxjs
@@ -6,12 +6,16 @@ import 'rxjs/add/operator/catch';//para poder tomar cosas
 import 'rxjs/add/operator/toPromise';
 
 import { Router } from '@angular/router';
-import { AngularFireDatabase, FirebaseListObservable } from 'angularfire2/database';
-import { AngularFireAuth } from 'angularfire2/auth';
+import { AngularFireDatabase, FirebaseListObservable, FirebaseObjectObservable} from 'angularfire2/database';
+import { AuthService } from '../providers/auth.service';
+import { FirebaseconnectionService } from '../providers/firebaseconnection.service';
+import { Evento } from "../commons/evento.model";
 
 import * as firebase from 'firebase/app';
 import * as moment from 'moment';
-//import { actividad, aula, estado, tipo, zona } from '../commons/events.interface';
+//materialize
+import { MdDatepickerModule, DateAdapter } from '@angular/material';
+import { MdDatepicker } from '@angular/material';
 
 
 @Component({
@@ -19,93 +23,85 @@ import * as moment from 'moment';
   templateUrl: './admin.component.html',
   styleUrls: ['./admin.component.css']
 })
-export class AdminComponent implements OnInit {
 
-  hoy=moment().locale('es').format('LLLL');
-  user: Observable<firebase.User>;
-  actividades:FirebaseListObservable<any[]>; //actividades es tipo any para poder recibir todo lo que le trae el servicio
+export class AdminComponent implements OnInit  {
+
+  minDate = new Date(2000, 0, 1);
+  maxDate = new Date(2020, 0, 1);
+  hoy = moment().locale('es').format('DD/M/YYYY');
+
+  actividades: FirebaseListObservable<any[]>;
+  numberHora: any[];
+  tiposDeActividades: FirebaseListObservable<any[]>;
+  estadoActividades: FirebaseListObservable<any[]>;
+  evento: FirebaseObjectObservable<any>;
+  eventoObject = new Evento();
+  id: any; // id recibido
+  periodos: string[];
+  aulas: FirebaseListObservable<any[]>;
   msgVal: string = ''; //mensaje de entrada del form
-  selectedActividad: string = '';
-  descripcion: string = '';
-  horaFin: string = '';
-  horaInicio: string = '';
-  nombre: string = '';
-  estadoActividad: string = '';
-  tipoActividad: string = '';
-  zonaAula: string = '';
-  numberHora = [7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,0];
-  numberMinuto = [0,5,10,15,20,25,30,35,40,45,50,55];
-  tipoDeActividad = ['Grado', 'Post Grado', 'Evento'];
- // aulas = ['Grado', 'Post Grado', 'Evento'];
-  //aulas debería traerse desde la db pero no lo logro no se que pasa
-  aulas:FirebaseListObservable<any[]>; 
-
-
-  //Comprueba si hay un usuario logueado
-  estaLogueado:boolean=false;
 
   constructor(
-    public afAuth: AngularFireAuth, 
-    public af: AngularFireDatabase,
-    private router: Router,){
-      
-    this.actividades = af.list('/actividades', { query: { limitToLast: 50 } });    
-      //aulas debería traerse desde la db pero no lo logro no se que pasa
-    this.aulas = af.list('/aula', { query: { limitToLast: 50 } });
+    private authService: AuthService,
+    private afService: FirebaseconnectionService,
+    private router: Router,
+    private dateAdapter: DateAdapter<Date>) { }
 
-    this.user = this.afAuth.authState;  
-    this.estaLogueado=this.user?true:false;
+  ngOnInit() {
+    this.eventoObject = new Evento('', '', [false,false,false,false,false,false,false], '', '', '', '', '', '', '', '', '');
+    this.actividades = this.afService.getListActividades();
+    this.aulas = this.afService.getListAulas(50);
+    this.estadoActividades = this.afService.getListEstados();
+    this.tiposDeActividades = this.afService.getListTiposActividades();
+    this.numberHora = this.afService.getHorario();
+    this.periodos = this.afService.getListPeriodos();
+    this.dateAdapter.setLocale('es-ar');
 
   }
 
   onSelect(key): void {
-   this.selectedActividad = key;
-  }
-  
-  login() { this.afAuth.auth.signInAnonymously(); 
-  this.estaLogueado=true;}
-
-  logout() { this.afAuth.auth.signOut(); 
-  this.estaLogueado=false;}
-
-  Send(
-    descripcion: string,   horaFin: string,
-    minutoFin: string,     horaInicio: string,
-    minutoInicio: string,  nombre: string,
-    tipoActividad: string, estadoActividad: string,
-    zonaAula: string ) {
-
-      if( horaInicio == null || minutoInicio == null || horaFin == null ||  minutoFin == null){
-          alert("la Fecha inicio y hora inicio tienen que estar llennas")
-      }else{
-        var horaIniS = horaInicio +':'+ minutoInicio;
-        var horaFinS = horaFin +':'+ minutoFin;
-
-        this.actividades.push({
-        descripcion: descripcion,     horaFin: horaFinS,
-        horaInicio: horaIniS,         nombre: nombre,
-        tipoActividad: tipoActividad, estadoActividad: estadoActividad,  
-        zonaAula: zonaAula});
-        this.router.navigate(['/main']);  
-      }
+   // this.selectedActividad = key;
   }
 
-  Delete(key):void {
-      this.actividades.remove( key);
-      this.msgVal = '';
-  }
-    
-  verActividadMongo(_id: string): void {
-
-   // this.router.navigate(['/actividadesDetail', _id]);    
+  isUserLoggedIn() {
+   return this.authService.loggedIn;
   }
 
-  updateActividadMongo(msg: string, key):void{    
-    this.actividades.update( key, {alert: msg});
-
+  getDataFormat(e: Event) {
+    console.log(e.target);
+   // manage event
   }
 
-  ngOnInit(){
-    
+  SendEvento(eventoSend: Evento) {
+    // TODO: hacer contrl de error y validaciones
+    if ( eventoSend.horaInicio === "" || eventoSend.horaFin === "" ||
+        eventoSend.descripcion === "" || eventoSend.nombre === "" ||
+        eventoSend.tipoActividad === "" || eventoSend.zonaAula === "") {
+      alert("Por favor complete todos los campos obligatorios");
+      return false;
     }
+    eventoSend.pickerDesde = moment(eventoSend.pickerDesde).locale('es').format('YYYY-MM-DD');
+    eventoSend.pickerHasta = moment(eventoSend.pickerHasta).locale('es').format('YYYY-MM-DD');
+    // check undefined && false
+    let dias = [(eventoSend.chk_lun == true),
+      (eventoSend.chk_ma == true),
+        (eventoSend.chk_mi == true),
+          (eventoSend.chk_ju == true),
+            (eventoSend.chk_vi == true),
+              (eventoSend.chk_sa == true),
+                (eventoSend.chk_do == true)];//creo el arreglo de días
+    eventoSend.dias = dias;
+    this.afService.addActividad(eventoSend);
+    this.goToMain();
+  }
+
+  myFilter = (d: Date): boolean => {
+    const day = d.getDay();
+    // Prevent Saturday and Sunday from being selected.
+    return day !== 0 && day !== 6;
+  }
+
+  goToMain() {
+    this.router.navigate(['/main']);
+  }
 }

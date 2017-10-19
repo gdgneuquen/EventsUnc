@@ -1,0 +1,203 @@
+<app-header></app-header>
+
+<div>
+
+<div class="container" [hidden]="!isUserLoggedIn()" *ngIf="eventoObject" >
+  <!--
+    <div class="row">
+      <pre>{{(eventoObject | json)  }}</pre>
+    </div>
+  -->
+  <div class="row">
+    <div class="col s12 m6 l3">
+        <h6>HORA INICIO(*)</h6>
+    </div>
+    <div class="col s12 m6 l3">
+        <h6>HORA FIN(*)</h6>
+    </div>
+    <div class="col s12 m6 l3">
+      FECHA DESDE
+    </div>
+    <div class="col s12 m6 l3">
+      FECHA HASTA
+    </div>
+
+  </div>
+
+  <div class="row">
+    <div class="col s12 m6 l3">
+      <div class="input-field">
+        <md-select   id="horaInicio"
+                [(ngModel)]="eventoObject.horaInicio"
+                placeholder="Seleccione..."
+                floatPlaceholder="never">
+          <md-option [value]="number" *ngFor="let number of numberHora" >{{ number }}
+          </md-option>
+        </md-select>
+        <label for="horaInicio" data-error="campo requerido" data-success="right"></label>
+      </div>
+    </div>
+    <div class="col s12 m6 l3">
+      <div class="input-field">
+        <md-select id="horaFin"
+                [(ngModel)]="eventoObject.horaFin"
+                placeholder="Seleccione..."
+                floatPlaceholder="never">
+          <md-option [value]="number" *ngFor="let number of numberHora" >{{ number }}</md-option>
+        </md-select>
+      </div>
+    </div>
+
+    <div class="col s12 m6 l3">
+                <input mdInput [mdDatepicker]="pickerDesde"
+                        style="width: 120px;" name="pickerDesde" id="pickerDesde"
+                        [min]="minDate" [max]="maxDate" [value]="eventoObject.pickerDesde"
+                        [(ngModel)]="eventoObject.pickerDesde"
+                        placeholder="Seleccione..." floatPlaceholder="never"
+                        floatPlaceholder="never">
+                        <md-datepicker-toggle mdSuffix [for]="pickerDesde"></md-datepicker-toggle>
+                        <!--button mdSuffix [mdDatepickerToggle]="pickerDesde"></button-->
+              <md-datepicker touchUi="true"  #pickerDesde></md-datepicker>
+   </div>
+      <div class="col s12 m6 l3">
+                <input mdInput [mdDatepicker]="pickerHasta"
+                        style="width: 120px;" name="pickerHasta" id="pickerHasta"
+                        [min]="minDate" [max]="maxDate" [value]="eventoObject.pickerHasta"
+                        [(ngModel)]="eventoObject.pickerHasta"
+                        placeholder="Seleccione..."
+                        floatPlaceholder="never">
+                        <md-datepicker-toggle mdSuffix [for]="pickerHasta"></md-datepicker-toggle>
+                        <!--button mdSuffix [mdDatepickerToggle]="pickerHasta"></button-->
+              <md-datepicker touchUi="true"  #pickerHasta></md-datepicker>
+      </div>
+
+  </div>
+    <div class="row">
+      <div class="col s12 m12 l12">
+          <h6>DIAS</h6>
+      </div>
+    </div>
+  <div class="row">
+    <div class="col s12 m12 l12">
+        <section >
+          <md-checkbox [checked]="eventoObject.chk_lun" [(ngModel)]="eventoObject.chk_lun">Lunes</md-checkbox>
+          <md-checkbox [checked]="eventoObject.chk_ma"  [(ngModel)]="eventoObject.chk_ma">Martes</md-checkbox>
+          <md-checkbox [checked]="eventoObject.chk_mi"  [(ngModel)]="eventoObject.chk_mi">Miercoles</md-checkbox>
+          <md-checkbox [checked]="eventoObject.chk_ju"  [(ngModel)]="eventoObject.chk_ju">Jueves</md-checkbox>
+          <md-checkbox [checked]="eventoObject.chk_vi"  [(ngModel)]="eventoObject.chk_vi">Viernes</md-checkbox>
+          <md-checkbox [checked]="eventoObject.chk_sa"  [(ngModel)]="eventoObject.chk_sa">Sabado</md-checkbox>
+          <md-checkbox [checked]="eventoObject.chk_do"  [(ngModel)]="eventoObject.chk_do">Domingo</md-checkbox>
+        </section>
+    </div>
+    </div>
+   <div class="row">
+    <div class="col s12 m6 l3">
+        <h6>PERIODO</h6>
+    </div>
+
+    <div class="col s12 m6 l3">
+        <h6>TIPO DE ACTIVIDAD</h6>
+    </div>
+    <div class="col s12 m6 l3">
+
+    </div>
+
+  </div>
+
+  <div class="row">
+
+     <div class="col s12 m6 l3">
+        <md-select id="periodos"
+                [(ngModel)]="eventoObject.periodo"
+                placeholder="Seleccione..."
+                style="min-width: 200px;"
+                class="browser-default black-text browser-default"
+                floatPlaceholder="never">
+          <md-option [value]="p" *ngFor="let p of periodos">{{ p }}</md-option>
+        </md-select>
+
+    </div>
+    <div class="col s12 m6 l5">
+        <md-select   id="tipoDeActividad"
+                [(ngModel)]="eventoObject.tipoActividad"
+                placeholder="Seleccione..."
+                class="browser-default black-text browser-default"
+                style="min-width: 200px;"
+                floatPlaceholder="never" >
+          <md-option  [value]="t.nombre"
+                  *ngFor="let t of tiposDeActividades | async "
+                  [class.green]="t.estado == '1'"
+                  [class.yellow]="t.estado == '2'"
+                  [class.red]="t.estado == '3'">{{t.nombre}}
+          </md-option>
+        </md-select>
+
+    </div>
+   <div class="col s12 m6 l3">
+
+
+    </div>
+  </div>
+    <div class="row">
+      <div class="input-field col s6">
+            <input placeholder="Nombre de la Actividad (*)"
+                    id="descripcion" type="text" name="descripcion"
+                    [(ngModel)]="eventoObject.descripcion"
+                   class="validate">
+            <label for="descripcion"></label>
+      </div>
+    </div>
+    <div class="row">
+      <div class="input-field col s6">
+            <input placeholder="Referente/Profesor (*)"
+                    id="nombre" type="text" name="nombre"
+                    [(ngModel)]="eventoObject.nombre"
+                   class="validate">
+            <label for="nombre"></label>
+      </div>
+    </div>
+  <div class="row">
+    <div class="col s12 m6 l4">
+        <h6>AULA(*)</h6>
+    </div>
+      <div class="col s12 m6 l4">
+        <h6>ESTADO(*)</h6>
+      </div>
+  </div>
+  <div class="row">
+    <div class="col s12 m6 l4">
+        <md-select   id="zonaAula"
+                [(ngModel)]="eventoObject.zonaAula"
+                placeholder="Seleccione..."
+                class="browser-default black-text browser-default"
+                style="min-width: 250px;"
+                floatPlaceholder="never" >
+          <md-option  *ngFor="let a of aulas | async" [value]="a.nombre">{{a.nombre}}
+          </md-option>
+        </md-select>
+    </div>
+    <div class="col s12 m6 l4">
+        <md-select   id="estadoAct"
+                [(ngModel)]="eventoObject.estadoActividad"
+                placeholder="Seleccione..."
+                class="browser-default black-text browser-default"
+                style="min-width: 250px;"
+                floatPlaceholder="never" >
+          <md-option   *ngFor="let a of estadoActividades | async" [value]="a.nombre"
+           [class.green]="a.estado == '1'" [class.yellow]="a.estado == '2'" [class.red]="a.estado == '3'">{{a.nombre}}
+          </md-option>
+        </md-select>
+
+    </div>
+  </div>
+  <div class="row">
+    <div class="col s2">
+      <a (click)="SendEvento(eventoObject)"
+          class="waves-effect waves-light indigo darken-1 btn">OK</a>
+
+    </div>
+    <div class="col s1">
+      <a (click)="goToMain()" class="waves-effect waves-light indigo darken-1 btn">CANCEL</a>
+    </div>
+  </div>
+</div>
