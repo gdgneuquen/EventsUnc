@@ -2,9 +2,9 @@ import { AuthService } from '../providers/auth.service';
 import { Component, NgZone, OnInit } from '@angular/core';
 import { FormBuilder } from '@angular/forms';
 import { Observable } from 'rxjs/Observable';
-import 'rxjs/add/observable/throw';//Para trabajar con los observables desde rxjs
-import 'rxjs/add/operator/catch';//para poder tomar cosas
-import 'rxjs/add/operator/toPromise';
+//import 'rxjs/add/observable/throw';//Para trabajar con los observables desde rxjs
+//import 'rxjs/add/operator/catch';//para poder tomar cosas
+//import 'rxjs/add/operator/toPromise';
 
 import { Router } from '@angular/router';
 import { AngularFireDatabase, FirebaseListObservable } from 'angularfire2/database';
@@ -38,7 +38,7 @@ export class MainComponent implements OnInit {
      return this.authService.loggedIn;
   }
 
-  Delete(key):void {
+  deleteActivity(key):void {
       //alert("la Fecha inicio y hora inicio tienen que estar llennas");
       if(confirm("Esta seguro que desea borrar el evento?")) {
         this.actividades.remove( key);
@@ -46,7 +46,7 @@ export class MainComponent implements OnInit {
       }
   }
 
-  modEvento(key){
+  modificarActivity(key){
     this.router.navigate(['/modEvento', key]);
   }
 

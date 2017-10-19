@@ -2,13 +2,13 @@
     <div class="nav-wrapper indigo darken-1">
         <a routerLink="/Daily" class="brand-logo"><img src="./assets/logo-faea.png"></a>
         <ul id="nav-mobile" class="right hide-on-med-and-down">
-            <li><a href="event"><i class="material-icons left">play_arrow</i>INICIAR VISOR</a></li>
+            <li><a href="event" target="_blank" ><i class="material-icons left">play_arrow</i>INICIAR VISOR</a></li>
             <li><app-authentication></app-authentication></li>
         </ul>
     </div>
     <div class="nav-content indigo darken-2">
         <ul class="tabs tabs-transparent">
-            <li class="tab"><a routerLink="/main" *ngIf="isUserLoggedIn()">Actividad Diaria</a></li>
+            <li class="tab"><a routerLink="/main" *ngIf="isUserLoggedIn()">Actividades</a></li>
             <li class="tab"><a routerLink="/admin" *ngIf="isUserLoggedIn()">Nueva Actividad</a></li>
             <li class="tab"><a routerLink="/notificaciones" *ngIf="isUserLoggedIn()">Nueva Notificacion</a></li>
         </ul>

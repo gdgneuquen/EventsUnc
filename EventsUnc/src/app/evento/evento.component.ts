@@ -2,11 +2,11 @@
 import { Component, NgZone, OnInit, ɵConsole } from '@angular/core';
 import { FormBuilder } from '@angular/forms';
 import { Observable } from 'rxjs/Observable';
-import 'rxjs/add/observable/throw';//Para trabajar con los observables desde rxjs
+/*import 'rxjs/add/observable/throw';//Para trabajar con los observables desde rxjs
 import 'rxjs/add/operator/catch';//para poder tomar cosas
 import 'rxjs/add/operator/toPromise';
 import 'rxjs/add/operator/do';
-import { Subject } from 'rxjs/Subject'
+import { Subject } from 'rxjs/Subject'*/
 
 import { Router } from '@angular/router';
 import { AngularFireDatabase, FirebaseListObservable } from 'angularfire2/database';
@@ -26,7 +26,7 @@ import {ArrayObservable} from "rxjs/observable/ArrayObservable";
   templateUrl: './evento.component.html',
   styleUrls: ['./evento.component.css']
 })
-export class EventoComponent  implements OnInit {
+export class EventoComponent implements OnInit {
 
   tablaResponsiva = true;
 
@@ -87,6 +87,7 @@ export class EventoComponent  implements OnInit {
       )
     });
   }
+  
   // filtrar actividad de esta semana y de hoy
   // controlar que sea valido, que este dentro de la semana vigente, que sea dia actual
   // que no vencio (en horas) y que este en el array de dias seleccionados
@@ -111,9 +112,13 @@ export class EventoComponent  implements OnInit {
   isEventValid(actividad: Evento) {
     // moment('9999-99-99').locale('es').weekday();  muestra dias 0-6
     // moment('9999-99-99').locale('es').isoWeekday();  muestra dias 1-7
+    console.log(moment(actividad.horaInicio));
     return actividad.dias[moment().locale('es').weekday()]
           && moment().locale('es').format('HH:mm') >= actividad.horaInicio
+          //actividad.horaFin
           && moment().locale('es').format('HH:mm') <= actividad.horaFin;
+          //&& moment().locale('es').format('HH:mm') <= "12:00";
+          //actividad.horaFin
   }
 
   // esta funcion estaba pensada paracambiar el fondo por uno mas llamativo de la actividad en curso.

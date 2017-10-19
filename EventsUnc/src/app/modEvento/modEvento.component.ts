@@ -17,9 +17,10 @@
   import { AuthService } from '../providers/auth.service';
   import { FirebaseconnectionService } from '../providers/firebaseconnection.service';
   import {Evento} from "../commons/evento.model";
-//materialize
-import { MdDatepickerModule, DateAdapter } from '@angular/material';
-import { MdDatepicker } from '@angular/material';
+  
+  //materialize
+  import { MdDatepickerModule, DateAdapter } from '@angular/material';
+  import { MdDatepicker } from '@angular/material';
 
   @Component({
     selector: 'modevent-app',

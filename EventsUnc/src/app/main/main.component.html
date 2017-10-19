@@ -57,12 +57,16 @@
       <div class="col m1 elemento-tabla">
            {{actividad.zonaAula}}
       </div>
-      <div class="col m1 center elemento-tabla green">
+      <div class="col m1 center elemento-tabla "
+      
+      [class.green] = "actividad.estadoActividad == 'Normal'"
+      [class.yellow] = "actividad.estadoActividad == 'Se Cambio'"
+      [class.red] = "actividad.estadoActividad == 'Suspendida'">
         {{actividad.estadoActividad}}
       </div>
 
       <div class="col m1 elemento-tabla center" >
-         <a class="iconsch edit" (click)="modEvento(actividad.$key)"><i class="small material-icons">edit</i></a>
-         <a class="iconsch delete" (click)="Delete(actividad.$key)"><i class="small material-icons">delete</i></a>       </div>
+         <a class="iconsch edit" (click)="modificarActivity(actividad.$key)"><i class="small material-icons">edit</i></a>
+         <a class="iconsch delete" (click)="DeleteActivity(actividad.$key)"><i class="small material-icons">delete</i></a>       </div>
     </div>
 </div>
