@@ -46,7 +46,8 @@
                         [(ngModel)]="eventoObject.pickerDesde"
                         placeholder="Seleccione..." floatPlaceholder="never"
                         floatPlaceholder="never">
-                        <button [mdDatepickerToggle]="pickerDesde"></button>
+                        <md-datepicker-toggle mdSuffix [for]="pickerDesde"></md-datepicker-toggle>
+                        <!--button mdSuffix [mdDatepickerToggle]="pickerDesde"></button-->
               <md-datepicker touchUi="true"  #pickerDesde></md-datepicker>
    </div>
       <div class="col s12 m6 l3">
@@ -56,7 +57,8 @@
                         [(ngModel)]="eventoObject.pickerHasta"
                         placeholder="Seleccione..."
                         floatPlaceholder="never">
-                        <button [mdDatepickerToggle]="pickerHasta"></button>
+                        <md-datepicker-toggle mdSuffix [for]="pickerHasta"></md-datepicker-toggle>
+                        <!--button mdSuffix [mdDatepickerToggle]="pickerHasta"></button-->
               <md-datepicker touchUi="true"  #pickerHasta></md-datepicker>
       </div>
   </div>
