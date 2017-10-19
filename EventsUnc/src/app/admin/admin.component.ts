@@ -14,8 +14,8 @@ import { Evento } from "../commons/evento.model";
 import * as firebase from 'firebase/app';
 import * as moment from 'moment';
 //materialize
-import { MdDatepickerModule, DateAdapter } from '@angular/material';
-import { MdDatepicker } from '@angular/material';
+import { MatDatepickerModule, DateAdapter } from '@angular/material';
+import { MatDatepicker } from '@angular/material';
 
 
 @Component({

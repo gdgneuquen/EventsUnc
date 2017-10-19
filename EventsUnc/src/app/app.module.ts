@@ -24,10 +24,10 @@ import { AngularFireDatabaseModule } from 'angularfire2/database';
 import { AngularFireAuthModule } from 'angularfire2/auth';
 
 //materialize
-import { MdDatepickerModule, MdNativeDateModule , MdCheckboxModule} from '@angular/material';
+import { MatDatepickerModule, MatNativeDateModule , MatCheckboxModule} from '@angular/material';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
-import {MdButtonModule} from '@angular/material';
-import {MdInputModule, MdSelectModule} from '@angular/material';
+import {MatButtonModule} from '@angular/material';
+import {MatInputModule, MatSelectModule} from '@angular/material';
 import { MaterializeModule } from 'angular2-materialize';
 import { environment } from '../environments/environment';
 
@@ -66,9 +66,9 @@ export const firebaseConfig = {
     AngularFireModule.initializeApp(environment.firebase), // imports firebase/app needed for everything
     AngularFireDatabaseModule, // imports firebase/database, only needed for database features
     AngularFireAuthModule, // imports firebase/auth, only needed for auth features
-    BrowserAnimationsModule, MdDatepickerModule,
-     MdButtonModule, MdNativeDateModule, MdInputModule, MdCheckboxModule,
-     MdSelectModule, MaterializeModule
+    BrowserAnimationsModule, MatDatepickerModule,
+     MatButtonModule, MatNativeDateModule, MatInputModule, MatCheckboxModule,
+     MatSelectModule, MaterializeModule
   ],
   providers: [AuthService, FirebaseconnectionService],
   bootstrap: [AppComponent]

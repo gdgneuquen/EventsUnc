@@ -19,8 +19,8 @@
   import {Evento} from "../commons/evento.model";
   
   //materialize
-  import { MdDatepickerModule, DateAdapter } from '@angular/material';
-  import { MdDatepicker } from '@angular/material';
+  import { MatDatepickerModule, DateAdapter } from '@angular/material';
+  import { MatDatepicker } from '@angular/material';
 
   @Component({
     selector: 'modevent-app',
