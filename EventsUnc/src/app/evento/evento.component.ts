@@ -8,6 +8,11 @@ import 'rxjs/add/operator/toPromise';
 import 'rxjs/add/operator/do';
 import { Subject } from 'rxjs/Subject'*/
 
+//nuevo 20/10/2017
+import { Subscription} from 'rxjs';
+import { TimerObservable } from 'rxjs/observable/TimerObservable';
+//nuevo 20/10/2017 *
+
 import { Router } from '@angular/router';
 import { AngularFireDatabase, FirebaseListObservable } from 'angularfire2/database';
 import { AuthService } from '../providers/auth.service';
@@ -28,13 +33,16 @@ import {ArrayObservable} from "rxjs/observable/ArrayObservable";
 })
 export class EventoComponent implements OnInit {
 
+  private subscription : Subscription;
   tablaResponsiva = true;
 
   //Relacionado al plugin momentjs:
   horaActual = moment().locale('es').format('LT');
   hoy = moment().locale('es').format('LLLL');//fecha
   dia = moment().locale('es').format('dddd');//dia de la semana
-
+  mediahora=1800000;//en milisegundos
+  diezminutos=600000;//en ms
+  unminuto=60000;//en ms
   //Relacionado al plugin ngx-order-pipe. Hay que agregarlo a imports en app.module.ts
   order = "actividad.pickerDesde";
   reverse = true;
@@ -51,6 +59,11 @@ export class EventoComponent implements OnInit {
     private router: Router) {}
 
   ngOnInit() {
+    let timer = TimerObservable.create(this.diezminutos, this.diezminutos);
+    this.subscription=timer.subscribe(t=>{
+      this.getActividades();  
+      //console.log("ejecucion de refresco.");
+    })
     this.getActividades();
   }
 
@@ -112,7 +125,7 @@ export class EventoComponent implements OnInit {
   isEventValid(actividad: Evento) {
     // moment('9999-99-99').locale('es').weekday();  muestra dias 0-6
     // moment('9999-99-99').locale('es').isoWeekday();  muestra dias 1-7
-    console.log(moment(actividad.horaInicio));
+    //console.log(moment(actividad.horaInicio));
     return actividad.dias[moment().locale('es').weekday()]
           && moment().locale('es').format('HH:mm') >= actividad.horaInicio
           //actividad.horaFin
