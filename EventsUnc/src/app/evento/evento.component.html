@@ -1,12 +1,16 @@
 
-<nav class="nav-extended black">
-
+<nav class="nav-extended yellow accent-4"><!-- valores anteriores black -->
   <div class="nav-wrapper">
-    <a routerLink="" class="brand-logo">Facultad de economia - Clases</a>
-    <a routerLink="" data-activates="mobile-demo" class="button-collapse"><i class="material-icons">menu</i></a>
+    <div class="brand-logo"><img src="./assets/logo-faea.png"></div>
+    
 
-    <div class="right yellow-text"> {{hoy |uppercase}}</div>
-    <div class="right"> </div>
+    
+    <a routerLink="" data-activates="mobile-demo" class="button-collapse"><i class="material-icons">menu</i></a>
+    <div class="center indigo-text" id="titulocentral">Facultad de Economia - Clases
+      <div class="right indigo-text" id="hoyuppercase"> {{hoy |uppercase}}</div>
+    </div>
+    
+    
     <ul class="side-nav" id="mobile-demo">
       <li><a routerLink=""><i class="material-icons">Inicio</i></a></li>
     </ul>
@@ -16,7 +20,7 @@
 
 <div class="container-fluid" >
 
-    <table class="bordered centered" [class.responsive-table]="tablaResponsiva">
+    <table class="striped centered" [class.responsive-table]="tablaResponsiva">
   <thead>
     <tr class="texto-titulo-tabla">
       <th>HORARIO</th>

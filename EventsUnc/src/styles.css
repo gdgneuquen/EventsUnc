@@ -6,7 +6,7 @@
     margin: 0px;
 }
 body{
-    background-color: #282e34;
+    background-color: #0000ff;
     color:#ddd;
     font-size: 16px;
     letter-spacing: 2px;
@@ -63,4 +63,7 @@ color:#c62828;
 
 .mat-checkbox{
   margin-right: 1em;
+}
+table.striped > tbody > tr:nth-child(odd){
+  background-color: #1111dd;
 }

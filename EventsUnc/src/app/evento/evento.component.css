@@ -35,3 +35,14 @@ td{
     from {background-color: black;}
     to {background-color: orange;}
 }
+.brand-logo{
+    margin-left:24px;
+}
+#hoyuppercase{
+    margin-right: 24px;
+    font-size: 24px;
+}
+#titulocentral{
+    font-size: 32px;
+
+}
