@@ -11,6 +11,7 @@
             <li class="tab"><a routerLink="/main" *ngIf="isUserLoggedIn()">Actividades</a></li>
             <li class="tab"><a routerLink="/admin" *ngIf="isUserLoggedIn()">Nueva Actividad</a></li>
             <li class="tab"><a routerLink="/notificaciones" *ngIf="isUserLoggedIn()">Nueva Notificacion</a></li>
+            <li><input type="text" class="form-control" placeholder="Buscar" [(ngModel)]="searchText" (input)="searchTextToParent()" ></li>
         </ul>
     </div>
 </nav>

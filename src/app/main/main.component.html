@@ -1,4 +1,4 @@
-<app-header></app-header>
+<app-header (searchEmit)="searchActivities($event)"></app-header>
 
 <div class="container-fluid" *ngIf="isUserLoggedIn() && actividades">
     <!-- TITULOS -->
@@ -12,7 +12,6 @@
       <div class="col m1 center texto-titulo-tabla">
         TIPO
       </div>
-
       <div class="col m2 center texto-titulo-tabla">
         PROFE/REFERENTE
       </div>
@@ -35,7 +34,7 @@
     <!-- /TITULOS -->
 
     <!-- Una sola fila -->
-    <div class="row fila" *ngFor="let actividad of actividades | async" >
+    <div class="row fila" *ngFor="let actividad of items" >
       <div class="col m1 elemento-tabla center" >
         {{actividad.horaInicio}} a {{actividad.horaFin}}
       </div>
@@ -58,7 +57,6 @@
            {{actividad.zonaAula}}
       </div>
       <div class="col m1 center elemento-tabla "
-      
       [class.green] = "actividad.estadoActividad == 'Normal'"
       [class.yellow] = "actividad.estadoActividad == 'Se Cambio'"
       [class.red] = "actividad.estadoActividad == 'Suspendida'">
@@ -67,6 +65,7 @@
 
       <div class="col m1 elemento-tabla center" >
          <a class="iconsch edit" (click)="modificarActivity(actividad.$key)"><i class="small material-icons">edit</i></a>
-         <a class="iconsch delete" (click)="DeleteActivity(actividad.$key)"><i class="small material-icons">delete</i></a>       </div>
+         <a class="iconsch delete" (click)="DeleteActivity(actividad.$key)"><i class="small material-icons">delete</i></a>
+      </div>
     </div>
 </div>
