@@ -1,5 +1,5 @@
 import { AuthService } from '../providers/auth.service';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 
 
 @Component({
@@ -8,13 +8,22 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./header.component.css']
 })
 export class HeaderComponent implements OnInit {
-  constructor(private authService: AuthService) { }
+  searchText: string;
+  @Output() searchEmit = new EventEmitter();
+
+  constructor(private authService: AuthService) {
+
+  }
 
   isUserLoggedIn(){
      return this.authService.loggedIn;
   }
 
   ngOnInit() {
+  }
+
+  searchTextToParent() {
+    this.searchEmit.emit(this.searchText);
   }
 
 }
